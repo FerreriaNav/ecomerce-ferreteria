@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "ad63-2806-263-9480-82c0-2935-79a1-1041-73d3.ngrok-free.app",
+        hostname: "https://351a-2806-263-9480-82c0-28a3-4390-6ec1-6eff.ngrok-free.app",
         pathname: "/uploads/**",
       },
       {
