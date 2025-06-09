@@ -1,0 +1,109 @@
+{
+    "infoEcommerce": {
+        "id": 1,
+        "documentId": "fallback-doc-001",
+        "nombre": "Mi Tienda de Respaldo",
+        "numeroGeneral": "1234567890",
+        "correoGeneral": "tienda@respaldo.com",
+        "logo": {
+            "url": "/images/logo-fallback.webp",
+            "alternativeText": "Logo de la tienda"
+        },
+        "direcciones": [
+            {
+                "id": 1,
+                "direccion": "Av. Siempre Viva 742",
+                "coordenadas": "29.123,-110.321",
+                "urlFrame": "https://maps.example.com",
+                "horario": "Lunes a Viernes de 9am a 6pm",
+                "numero": "1234567890",
+                "correo": "sucursal@respaldo.com",
+                "imagenes": [
+                    {
+                        "url": "/images/sucursal1.webp",
+                        "alternativeText": "Imagen sucursal"
+                    }
+                ]
+            }
+        ],
+        "redesSociales": [
+            {
+                "id": 1,
+                "nombreRedSocial": "Facebook",
+                "url": "https://facebook.com/mi-tienda",
+                "icono": {
+                    "url": "/icons/facebook.svg",
+                    "alternativeText": "Icono Facebook"
+                }
+            }
+        ],
+        "nosotros": {
+            "eslogan": "Calidad y confianza",
+            "historia": "Comenzamos con una idea y ahora somos líderes.",
+            "nombreEmpresa": "Mi Tienda S.A.",
+            "imagenHistoria": {
+                "url": "/images/historia.webp",
+                "alternativeText": "Imagen de la historia"
+            },
+            "personal": [
+                {
+                    "id": 1,
+                    "puesto": "CEO",
+                    "nombre": "Luis Pérez",
+                    "img": {
+                        "url": "/images/personal/ceo.webp",
+                        "alternativeText": "CEO"
+                    }
+                }
+            ]
+        }
+    },
+    "paginaPrincipal": {
+        "carrucel": [
+            {
+                "__component": "carrucel.carrucel-item-texto-avanzado",
+                "titulo": "Explora nuestras marcas",
+                "subtitulo": "Encuentra las mejores marcas con los productos que necesitas.",
+                "posicionTexto": "centro",
+                "colorFondo": "#F5F5F5",
+                "colorTexto": "#000000",
+                "link": "/marca",
+                "mostrarBoton":true,
+                "botonTexto": "Ver marcas"
+            },
+            {
+                "__component": "carrucel.carrucel-item-texto-avanzado",
+                "titulo": "Categorías para todos",
+                "subtitulo": "Explora nuestras categorías y descubre lo que tenemos para ti.",
+                "posicionTexto": "izquierda",
+                "colorFondo": "#ff0000",
+                "colorTexto": "#000000",
+                "link": "/categoria",
+                "mostrarBoton":true,
+                "botonTexto": "Ver categorías"
+            },
+            {
+                "__component": "carrucel.carrucel-item-texto-avanzado",
+                "titulo": "Conócenos",
+                "subtitulo": "Descubre quiénes somos y por qué amamos lo que hacemos.",
+                "posicionTexto": "derecha",
+                "colorFondo": "#FFFFFF",
+                "colorTexto": "#000000",
+                "link": "/nosotros",
+                "mostrarBoton":true,
+                "botonTexto": "Nuestra historia"
+            },
+            {
+                "__component": "carrucel.carrucel-item-texto-avanzado",
+                "titulo": "Ofertas imperdibles",
+                "subtitulo": "Aprovecha descuentos especiales por tiempo limitado.",
+                "posicionTexto": "centro",
+                "colorFondo": "#FFFAF0",
+                "colorTexto": "#000000",
+                "link": "/ofertas",
+                "mostrarBoton":true,
+                "botonTexto": "Ver ofertas"
+            }
+        ]
+    }
+}
