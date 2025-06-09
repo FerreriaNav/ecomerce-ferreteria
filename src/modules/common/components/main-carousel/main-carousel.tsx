@@ -9,10 +9,17 @@ import {
 } from "@/components/ui/carousel";
 import Image from "next/image";
 import Link from "next/link";
-import { MainCarouselItem } from "../../interface/main-carousel";
 import { useEffect, useRef, useState } from "react";
 import Autoplay from "embla-carousel-autoplay";
 
+
+export interface MainCarouselItem {
+    id: string;
+    imageUrl: string;
+    link?: string;
+    title?: string;
+    subtitle?: string;
+  }
 interface MainCarouselProps {
   banners: MainCarouselItem[];
 }
