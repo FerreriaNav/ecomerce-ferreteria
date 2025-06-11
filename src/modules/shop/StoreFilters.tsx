@@ -18,8 +18,8 @@ import { Marca } from "@/interfaces/marcas/marca.interface";
 import { ProductFilters } from "@/services/products/products-services";
 
 interface StoreFiltersProps {
-  categorias: Categoria[];
-  marcas: Marca[];
+  categorias: Categoria[] | null;
+  marcas: Marca[] | null;
   selectedFilters?: ProductFilters;
   categoriaBase?: string; // Nuevo prop opcional
   marcaBase?: string; // Nuevo prop opcional
@@ -34,11 +34,11 @@ export const StoreFilters = ({
 }: StoreFiltersProps) => {
   const router = useRouter();
   const categoriasFiltradas = categoriaBase
-    ? categorias.filter((cat) => cat.nombre === categoriaBase)
-    : categorias.filter((cat) => !cat.principal);
+    ? categorias?.filter((cat) => cat.nombre === categoriaBase)
+    : categorias?.filter((cat) => !cat.principal);
 
   const marcasFiltradas = marcaBase
-    ? marcas.filter((marca) => marca.nombre === marcaBase)
+    ? marcas?.filter((marca) => marca.nombre === marcaBase)
     : marcas;
 
   const [selectedCategorias, setSelectedCategorias] = useState<string[]>(
@@ -103,11 +103,11 @@ const updateURL = useCallback(() => {
         {/* Categorías con Subcategorías */}
         <Collapsible defaultOpen>
           <CollapsibleTrigger className="flex justify-between w-full font-medium">
-            <span>Categorías</span>
+            <span>Catalogo</span>
             <ChevronDown className="h-4 w-4" />
           </CollapsibleTrigger>
           <CollapsibleContent className="pt-2 space-y-2">
-            {categoriasFiltradas.map((categoria) => (
+            {categoriasFiltradas?.map((categoria) => (
               <div key={categoria.id}>
                 <div className="flex items-center gap-2">
                   <Checkbox
@@ -154,11 +154,11 @@ const updateURL = useCallback(() => {
         {/* Marcas */}
         <Collapsible defaultOpen>
           <CollapsibleTrigger className="flex justify-between w-full font-medium">
-            <span>Marcas</span>
+            <span>Provedores</span>
             <ChevronDown className="h-4 w-4" />
           </CollapsibleTrigger>
           <CollapsibleContent className="pt-2 space-y-2">
-            {marcasFiltradas.map((marca) => (
+            {marcasFiltradas?.map((marca) => (
               <div key={marca.id} className="flex items-center gap-2">
                 <Checkbox
                   checked={selectedMarcas.includes(marca.nombre)}

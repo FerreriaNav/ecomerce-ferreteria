@@ -26,8 +26,8 @@ export default function MarcasPage() {
     <main className="container mx-auto px-4 py-8">
       <div>
         <TitleGradient
-          title="Categorías"
-          subtitle="Explora nuestras categorías"
+          title="Provedores"
+          subtitle="Explora productos de  nuestros provedores"
           tagIcon={<Tags size={40} />}
         />
         <MarcasGrid marcas={marcas} />

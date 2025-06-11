@@ -7,7 +7,7 @@ import { ErrorState } from "@/modules/common/components/error/ErrorState";
 import { ProductGrid } from "@/modules/main/components/productCart/ProductGrid";
 import { ResponsiveStoreFilters } from "@/modules/shop/ResponsiveStoreFilters"; // Asegúrate que esta ruta esté bien
 import { getCategorias } from "@/services/categories/categories-services";
-import { getMarcas } from "@/services/marcas/marcas-services";
+// import { getMarcas } from "@/services/marcas/marcas-services";
 import {
   getProductsByFilters,
   parseProductFilters,
@@ -39,15 +39,15 @@ export default async function CategoriaPage({
     const productResult = await getProductsByFilters(filtros);
     console.log(productResult);
 
-    const marcasResult = await getMarcas();
+    // const marcasResult = await getMarcas();
 
     return (
       <main className="container mx-auto px-4 py-8">
         {/* Mobile: Filters on top */}
         <div className="md:hidden mb-4">
           <ResponsiveStoreFilters
-            categorias={categoriasResult?.data ?? []}
-            marcas={marcasResult?.data ?? []}
+            // categorias={categoriasResult?.data ?? []}
+            // marcas={marcasResult?.data ?? []}
             categoriaBase={slug}
             selectedFilters={filtrosWithCategoria}
           />
@@ -58,8 +58,8 @@ export default async function CategoriaPage({
           {/* Desktop: Filters on the side */}
           <div className="hidden md:block">
             <ResponsiveStoreFilters
-              categorias={categoriasResult?.data ?? []}
-              marcas={marcasResult?.data ?? []}
+              // categorias={categoriasResult?.data ?? []}
+              // marcas={marcasResult?.data ?? []}
               categoriaBase={slug}
               selectedFilters={filtrosWithCategoria}
             />

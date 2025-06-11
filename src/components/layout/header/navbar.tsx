@@ -69,7 +69,6 @@ export default function Navbar({
   const { loadCart } = useCartStore();
   const categoriasFiltradas = categorias.filter((cat) => !cat.principal);
   const [, setIsMobile] = useState(false);
-
   useEffect(() => {
     loadCart();
 
@@ -173,7 +172,7 @@ export default function Navbar({
                         >
                           <div className="flex items-center">
                             <ShoppingCart className="mr-2 h-4 w-4" />
-                            Categorías
+                            Catalogo
                           </div>
                           <ChevronDown className="h-4 w-4 transition-transform duration-200" />
                         </Button>
@@ -205,7 +204,7 @@ export default function Navbar({
                                         className="w-full justify-start pl-4"
                                       >
                                         <Link
-                                          href={`/categoria/${subcategoria.nombre}`}
+                                          href={`${FRONTEND_ROUTES.CATALOGOS}/${subcategoria.nombre}`}
                                         >
                                           <p className="text-foreground">
                                             {subcategoria.nombre}
@@ -225,7 +224,7 @@ export default function Navbar({
                               variant="ghost"
                               className="w-full justify-start pl-4"
                             >
-                              <Link href={`/categoria/${categoria.nombre}`}>
+                              <Link href={`${FRONTEND_ROUTES.CATALOGOS}/${categoria.nombre}`}>
                                 <p className="text-foreground">
                                   {categoria.nombre}
                                 </p>
@@ -244,7 +243,7 @@ export default function Navbar({
                         >
                           <div className="flex items-center">
                             <Settings className="mr-2 h-4 w-4" />
-                            Marcas
+                            Provedores
                           </div>
                           <ChevronDown className="h-4 w-4 transition-transform duration-200" />
                         </Button>
@@ -257,7 +256,7 @@ export default function Navbar({
                             variant="ghost"
                             className="w-full justify-start pl-4"
                           >
-                            <Link href={`/marca/${marca.nombre}`}>
+                            <Link href={`${FRONTEND_ROUTES.PROVEDORES}/${marca.nombre}`}>
                               <p className="text-foreground">{marca.nombre}</p>
                             </Link>
                           </Button>
@@ -412,7 +411,7 @@ export default function Navbar({
             <NavigationMenuList>
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="bg-transparent text-white">
-                  Categorias
+                  Catalogo
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
@@ -420,7 +419,7 @@ export default function Navbar({
                       <li key={categoria.nombre}>
                         <NavigationMenuLink asChild>
                           <Link
-                            href={`${FRONTEND_ROUTES.CATEGORIA}/${categoria.nombre}`}
+                            href={`${FRONTEND_ROUTES.CATALOGOS}/${categoria.nombre}`}
                             className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                           >
                             <div className="text-sm font-medium leading-none">
@@ -443,7 +442,7 @@ export default function Navbar({
 
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="bg-transparent  text-white">
-                  Marcas
+                  Provedores
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
@@ -451,7 +450,7 @@ export default function Navbar({
                       <li key={marca.nombre}>
                         <NavigationMenuLink asChild>
                           <Link
-                            href={`${FRONTEND_ROUTES.MARCA}/${marca.nombre}`}
+                            href={`${FRONTEND_ROUTES.PROVEDORES}/${marca.nombre}`}
                             className="cursor-pointer block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                           >
                             {marca.img ? (

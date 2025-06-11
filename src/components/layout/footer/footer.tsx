@@ -9,11 +9,11 @@ import {
   MapPin,
   Phone,
   Mail,
-  Clock,
-  Headphones,
+  Clock
 } from "lucide-react";
 import { useInfoEcommerceStore } from "@/store/info-ecommerce.store";
 import { getGoogleMapsEmbedUrl } from "@/lib/maps/frame";
+import { FRONTEND_ROUTES } from "@/contants/frontend-routes/routes";
 
 export function Footer() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -77,8 +77,8 @@ export function Footer() {
                 </span>
               </div>
               <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Distribuidora Industrial Nacional, ofreciendo productos de alta
-                calidad desde 2010.
+                Distribuidora Industrial Navojoa, ofreciendo productos de alta
+                calidad desde 2018.
               </p>
               <div className="flex space-x-4 px-2">
                 {infoEcommerce &&
@@ -114,23 +114,23 @@ export function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/categoria"
+                    href={`${FRONTEND_ROUTES.CATALOGOS}`}
                     className="text-gray-600 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-500 transition-colors"
                   >
-                    Categorías
+                    Catalogo
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/marcas"
+                    href={`${FRONTEND_ROUTES.PROVEDORES}`}
                     className="text-gray-600 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-500 transition-colors"
                   >
-                    Marcas
+                    Provedores
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/ofertas"
+                    href={`${FRONTEND_ROUTES.OFERTAS}`}
                     className="text-gray-600 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-500 transition-colors"
                   >
                     Ofertas
@@ -138,7 +138,7 @@ export function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/nosotros"
+                    href={`${FRONTEND_ROUTES.NOSOTROS}`}
                     className="text-gray-600 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-500 transition-colors"
                   >
                     Sobre Nosotros
@@ -187,16 +187,6 @@ export function Footer() {
                   <span className="text-gray-600 dark:text-gray-400">
                     {infoEcommerce?.direcciones[0].horario ||
                       " Horario no disponible"}
-                  </span>
-                </li>
-                <li className="flex items-center">
-                  <Headphones
-                    className="text-red-600 mr-2 flex-shrink-0"
-                    size={20}
-                  />
-                  <span className="text-gray-600 dark:text-gray-400">
-                    {infoEcommerce?.numeroGeneral ||
-                      "Número de Soporte no disponible"}
                   </span>
                 </li>
               </ul>
@@ -254,7 +244,7 @@ export function Footer() {
         {/* Pie de página - siempre visible */}
         <div className="flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 md:mb-0">
-            © 2025 DIN - Distribuidora Industrial Nacional. Todos los derechos
+            © 2025 DIN - Distribuidora Industrial Navojoa. Todos los derechos
             reservados.
           </p>
           <div className="flex space-x-4">
