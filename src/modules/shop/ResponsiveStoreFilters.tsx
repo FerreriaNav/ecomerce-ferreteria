@@ -1,39 +1,36 @@
-"use client";
+'use client';
 
 import {
   Sheet,
   SheetContent,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { Filter } from "lucide-react";
-import { StoreFilters } from "./StoreFilters"; // mismo archivo que ya tienes
-import { Categoria } from "@/interfaces/categories/categories.interface";
-import { Marca } from "@/interfaces/marcas/marca.interface";
-import { Card } from "@/components/ui/card";
-import { ProductFilters } from "@/services/products/products-services";
+} from '@/components/ui/sheet';
+import { Button } from '@/components/ui/button';
+import { Filter } from 'lucide-react';
+import { StoreFilters } from './StoreFilters';
+import { Card } from '@/components/ui/card';
+import { ProductFilters } from '@/services/products/products-services';
+import { useCatalogStore } from '@/store/catalog-ecommerce.store';
 
 interface Props {
-  categorias: Categoria[];
-  marcas: Marca[];
   selectedFilters?: ProductFilters;
   marcaBase?: string;
   categoriaBase?: string;
 }
 
 export const ResponsiveStoreFilters = ({
-  categorias,
-  marcas,
   marcaBase,
   categoriaBase,
   selectedFilters,
 }: Props) => {
+  const categorias = useCatalogStore((state) => state.categorias);
+  const marcas = useCatalogStore((state) => state.marcas);
+
   return (
     <>
       {/* Mobile: Button to open sheet */}
       <div className="md:hidden mb-4">
-        <div></div>
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" className="w-full">
@@ -42,7 +39,7 @@ export const ResponsiveStoreFilters = ({
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="overflow-y-auto max-h-screen">
-            <SheetTitle></SheetTitle>
+            <SheetTitle>Filtrar productos</SheetTitle>
             <StoreFilters
               marcaBase={marcaBase}
               categoriaBase={categoriaBase}

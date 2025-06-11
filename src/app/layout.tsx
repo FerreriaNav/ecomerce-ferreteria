@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/ui/theme-provider";
 import { SessionProvider } from "next-auth/react";
 import { WhatsAppButton } from "@/components/layout/whatsapp/whatsapp";
 import { Footer } from "@/components/layout/footer/footer";
+import CatalogLoader from "@/components/layout/load-info-backend/loadInfoBackend";
 
 export const metadata: Metadata = {
   title: "Ecommerce Ferreteria",
@@ -29,7 +30,7 @@ export default function RootLayout({
           >
             <SessionProvider>
               <WhatsAppButton phoneNumber={`+52${phoneNumber!}`} />
-
+              <CatalogLoader /> {/* 🔥 Inicializa el catálogo en toda la app */}
               <HeaderShop />
               {/* El contenido crecerá y empujará el footer hacia abajo */}
               <main className="flex-grow">{children}</main>

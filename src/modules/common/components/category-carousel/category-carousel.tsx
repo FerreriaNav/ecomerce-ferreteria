@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/carousel";
 import { Categoria } from "@/interfaces/categories/categories.interface";
 import {  TagsIcon } from "lucide-react";
+import { FRONTEND_ROUTES } from "@/contants/frontend-routes/routes";
 
 interface CategoryCarouselProps {
   categorias: Categoria[];
@@ -37,7 +38,7 @@ export default function CategoryCarousel({
             className="pl-2 md:pl-4 basis-[140px] md:basis-[150px] flex justify-center"
           >
             <Link
-              href={`/categoria/${item.slug}`}
+              href={`${FRONTEND_ROUTES.CATALOGOS}/${item.slug}`}
               className="flex flex-col items-center"
             >
               <div className="relative w-[120px] h-[120px] rounded-full overflow-hidden bg-gray-100">
