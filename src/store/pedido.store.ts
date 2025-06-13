@@ -1,16 +1,24 @@
 // src/store/pedido.store.ts
-import { InformacionEnvioCreateDto, PedidoCreateDto, ProductoSeleccionadoInput } from "@/interfaces/orders/pedido.interface";
-import { PaymentProvider } from "@/interfaces/payments-providers/payment-prodivers";
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import type {
+  InformacionEnvioCreateDto,
+  PedidoCreateDto,
+  ProductoSeleccionadoInput,
+} from "@/interfaces/orders/pedido.interface"
+import { create } from "zustand"
+import { persist } from "zustand/middleware"
 
+// Define the quote type
+export type QuoteType = "STANDARD" | "DETAILED"
+
+// Update the PedidoCreateDto interface in the store file
+// (You may want to update the actual interface file as well)
 interface PedidoStore {
-  pedido: PedidoCreateDto;
-  setCliente: (cliente: number) => void;
-  setProductos: (productos: ProductoSeleccionadoInput[]) => void;
-  setInformacionEnvio: (info: InformacionEnvioCreateDto) => void;
-  setProvider: (provider: PaymentProvider) => void;
-  resetPedido: () => void;
+  pedido: PedidoCreateDto & { quoteType: QuoteType | null }
+  setCliente: (cliente: number) => void
+  setProductos: (productos: ProductoSeleccionadoInput[]) => void
+  setInformacionEnvio: (info: InformacionEnvioCreateDto) => void
+  setQuoteType: (quoteType: QuoteType) => void
+  resetPedido: () => void
 }
 
 export const usePedidoStore = create<PedidoStore>()(
@@ -20,7 +28,7 @@ export const usePedidoStore = create<PedidoStore>()(
         cliente: 0,
         productosSeleccionados: [],
         informacionEnvio: null,
-        provider: null,
+        quoteType: null,
       },
 
       setCliente: (cliente) =>
@@ -38,9 +46,9 @@ export const usePedidoStore = create<PedidoStore>()(
           pedido: { ...state.pedido, informacionEnvio: info },
         })),
 
-      setProvider: (provider) =>
+      setQuoteType: (quoteType) =>
         set((state) => ({
-          pedido: { ...state.pedido, provider },
+          pedido: { ...state.pedido, quoteType },
         })),
 
       resetPedido: () =>
@@ -49,12 +57,12 @@ export const usePedidoStore = create<PedidoStore>()(
             cliente: null,
             productosSeleccionados: [],
             informacionEnvio: null,
-            provider: null,
+            quoteType: null,
           },
         })),
     }),
     {
       name: "pedido-storage", // Se guarda en localStorage
-    }
-  )
-);
+    },
+  ),
+)

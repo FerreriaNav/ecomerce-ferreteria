@@ -1,125 +1,132 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import type { Session } from "next-auth";
-import type { Address } from "@/interfaces/directions/directions.interface";
-import { Button } from "@/components/ui/button";
-import CartStep from "./step-1/cart-step";
-import { AddressStep } from "./step-2/address-step";
-import { PaymentStep } from "./step-3/payment-step";
-import { useSearchParams } from "next/navigation";
-import { CheckoutStepper } from "./checkout-stepper";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { useCartStore } from "@/store/products-cart.store";
-import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
-import Link from "next/link";
-// import { useConfigStore } from "@/store/config-pago.store";
-import { showToastAlert } from "@/components/ui/altertas/toast";
-import { ProductoSeleccionadoInput } from "@/interfaces/orders/pedido.interface";
-import { createPedido } from "@/services/payments/payments-services";
-import { Payment } from "@/interfaces/payment/payments.interface";
-import { usePedidoStore } from "@/store/pedido.store";
+import { useEffect, useState } from "react"
+import type { Session } from "next-auth"
+import type { Address } from "@/interfaces/directions/directions.interface"
+import { Button } from "@/components/ui/button"
+import CartStep from "./step-1/cart-step"
+import { AddressStep } from "./step-2/address-step"
+import { useSearchParams } from "next/navigation"
+import { CheckoutStepper } from "./checkout-stepper"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
+import { useCartStore } from "@/store/products-cart.store"
+import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react"
+import Link from "next/link"
+import { showToastAlert } from "@/components/ui/altertas/toast"
+import type { ProductoSeleccionadoInput } from "@/interfaces/orders/pedido.interface"
+import { usePedidoStore } from "@/store/pedido.store"
+import { QuoteStep } from "./step-3/quote-step"
+import { createCotizacion } from "@/services/quote/quote"
 
 interface BasketGridProps {
-  session: Session;
-  addresses: Address[];
+  session: Session
+  addresses: Address[]
 }
 
 export function BasketGrid({ session, addresses }: BasketGridProps) {
-  const searchParams = useSearchParams();
-  const initialStep = Number.parseInt(searchParams.get("step") || "1", 10);
-  const [step, setStep] = useState(initialStep);
-  const [isLoading, setIsLoading] = useState(false);
+  const searchParams = useSearchParams()
+  const initialStep = Number.parseInt(searchParams.get("step") || "1", 10)
+  const [step, setStep] = useState(initialStep)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const { getCartSummary, cart } = useCartStore();
+  const { getCartSummary, cart } = useCartStore()
 
-  const {
-    // impuestos, envio, finalAmount
-    subtotal,
-    total,
-  } = getCartSummary();
+  const { subtotal, total } = getCartSummary()
 
-  const { pedido, setProductos, setCliente, resetPedido } = usePedidoStore();
+  const { pedido, setProductos, setCliente, resetPedido } = usePedidoStore()
 
-  const handleFinalizarPago = async () => {
-    setIsLoading(true);
+  const handleGenerarCotizacion = async () => {
+    setIsLoading(true)
 
-    const provider = pedido.provider; // Ya está seteado por el PaymentStep
-    const clienteId = session?.user?.user?.id;
+    const quoteType = pedido.quoteType // Ya está seteado por el QuoteStep
+    const clienteId = session?.user?.user?.id
     const products: ProductoSeleccionadoInput[] = cart.map((item) => ({
       producto: +item.id,
       cantidad: item.quantity,
-    }));
-    if (!provider || !clienteId) {
+    }))
+
+    if (!quoteType || !clienteId) {
       showToastAlert({
         title: "Información incompleta",
-        text: "Asegúrate de seleccionar un método de pago.",
+        text: "Asegúrate de seleccionar un tipo de cotización.",
         icon: "warning",
         position: "top-end",
         toast: true,
-      });
-      return;
+      })
+      setIsLoading(false)
+      return
     }
 
-    setCliente(clienteId);
-    setProductos(products);
-    console.log(pedido);
+    setCliente(clienteId)
+    setProductos(products)
+    console.log(pedido)
 
-    const payment: Payment | null = await createPedido({
-      ...pedido,
-      cliente: clienteId,
-      productosSeleccionados: products,
-      provider,
-    });
+    try {
+      // Assuming you'll create this service function
+      const cotizacion = await createCotizacion({
+        ...pedido,
+        cliente: clienteId,
+        productosSeleccionados: products,
+        quoteType,
+      })
 
-    if (payment) {
-      window.open(payment.redirectUrl);
-      resetPedido();
-    } else {
+      if (cotizacion) {
+        showToastAlert({
+          title: "Cotización generada",
+          text: "Tu cotización ha sido generada exitosamente.",
+          icon: "success",
+          position: "top-end",
+          toast: true,
+        })
+
+        // You might want to redirect to a quote details page
+        // window.location.href = `/cotizaciones/${cotizacion.id}`
+        resetPedido()
+      } else {
+        throw new Error("No se pudo generar la cotización")
+      }
+    } catch (error) {
       showToastAlert({
-        title: "Error al procesar el pago",
-        text: "Ocurrió un error al crear el pago. Por favor, intenta nuevamente.",
+        title: "Error al generar cotización",
+        text: "Ocurrió un error al crear la cotización. Por favor, intenta nuevamente.",
         icon: "error",
         position: "top-end",
         toast: true,
-      });
+      })
+    } finally {
+      setIsLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    const url = new URL(window.location.href);
-    url.searchParams.set("step", step.toString());
-    window.history.replaceState(null, "", url.toString());
-  }, [step]);
+    const url = new URL(window.location.href)
+    url.searchParams.set("step", step.toString())
+    window.history.replaceState(null, "", url.toString())
+  }, [step])
 
   const handleBack = () => {
-    if (step > 1) setStep((prev) => prev - 1);
-  };
+    if (step > 1) setStep((prev) => prev - 1)
+  }
 
   const handleNext = () => {
-    if (step < 3) setStep((prev) => prev + 1);
-  };
+    if (step < 3) setStep((prev) => prev + 1)
+  }
 
   const renderStepContent = () => {
     switch (step) {
       case 1:
-        return <CartStep />;
+        return <CartStep />
       case 2:
         return (
-          session.user?.user.documentId && (
-            <AddressStep
-              userId={session.user?.user.documentId}
-              addresses={addresses}
-            />
-          )
-        );
+          session.user?.user.documentId && <AddressStep userId={session.user?.user.documentId} addresses={addresses} />
+        )
       case 3:
-        return <PaymentStep />;
+        return <QuoteStep />
       default:
-        return null;
+        return null
     }
-  };
+  }
 
   return (
     <div className="container mx-auto py-10 px-4">
@@ -141,11 +148,7 @@ export function BasketGrid({ session, addresses }: BasketGridProps) {
                 </Link>
               </Button>
             ) : (
-              <Button
-                className="cursor-pointer"
-                variant="outline"
-                onClick={handleBack}
-              >
+              <Button className="cursor-pointer" variant="outline" onClick={handleBack}>
                 <ChevronLeft className="mr-2 h-4 w-4" />
                 {step === 2 ? "Volver al carrito" : "Volver a la dirección"}
               </Button>
@@ -153,17 +156,13 @@ export function BasketGrid({ session, addresses }: BasketGridProps) {
 
             {step < 3 ? (
               <Button className="cursor-pointer" onClick={handleNext}>
-                {step === 1 ? "Continuar a dirección" : "Continuar a pago"}
+                {step === 1 ? "Continuar a dirección" : "Continuar a cotización"}
                 <ChevronRight className="ml-2 h-4 w-4" />
               </Button>
             ) : (
-              <Button
-                className="cursor-pointer"
-                onClick={handleFinalizarPago}
-                disabled={isLoading}
-              >
+              <Button className="cursor-pointer" onClick={handleGenerarCotizacion} disabled={isLoading}>
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Finalizar pago
+                Generar cotización
               </Button>
             )}
           </div>
@@ -173,7 +172,7 @@ export function BasketGrid({ session, addresses }: BasketGridProps) {
         <div className="lg:col-span-1">
           <Card>
             <CardHeader>
-              <CardTitle>Resumen del pedido</CardTitle>
+              <CardTitle>Resumen de cotización</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -189,23 +188,21 @@ export function BasketGrid({ session, addresses }: BasketGridProps) {
                 )}
                 <div className="flex justify-between">
                   <span>Envío</span>
-                  <span>costos de envio extras</span>
-                  {/* <span>{envio === 0 ? "Gratis" : `$${envio.toFixed(2)}`}</span> */}
+                  <span>A consultar</span>
                 </div>
-                {/* <div className="flex justify-between">
-                  <span>Impuestos</span>
-                  <span>${impuestos.toFixed(2)}</span>
-                </div> */}
                 <Separator />
                 <div className="flex justify-between font-bold">
-                  <span>Total</span>
+                  <span>Total estimado</span>
                   <span>${total.toFixed(2)}</span>
                 </div>
+                <p className="text-xs text-muted-foreground mt-2">
+                  Esta cotización es válida por 15 días. Los precios pueden variar según disponibilidad.
+                </p>
               </div>
             </CardContent>
           </Card>
         </div>
       </div>
     </div>
-  );
+  )
 }
