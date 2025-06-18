@@ -3,6 +3,7 @@ export const FRONTEND_ROUTES = {
     LOGIN: "/auth/login",
     REGISTER: "/auth/register",
     CATALOGOS: "/catalogos",
+    PRODUCTOS: "/producto",
     NOSOTROS: "/nosotros",
     PROVEDORES: "/provedores",
     DASHBOARD: "/dashboard",

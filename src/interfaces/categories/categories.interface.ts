@@ -12,3 +12,8 @@ export interface Categoria {
   }
 
 
+  export enum  CATEGORIAS_ENUM{
+    TORNILLERIA = "tornilleria"
+  }
+
+

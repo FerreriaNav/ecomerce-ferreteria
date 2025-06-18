@@ -1,46 +1,47 @@
-"use client";
-import Image from "next/image";
-import Link from "next/link";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Badge } from "@/components/ui/badge";
-import { TagsIcon, ArrowRight } from "lucide-react";
-import { ReactNode, useState } from "react";
-import { Categoria } from "@/interfaces/categories/categories.interface";
+"use client"
+import Image from "next/image"
+import Link from "next/link"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import { Badge } from "@/components/ui/badge"
+import { TagsIcon, ArrowRight } from "lucide-react"
+import { useState } from "react"
 
-interface CategoryCarouselProps {
-  categorias: Categoria[];
-  className?: string;
-  variant?: "circular" | "square";
-  showCount?: boolean;
-  title?: string;
-  subtitle?: string;
-  button?: ReactNode;
+
+export interface CarouselBasicItem {
+  id: string | number
+  slug: string // ruta para el link
+  nombre: string // texto a mostrar
+  imgUrl?: string // url de la imagen
+  count?: number // valor opcional para el badge
 }
 
-export default function CategoryCarousel({
-  categorias,
+
+export interface CarouselBasicProps {
+  items: CarouselBasicItem[]
+  className?: string
+  variant?: "circular" | "square"
+  showCount?: boolean
+  title?: string
+  subtitle?: string
+  basePath?: string // Ruta base para el link (por ejemplo: /catalogos)
+}
+
+export default function CarouselBasic({
+  items,
   className,
   variant = "circular",
   showCount = false,
   title,
   subtitle,
-  button,
-}: CategoryCarouselProps) {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  basePath = "/",
+}: CarouselBasicProps) {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
   const containerClasses =
-    variant === "circular"
-      ? "w-[120px] h-[120px] rounded-full"
-      : "w-[140px] h-[100px] rounded-xl";
+    variant === "circular" ? "w-[120px] h-[120px] rounded-full" : "w-[140px] h-[100px] rounded-xl"
 
   return (
-    <div className={`w-full flex flex-col items-center  ${className || ""}`}>
+    <div className={`w-full space-y-6 ${className || ""}`}>
       {/* Header Section */}
       {(title || subtitle) && (
         <div className="text-center space-y-2">
@@ -49,11 +50,7 @@ export default function CategoryCarousel({
               {title}
             </h3>
           )}
-          {subtitle && (
-            <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto">
-              {subtitle}
-            </p>
-          )}
+          {subtitle && <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto">{subtitle}</p>}
           <div className="flex items-center justify-center space-x-2">
             <div className="h-1 w-8 bg-gradient-to-r from-primary to-secondary rounded-full" />
             <div className="h-1 w-4 bg-secondary rounded-full" />
@@ -71,13 +68,10 @@ export default function CategoryCarousel({
         }}
       >
         <CarouselContent className="-ml-2 md:-ml-4">
-          {categorias.map((item, index) => (
-            <CarouselItem
-              key={index}
-              className="pl-2 md:pl-4 basis-[160px] md:basis-[180px]"
-            >
+          {items.map((item, index) => (
+            <CarouselItem key={item.id} className="pl-2 md:pl-4 basis-[160px] md:basis-[180px]">
               <Link
-                href={`/catalogos/${item.slug}`}
+                href={`${basePath}/${item.slug}`}
                 className="group block"
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
@@ -87,9 +81,9 @@ export default function CategoryCarousel({
                   <div
                     className={`relative ${containerClasses} overflow-hidden bg-gradient-to-br from-muted to-muted/50 border-2 border-transparent group-hover:border-primary/20 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-primary/10`}
                   >
-                    {item.img?.url ? (
+                    {item.imgUrl ? (
                       <Image
-                        src={item.img.url || "/placeholder.svg"}
+                        src={item.imgUrl || "/placeholder.svg"}
                         alt={item.nombre}
                         fill
                         className="object-cover transition-transform duration-300 group-hover:scale-110"
@@ -107,17 +101,17 @@ export default function CategoryCarousel({
                     <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                     {/* Count Badge */}
-                    {showCount && item.subcategorias?.length && (
+                    {showCount && item.count !== undefined && (
                       <Badge
                         variant="secondary"
                         className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0 flex items-center justify-center text-xs font-medium"
                       >
-                        {item.subcategorias?.length}
+                        {item.count}
                       </Badge>
                     )}
                   </div>
 
-                  {/* Category Info */}
+                  {/* Item Info */}
                   <div className="text-center space-y-1">
                     <h4 className="font-medium text-sm md:text-base text-foreground group-hover:text-primary transition-colors duration-300 line-clamp-2">
                       {item.nombre}
@@ -126,9 +120,7 @@ export default function CategoryCarousel({
                     {/* Hover Arrow */}
                     <div
                       className={`flex items-center justify-center transition-all duration-300 ${
-                        hoveredIndex === index
-                          ? "opacity-100 translate-x-0"
-                          : "opacity-0 -translate-x-2"
+                        hoveredIndex === index ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-2"
                       }`}
                     >
                       <ArrowRight size={16} className="text-primary" />
@@ -144,7 +136,6 @@ export default function CategoryCarousel({
         <CarouselPrevious className="absolute -left-4 md:-left-12 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-sm border-2 hover:bg-primary hover:text-primary-foreground transition-all duration-300" />
         <CarouselNext className="absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-sm border-2 hover:bg-primary hover:text-primary-foreground transition-all duration-300" />
       </Carousel>
-      <div>{button}</div>
     </div>
-  );
+  )
 }

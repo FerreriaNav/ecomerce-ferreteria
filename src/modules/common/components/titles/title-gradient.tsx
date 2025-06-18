@@ -20,19 +20,19 @@ export const TitleGradient = ({
   description = "",
 }: TitleGradientProps) => {
   return (
-    <div className="flex flex-col items-center justify-center space-y-6 text-center">
+    <div className="flex flex-col items-center justify-center space-y-6 text-center my-2">
       {badgeText && (
         <Badge
           variant="outline"
-          className="bg-primary/10 border-primary/20 text-primary"
+          className="bg-primary/10 border-primary/20 text-primary -mb-2"
         >
           {badgeIcon && <span className="px-2">{badgeIcon}</span>}
           {badgeText}
         </Badge>
       )}
 
-      <div className="space-y-2 md:space-y-4 flex flex-col md:flex-row gap-2 md:gap-4 items-center justify-center">
-        <h2 className="text-3xl font-bold tracking-tighter md:text-4xl lg:text-5xl bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
+      <div className=" space-y-2 md:space-y-4 flex flex-col md:flex-row gap-2 md:gap-4 items-center justify-center">
+        <h2 className="p-2 text-3xl font-bold tracking-tighter md:text-4xl lg:text-5xl bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
           {title}
         </h2>
         {tagIcon && tagIcon}
