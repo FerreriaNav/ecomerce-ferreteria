@@ -1,18 +1,18 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import { ECOMMERCE_PRIVADO } from "@/contants/auth/ecommerce-privado.constant";
+// import { ECOMMERCE_PRIVADO } from "@/contants/auth/ecommerce-privado.constant";
 import {
   Products,
-  ProductType,
+  // ProductType,
 } from "@/interfaces/products/products.interface";
-import { formatCurrency } from "@/lib/formatCurrency";
+// import { formatCurrency } from "@/lib/formatCurrency";
 import {
-  getPrecioConDescuento,
-  getPrecioMinimoVariantes,
+  // getPrecioConDescuento,
+  // getPrecioMinimoVariantes,
   isOfertaActiva,
 } from "@/lib/price-descuento";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
@@ -24,56 +24,56 @@ interface ProductCardHorizontalProps {
 }
 
 export function ProductCardHorizontal({ product }: ProductCardHorizontalProps) {
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
 
-  const renderPrecio = () => {
-    if (!session && ECOMMERCE_PRIVADO) {
-      return (
-        <span className="text-sm text-muted-foreground">
-          Inicia sesión para ver el precio
-        </span>
-      );
-    }
+  // const renderPrecio = () => {
+  //   if (!session && ECOMMERCE_PRIVADO) {
+  //     return (
+  //       <span className="text-sm text-muted-foreground">
+  //         Inicia sesión para ver el precio
+  //       </span>
+  //     );
+  //   }
 
-    if (
-      product.tipo === ProductType.SIMPLE ||
-      product.tipo === ProductType.VARIANT
-    ) {
-      const { finalPrice, hasDiscount } = getPrecioConDescuento(
-        product.inventario,
-        product.descuento
-      );
+  //   if (
+  //     product.tipo === ProductType.SIMPLE ||
+  //     product.tipo === ProductType.VARIANT
+  //   ) {
+  //     const { finalPrice, hasDiscount } = getPrecioConDescuento(
+  //       product.inventario,
+  //       product.descuento
+  //     );
 
-      return finalPrice !== null ? (
-        <div className="flex flex-col items-start">
-          <span className="font-bold text-primary text-xl">
-            {formatCurrency(finalPrice)}
-          </span>
-          {hasDiscount && (
-            <span className="text-sm text-muted-foreground line-through">
-              {formatCurrency(product.inventario!.precioVenta)}
-            </span>
-          )}
-        </div>
-      ) : (
-        <span className="text-sm text-muted-foreground">No disponible</span>
-      );
-    }
+  //     return finalPrice !== null ? (
+  //       <div className="flex flex-col items-start">
+  //         <span className="font-bold text-primary text-xl">
+  //           {formatCurrency(finalPrice)}
+  //         </span>
+  //         {hasDiscount && (
+  //           <span className="text-sm text-muted-foreground line-through">
+  //             {formatCurrency(product.inventario!.precioVenta)}
+  //           </span>
+  //         )}
+  //       </div>
+  //     ) : (
+  //       <span className="text-sm text-muted-foreground">No disponible</span>
+  //     );
+  //   }
 
-    if (product.tipo === ProductType.BASE) {
-      const precioMin = getPrecioMinimoVariantes(product);
+  //   if (product.tipo === ProductType.BASE) {
+  //     const precioMin = getPrecioMinimoVariantes(product);
 
-      return precioMin !== null ? (
-        <span className="font-bold text-primary text-xl">
-          desde {formatCurrency(precioMin)}
-        </span>
-      ) : (
-        <span className="text-sm text-muted-foreground">No disponible</span>
-      );
-    }
+  //     return precioMin !== null ? (
+  //       <span className="font-bold text-primary text-xl">
+  //         desde {formatCurrency(precioMin)}
+  //       </span>
+  //     ) : (
+  //       <span className="text-sm text-muted-foreground">No disponible</span>
+  //     );
+  //   }
 
-    return <span className="text-sm text-muted-foreground">No disponible</span>;
-  };
+  //   return <span className="text-sm text-muted-foreground">No disponible</span>;
+  // };
 
   const renderStock = () => {
     if (product.inventario && product.inventario.stock > 0) {
@@ -134,7 +134,9 @@ export function ProductCardHorizontal({ product }: ProductCardHorizontalProps) {
 
             {/* Precio y botones */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mt-auto">
-              {renderPrecio()}
+              <div>
+                {/* {renderPrecio()} */}
+              </div>
 
               <div className="flex gap-2 w-full sm:w-auto">
                 <Button

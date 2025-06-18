@@ -16,9 +16,9 @@ import { useRouter } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
 import { useCartStore } from "@/store/products-cart.store"
 import { useState, useEffect } from "react"
-import { ProductPriceDetail } from "./product-price"
-import { useSession } from "next-auth/react"
-import { getPrecioMinimoVariantes } from "@/lib/price-descuento"
+// import { ProductPriceDetail } from "./product-price"
+// import { useSession } from "next-auth/react"
+// import { getPrecioMinimoVariantes } from "@/lib/price-descuento"
 import { useFavoritesStore } from "@/store/product-favorite.store"
 
 interface ProductDetailProps {
@@ -53,7 +53,7 @@ export function ProductDetail({ product, selectedSlug }: ProductDetailProps) {
   const router = useRouter()
   const { addToCart } = useCartStore()
   const { toggleFavorite, isFavorite } = useFavoritesStore()
-  const { data } = useSession()
+  // const { data } = useSession()
 
   const [selectionError, setSelectionError] = useState<string | null>(null)
 
@@ -269,7 +269,7 @@ export function ProductDetail({ product, selectedSlug }: ProductDetailProps) {
               </div>
             </div>
 
-            {(selectedVariant || product.tipo == ProductType.BASE) && (
+            {/* {(selectedVariant || product.tipo == ProductType.BASE) && (
               <ProductPriceDetail
                 product={selectedVariant}
                 minPrice={getPrecioMinimoVariantes(product)}
@@ -282,7 +282,7 @@ export function ProductDetail({ product, selectedSlug }: ProductDetailProps) {
                 minPrice={getPrecioMinimoVariantes(product)}
                 isLoggedIn={data?.user ? true : false}
               />
-            )}
+            )} */}
 
             <div className="space-y-6">
               {/* Sección atributos dinámicos           -------------------------------*/}

@@ -124,7 +124,7 @@ const CartContent = () => {
                 <div className="flex-1 space-y-1">
                   <p className="text-sm font-medium">{item.nombre}</p>
                   <div className="flex items-center justify-between text-sm text-muted-foreground">
-                    {renderPrecio(item)}
+                    {/* {renderPrecio(item)} */}
                   </div>
                   <div className="flex items-center gap-2">
                     <Button
@@ -165,12 +165,13 @@ const CartContent = () => {
         <>
           <Separator />
           <div className="flex items-center justify-between font-medium">
-            <span>Total:</span>
+            {/* <span>Total:</span>
             {!session && ECOMMERCE_PRIVADO ? (
               `inicia sesion `
             ) : (
               <span>${cartTotal.toFixed(2)}</span>
-            )}
+            )} */}
+            <span>Generar Cotizacion</span>
           </div>
         </>
       )}

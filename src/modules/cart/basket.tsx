@@ -30,9 +30,9 @@ export function BasketGrid({ session, addresses }: BasketGridProps) {
   const [step, setStep] = useState(initialStep)
   const [isLoading, setIsLoading] = useState(false)
 
-  const { getCartSummary, cart } = useCartStore()
+  const {  cart } = useCartStore()
 
-  const { subtotal, total } = getCartSummary()
+  // const { subtotal, total } = getCartSummary()
 
   const { pedido, setProductos, setCliente, resetPedido } = usePedidoStore()
 
@@ -86,7 +86,7 @@ export function BasketGrid({ session, addresses }: BasketGridProps) {
       } else {
         throw new Error("No se pudo generar la cotización")
       }
-    } catch (error) {
+    } catch  {
       showToastAlert({
         title: "Error al generar cotización",
         text: "Ocurrió un error al crear la cotización. Por favor, intenta nuevamente.",
@@ -176,7 +176,7 @@ export function BasketGrid({ session, addresses }: BasketGridProps) {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <div className="flex justify-between">
+                {/* <div className="flex justify-between">
                   <span>Subtotal</span>
                   <span>${subtotal.toFixed(2)}</span>
                 </div>
@@ -185,16 +185,16 @@ export function BasketGrid({ session, addresses }: BasketGridProps) {
                     <span>Descuento</span>
                     <span>- ${(subtotal - total).toFixed(2)}</span>
                   </div>
-                )}
+                )} */}
                 <div className="flex justify-between">
                   <span>Envío</span>
                   <span>A consultar</span>
                 </div>
                 <Separator />
-                <div className="flex justify-between font-bold">
+                {/* <div className="flex justify-between font-bold">
                   <span>Total estimado</span>
                   <span>${total.toFixed(2)}</span>
-                </div>
+                </div> */}
                 <p className="text-xs text-muted-foreground mt-2">
                   Esta cotización es válida por 15 días. Los precios pueden variar según disponibilidad.
                 </p>
