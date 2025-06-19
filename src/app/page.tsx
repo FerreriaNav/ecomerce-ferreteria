@@ -114,7 +114,7 @@ export default async function Home() {
             className="my-5"
             title="Proveedor industrial de tornillería"
             subtitle="Contamos con todo tipo de tornillería en general, desde uno sencillo hasta los más especializados, no dudes en preguntarnos, manejamos mayoreo y menudeo, tenemos personal capacitado especialista en tornillería para tu atención y darte el mejor servicio."
-            variant="square"
+            variant="circular"
             items={
               resultProductsTornilleria?.data.map((p) => ({
                 id: p.id,

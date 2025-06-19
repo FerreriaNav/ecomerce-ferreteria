@@ -20,7 +20,7 @@ export const SubtitleSection = ({
         </h3>
       </div>
       {description && (
-        <p className="max-w-[600px] text-muted-foreground text-sm md:text-base">
+        <p className="max-w-[600px] text-muted-foreground text-base md:text-xl">
           {description}
         </p>
       )}

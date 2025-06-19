@@ -50,7 +50,7 @@ export default function CarouselBasic({
               {title}
             </h3>
           )}
-          {subtitle && <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto">{subtitle}</p>}
+          {subtitle && <p className="text-muted-foreground text-base md:text-xl max-w-2xl mx-auto">{subtitle}</p>}
           <div className="flex items-center justify-center space-x-2">
             <div className="h-1 w-8 bg-gradient-to-r from-primary to-secondary rounded-full" />
             <div className="h-1 w-4 bg-secondary rounded-full" />
