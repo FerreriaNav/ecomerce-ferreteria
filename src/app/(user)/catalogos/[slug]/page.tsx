@@ -14,7 +14,7 @@ import {
   parseProductFilters,
   ProductFilters,
 } from "@/services/products/products-services";
-import { AlertTriangle, Store, Tags } from "lucide-react";
+import { AlertTriangle, Store } from "lucide-react";
 
 export default async function CategoriaPage({
   params,
@@ -47,7 +47,7 @@ export default async function CategoriaPage({
         <div className="-mt-14 -mb-5">
           <TitleGradient
             title={slug}
-            tagIcon={<Store  size={50} />}
+            tagIcon={<Store size={50} />}
           ></TitleGradient>
         </div>
         {/* Mobile: Filters on top */}
