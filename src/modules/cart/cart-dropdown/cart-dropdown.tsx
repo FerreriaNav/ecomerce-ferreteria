@@ -32,6 +32,7 @@ const CartContent = () => {
     useCartStore();
   const { data: session } = useSession();
   // Calcular el total del carrito
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const cartTotal = cart.reduce((total, item) => {
     const { finalPrice } = getPrecioConDescuento(
       item.inventario,
@@ -44,6 +45,7 @@ const CartContent = () => {
   }, 0);
 
   // modificalo para que multiplique por la cantidad
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const renderPrecio = (producto: CartItem) => {
     if (!session && ECOMMERCE_PRIVADO) {
       return (

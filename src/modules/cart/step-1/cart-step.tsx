@@ -7,7 +7,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useCartStore } from "@/store/products-cart.store"
 import { Minus, Plus, Trash2 } from "lucide-react"
-import { getPrecioConDescuento } from "@/lib/price-descuento"
 
 export default function CartStep() {
   const { cart, loadCart, increaseQuantity, decreaseQuantity, removeFromCart } = useCartStore()

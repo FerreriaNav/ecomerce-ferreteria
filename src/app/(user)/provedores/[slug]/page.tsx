@@ -4,8 +4,6 @@ export const dynamic = "force-dynamic";
 import { ErrorState } from "@/modules/common/components/error/ErrorState";
 import { ProductGrid } from "@/modules/main/components/productCart/ProductGrid";
 import { ResponsiveStoreFilters } from "@/modules/shop/ResponsiveStoreFilters";
-import { getCategorias } from "@/services/categories/categories-services";
-import { getMarcas } from "@/services/marcas/marcas-services";
 import {
   parseProductFilters,
   ProductFilters,
@@ -25,9 +23,6 @@ export default async function MarcaPage({
     const decodeSlug = decodeURIComponent(slug);
     const searchParamsDecode = await searchParams;
 
-    const marcas = (await getMarcas())?.data ?? [];
-    const categorias = (await getCategorias())?.data ?? [];
-
     const filtros: ProductFilters = parseProductFilters(searchParamsDecode);
 
     const filtrosWithMarca: ProductFilters = {
@@ -43,11 +38,7 @@ export default async function MarcaPage({
       <main className="container mx-auto px-4 py-8">
         {/* Mobile: Filters on top */}
         <div className="md:hidden mb-4">
-          <ResponsiveStoreFilters
-            categorias={categorias}
-            marcas={marcas}
-            marcaBase={decodeSlug}
-          />
+          <ResponsiveStoreFilters marcaBase={decodeSlug} />
         </div>
 
         {/* Grid layout */}
@@ -55,8 +46,6 @@ export default async function MarcaPage({
           {/* Desktop: Filters on the side */}
           <div className="hidden md:block">
             <ResponsiveStoreFilters
-              categorias={categorias}
-              marcas={marcas}
               selectedFilters={filtrosWithMarca}
               marcaBase={decodeSlug}
             />
