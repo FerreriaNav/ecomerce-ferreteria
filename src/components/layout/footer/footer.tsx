@@ -15,6 +15,9 @@ import { useInfoEcommerceStore } from "@/store/info-ecommerce.store";
 import { getGoogleMapsEmbedUrl } from "@/lib/maps/frame";
 import { FRONTEND_ROUTES } from "@/contants/frontend-routes/routes";
 
+import respaldo from "@/contants/json/template-datos-ecommerce.json";
+
+
 export function Footer() {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -33,8 +36,8 @@ export function Footer() {
     }
   };
 
-  const { infoEcommerce, initInfoEcommerce, loading } = useInfoEcommerceStore();
-
+  const {initInfoEcommerce, loading } = useInfoEcommerceStore();
+  const infoEcommerce =  useInfoEcommerceStore().infoEcommerce ?? respaldo.infoEcommerce
   useEffect(() => {
     initInfoEcommerce();
   }, [initInfoEcommerce]);
@@ -159,7 +162,7 @@ export function Footer() {
                     size={20}
                   />
                   <span className="text-gray-600 dark:text-gray-400">
-                    {infoEcommerce?.direcciones[0]?.direccion ||
+                    {infoEcommerce?.direccion.direccion ||
                       "Dirección no disponible"}
                   </span>
                 </li>
@@ -185,7 +188,7 @@ export function Footer() {
                     size={20}
                   />
                   <span className="text-gray-600 dark:text-gray-400">
-                    {infoEcommerce?.direcciones[0].horario ||
+                    {infoEcommerce?.direccion.horario ||
                       " Horario no disponible"}
                   </span>
                 </li>
@@ -196,11 +199,11 @@ export function Footer() {
 
             <div className="w-full h-64 rounded-md overflow-hidden shadow">
               {infoEcommerce &&
-              infoEcommerce?.direcciones[0].urlFrame?.includes("<iframe") ? (
+              infoEcommerce?.direccion.urlFrame?.includes("<iframe") ? (
                 <div
                   className=""
                   dangerouslySetInnerHTML={{
-                    __html: infoEcommerce.direcciones[0].urlFrame,
+                    __html: infoEcommerce.direccion.urlFrame,
                   }}
                 />
               ) : (
@@ -208,8 +211,8 @@ export function Footer() {
                   <iframe
                     src={
                       getGoogleMapsEmbedUrl(
-                        infoEcommerce.direcciones[0]?.coordenadas
-                      ) || infoEcommerce.direcciones[0].urlFrame
+                        infoEcommerce.direccion?.coordenadas
+                      ) || infoEcommerce.direccion.urlFrame
                     }
                     width="100%"
                     height="100%"

@@ -18,7 +18,6 @@ import { getProductsByFilters } from "@/services/products/products-services";
 import { TagIcon } from "lucide-react";
 import Image from "next/image";
 import { Suspense } from "react";
-import respaldo from "@/contants/json/template-datos-ecommerce.json";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { FRONTEND_ROUTES } from "@/contants/frontend-routes/routes";
@@ -26,9 +25,15 @@ import { CATEGORIAS_ENUM } from "@/interfaces/categories/categories.interface";
 import CarouselBasic from "../modules/common/components/carousel-basic/carousel-basic";
 import { Card } from "@/components/ui/card";
 
+// respaldo json 
+import respaldo from "@/contants/json/template-datos-ecommerce.json";
+import { Products } from "@/interfaces/products/products.interface";
+import { DireccionSucursal } from "@/interfaces/informacion-tienda/informacion-tienda.interface";
+
 export default async function Home() {
   try {
-    const paginaPrincipalResult = (await getPaginaPrincipal())?.data;
+    const paginaPrincipalResult = (await getPaginaPrincipal())?.data ?? respaldo.paginaPrincipal  ;
+
     // fetch product
     // const resultProducts = await getProductsByFilters({
     //   descuentos: true,
@@ -39,7 +44,7 @@ export default async function Home() {
     });
     const categorias = (await getCategorias())?.data ?? [];
     const marcas = (await getMarcas())?.data ?? [];
-    const infoEcommerce = (await getInfoEcommerce())?.data;
+    const infoEcommerce = (await getInfoEcommerce())?.data ?? respaldo.infoEcommerce;
 
     return (
       <main className="container mx-auto ">
@@ -48,8 +53,7 @@ export default async function Home() {
 
           <StrapiCarousel
             items={
-              paginaPrincipalResult?.carrucel ??
-              (respaldo.paginaPrincipal.carrucel as CarrucelItem[])
+              paginaPrincipalResult?.carrucel as CarrucelItem[]
             }
             autoplay={true}
             intervalo={5000}
@@ -59,7 +63,7 @@ export default async function Home() {
           <div className="mt-5">
             {/* titulo Bienvenida */}
             <TitleGradient
-              title={infoEcommerce?.nombre ?? "Nombre de la Tienda"}
+              title={infoEcommerce?.nombre }
               badgeText="BIENVENIDO"
               tagIcon={
                 <Image
@@ -92,7 +96,7 @@ export default async function Home() {
               // <Card className="bg-primary ">
               <ProductCarousel
                 products={paginaPrincipalResult.productosDestacados.map(
-                  (p) => p.producto
+                  (p) => p.producto  as Products
                 )}
                 title="Productos Destacados"
                 subtittle="Manejamos todo tipo de productos, manejando los mejores precios en todas las marcas, con precio de mayoreo y menudeo, solicita tu cotización con nuestro asesor de ventas o también ven y visítanos a nuestra sucursal."
@@ -129,7 +133,9 @@ export default async function Home() {
         <div>
           <Suspense fallback={<Skeleton className="h-[500px] w-full" />}>
             <AboutUsLocations
-              locations={infoEcommerce?.direcciones ?? []}
+              locations={
+                infoEcommerce?.direccion ? [infoEcommerce?.direccion as DireccionSucursal] : []
+              }
               generalPhone={infoEcommerce?.numeroGeneral}
               generalEmail={infoEcommerce?.correoGeneral}
             />

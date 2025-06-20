@@ -10,7 +10,7 @@ export function getInfoEcommerce(): Promise<DataResponse<InfoEcommerce> | null> 
   const params = new URLSearchParams();
 
   params.set("populate[logo][fields][0]", "url");
-  params.set("populate[direcciones][populate][imagenes][fields][0]", "url");
+  params.set("populate[direccion][populate][imagenes][fields][0]", "url");
   params.set("populate[redesSociales][populate][icono][fields][0]", "url");
   params.set("populate[nosotros][populate][imagenHistoria][fields][0]", "url");
   params.set(
@@ -46,13 +46,13 @@ export function getInfoEcommerce(): Promise<DataResponse<InfoEcommerce> | null> 
             img: { ...persona.img, url: `${STRAPI_HOST}${persona.img.url}` },
           })),
         },
-        direcciones: res.data?.direcciones?.map((d) => ({
-          ...d,
-          imagenes: d.imagenes.map((img) => ({
+        direccion: {
+          ...res.data.direccion,
+          imagenes: res.data.direccion.imagenes.map((img) => ({
             ...img,
             url: `${STRAPI_HOST}${img.url}`,
           })),
-        })),
+        },
       };
       return { ...res, data: dataMap };
     })

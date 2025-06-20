@@ -1,64 +1,75 @@
 {
     "infoEcommerce": {
-        "id": 1,
-        "documentId": "fallback-doc-001",
-        "nombre": "Mi Tienda de Respaldo",
-        "numeroGeneral": "1234567890",
-        "correoGeneral": "tienda@respaldo.com",
+        "id": 38,
+        "documentId": "q6myvjqg6mo01yzw0f7r1aaa",
+        "nombre": "Distribuidora Industrial Navojoa",
+        "numeroGeneral": "+52 642 109 3438  +52 642 116 6931",
+        "correoGeneral": "Ventas@dinav.com.mx",
         "logo": {
-            "url": "/images/logo-fallback.webp",
+            "url": "/default/img.webp",
             "alternativeText": "Logo de la tienda"
         },
-        "direcciones": [
-            {
-                "id": 1,
-                "direccion": "Av. Siempre Viva 742",
-                "coordenadas": "29.123,-110.321",
-                "urlFrame": "https://maps.example.com",
-                "horario": "Lunes a Viernes de 9am a 6pm",
-                "numero": "1234567890",
-                "correo": "sucursal@respaldo.com",
-                "imagenes": [
-                    {
-                        "url": "/images/sucursal1.webp",
-                        "alternativeText": "Imagen sucursal"
-                    }
-                ]
-            }
-        ],
+        "direccion": {
+            "id": 35,
+            "direccion": "Blvd. Manlio Fabio Beltrones 1819, Beltrones, 85860 Navojoa, Son.",
+            "coordenadas": "27.049635443872646, -109.45524215725375",
+            "urlFrame": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14213.568502119839!2d-109.46547746658325!3d27.049367896845467!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86b81b2f5589d1bb%3A0x56033d4aa89ba995!2sDISTRIBUIDORA%20INDUSTRIAL%20NAVOJOA!5e0!3m2!1ses!2smx!4v1750403868704!5m2!1ses!2smx\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+            "horario": "8AM - 12PM  |  1PM - 6PM",
+            "numero": "+52 642 109 3438  +52 642 116 6931",
+            "correo": "Ventas@dinav.com.mx",
+            "imagenes": [
+                {
+                    "url": "/default/img.webp",
+                    "alternativeText": "Imagen sucursal"
+                }
+            ]
+        },
         "redesSociales": [
             {
-                "id": 1,
-                "nombreRedSocial": "Facebook",
-                "url": "https://facebook.com/mi-tienda",
+                "id": 66,
+                "nombreRedSocial": "facebook",
+                "url": "https://www.facebook.com/profile.php?id=100092637046358",
                 "icono": {
-                    "url": "/icons/facebook.svg",
+                    "url": "/default/img.webp",
                     "alternativeText": "Icono Facebook"
+                }
+            },
+            {
+                "id": 67,
+                "nombreRedSocial": "tiktok",
+                "url": "https://www.tiktok.com/@distribuidoraindu5",
+                "icono": {
+                    "url": "/default/img.webp",
+                    "alternativeText": "Icono TikTok"
+                }
+            },
+            {
+                "id": 68,
+                "nombreRedSocial": "instagram",
+                "url": "https://www.instagram.com/distribuidora_industrial_nav/",
+                "icono": {
+                    "url": "/default/img.webp",
+                    "alternativeText": "Icono Instagram"
                 }
             }
         ],
         "nosotros": {
-            "eslogan": "Calidad y confianza",
-            "historia": "Comenzamos con una idea y ahora somos líderes.",
-            "nombreEmpresa": "Mi Tienda S.A.",
+            "eslogan": "Comprometidos con la excelencia desde 2018. Ofrecemos [productos/servicios] de la más alta calidad.\n\n",
+            "historia": "Fundada en 2018, Distribuidora Industrial Navojoa comenzó con una visión clara: ventas a mayoreo. A lo largo de los años, hemos crecido y evolucionado, pero nuestro compromiso con [valores principales] se ha mantenido inquebrantable.\n\nHoy, somos líderes en  Productos industriales, sirviendo a clientes en navojoa y ofreciendo soluciones innovadoras que [beneficios principales para los clientes].",
+            "nombreEmpresa": "Distribuidora Industrial Navojoa",
             "imagenHistoria": {
-                "url": "/images/historia.webp",
+                "url": "/default/img.webp",
                 "alternativeText": "Imagen de la historia"
             },
-            "personal": [
-                {
-                    "id": 1,
-                    "puesto": "CEO",
-                    "nombre": "Luis Pérez",
-                    "img": {
-                        "url": "/images/personal/ceo.webp",
-                        "alternativeText": "CEO"
-                    }
-                }
-            ]
+            "personal": []
         }
     },
     "paginaPrincipal": {
+        "id": 48,
+        "documentId": "izd1gov9qm5uhmihlcl2l7u8",
+        "createdAt": "2025-06-08T20:36:35.262Z",
+        "updatedAt": "2025-06-18T22:20:13.234Z",
+        "publishedAt": "2025-06-18T22:20:13.259Z",
         "carrucel": [
             {
                 "__component": "carrucel.carrucel-item-texto-avanzado",
@@ -68,7 +79,7 @@
                 "colorFondo": "#F5F5F5",
                 "colorTexto": "#000000",
                 "link": "/marca",
-                "mostrarBoton":true,
+                "mostrarBoton": true,
                 "botonTexto": "Ver marcas"
             },
             {
@@ -79,7 +90,7 @@
                 "colorFondo": "#ff0000",
                 "colorTexto": "#000000",
                 "link": "/categoria",
-                "mostrarBoton":true,
+                "mostrarBoton": true,
                 "botonTexto": "Ver categorías"
             },
             {
@@ -90,7 +101,7 @@
                 "colorFondo": "#FFFFFF",
                 "colorTexto": "#000000",
                 "link": "/nosotros",
-                "mostrarBoton":true,
+                "mostrarBoton": true,
                 "botonTexto": "Nuestra historia"
             },
             {
@@ -101,8 +112,87 @@
                 "colorFondo": "#FFFAF0",
                 "colorTexto": "#000000",
                 "link": "/ofertas",
-                "mostrarBoton":true,
+                "mostrarBoton": true,
                 "botonTexto": "Ver ofertas"
+            }
+        ],
+        "productosDestacados": [
+            {
+                "id": 8,
+                "producto": {
+                    "id": 125,
+                    "documentId": "w4lgubszsupn1gazx5i4zvgl",
+                    "nombre": "Bosch EasyImpact 550 – 110V",
+                    "slug": "bosch-easy-impact-550-110-v-1",
+                    "tipo": "base",
+                    "coverUrl":"/default/img.webp"
+                }
+            },
+            {
+                "id": 9,
+                "producto": {
+                    "id": 126,
+                    "documentId": "e21uaxg67u1p962hoyflvhzu",
+                    "nombre": "Bosch EasyImpact 550 – 110V + estuche",
+                    "slug": "bosch-easy-impact-550-110-v-estuche",
+                    "tipo": "variante",
+                    "coverUrl":"/default/img.webp"
+                }
+            },
+            {
+                "id": 10,
+                "producto": {
+                    "id": 122,
+                    "documentId": "vnp85uohmoy2sc30cyasr5nm",
+                    "nombre": "Destornillador de punta plana trupper pequeño",
+                    "slug": "destornillador-de-punta-plana-trupper-pequeno",
+                    "tipo": "variante",
+                    "coverUrl":"/default/img.webp"
+                }
+            },
+            {
+                "id": 11,
+                "producto": {
+                    "id": 128,
+                    "documentId": "iuup3kncbcro8kxtrjomnyof",
+                    "nombre": "carrucha",
+                    "slug": "carrucha",
+                    "tipo": "base",
+                    "coverUrl":"/default/img.webp"
+                }
+            },
+            {
+                "id": 12,
+                "producto": {
+                    "id": 71,
+                    "documentId": "dum7hvfuk81h3nduifb4vxpb",
+                    "nombre": "alambre reforzado 25kg ",
+                    "slug": "alambre-reforzado-25kg",
+                    "tipo": "simple",
+                    "coverUrl":"/default/img.webp"
+                }
+            },
+            {
+                "id": 13,
+                "producto": {
+                    "id": 100,
+                    "documentId": "hbyf3sbf0fmlo8qneh0j0qpg",
+                    "nombre": "pintura acrilica politec 100ml rojo",
+                    "slug": "pintura-acrilica-politec-100ml-rojo",
+                    "tipo": "variante",
+                    "coverUrl":"/default/img.webp"
+                }
+            },
+            {
+                "id": 14,
+                "producto": {
+                    "id": 160,
+                    "documentId": "wyyowwxgt28prlqa1o5y2yjv",
+                    "nombre": "tornillo acero",
+                    "slug": "tornillo-acero",
+                    "tipo": null,
+                    "coverUrl":"/default/img.webp"
+                }
             }
         ]
     }
