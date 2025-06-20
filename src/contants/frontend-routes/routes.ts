@@ -5,6 +5,7 @@ export const FRONTEND_ROUTES = {
     CATALOGOS: "/catalogos",
     PRODUCTOS: "/producto",
     NOSOTROS: "/nosotros",
+    TORNILLERIA:"tornilleria",
     PROVEDORES: "/provedores",
     DASHBOARD: "/dashboard",
     PROFILE: "/perfil",

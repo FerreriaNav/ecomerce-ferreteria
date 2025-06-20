@@ -2,6 +2,7 @@
 export const dynamic = "force-dynamic";
 
 import { ErrorState } from "@/modules/common/components/error/ErrorState";
+import { TitleGradient } from "@/modules/common/components/titles/title-gradient";
 import { ProductGrid } from "@/modules/main/components/productCart/ProductGrid";
 import { ResponsiveStoreFilters } from "@/modules/shop/ResponsiveStoreFilters";
 import {
@@ -9,7 +10,7 @@ import {
   ProductFilters,
   searchProductsWithParams,
 } from "@/services/products/products-services";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, Tags } from "lucide-react";
 
 export default async function MarcaPage({
   params,
@@ -36,6 +37,12 @@ export default async function MarcaPage({
 
     return (
       <main className="container mx-auto px-4 py-8">
+         <div className="-mt-14 -mb-5">
+          <TitleGradient
+            title={slug}
+            tagIcon={<Tags size={50} />}
+          ></TitleGradient>
+        </div>
         {/* Mobile: Filters on top */}
         <div className="md:hidden mb-4">
           <ResponsiveStoreFilters marcaBase={decodeSlug} />

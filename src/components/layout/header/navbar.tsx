@@ -158,12 +158,21 @@ export default function Navbar({
                       variant="ghost"
                       className="w-full justify-start"
                     >
-                      <Link href="/nosotros">
+                      <Link href={FRONTEND_ROUTES.NOSOTROS}>
                         <Info className="mr-2 h-4 w-4" />
                         Sobre Nosotros
                       </Link>
                     </Button>
-
+                    <Button
+                      asChild
+                      variant="ghost"
+                      className="w-full justify-start"
+                    >
+                      <Link href={FRONTEND_ROUTES.TORNILLERIA}>
+                        <Info className="mr-2 h-4 w-4" />
+                        Tornillería
+                      </Link>
+                    </Button>
                     <Collapsible>
                       <CollapsibleTrigger asChild>
                         <Button
@@ -224,7 +233,9 @@ export default function Navbar({
                               variant="ghost"
                               className="w-full justify-start pl-4"
                             >
-                              <Link href={`${FRONTEND_ROUTES.CATALOGOS}/${categoria.nombre}`}>
+                              <Link
+                                href={`${FRONTEND_ROUTES.CATALOGOS}/${categoria.nombre}`}
+                              >
                                 <p className="text-foreground">
                                   {categoria.nombre}
                                 </p>
@@ -256,7 +267,9 @@ export default function Navbar({
                             variant="ghost"
                             className="w-full justify-start pl-4"
                           >
-                            <Link href={`${FRONTEND_ROUTES.PROVEDORES}/${marca.nombre}`}>
+                            <Link
+                              href={`${FRONTEND_ROUTES.PROVEDORES}/${marca.nombre}`}
+                            >
                               <p className="text-foreground">{marca.nombre}</p>
                             </Link>
                           </Button>
@@ -474,16 +487,23 @@ export default function Navbar({
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <Link href="/nosotros" legacyBehavior passHref>
+                <Link href={FRONTEND_ROUTES.NOSOTROS} legacyBehavior passHref>
                   <Button variant={"ghost"} className=" text-white">
                     Sobre Nosotros
+                  </Button>
+                </Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Link href={FRONTEND_ROUTES.TORNILLERIA} legacyBehavior passHref>
+                  <Button variant={"ghost"} className=" text-white">
+                    Tornillería
                   </Button>
                 </Link>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
           {/* search */}
-          <Suspense fallback={<Skeleton ></Skeleton>}>
+          <Suspense fallback={<Skeleton></Skeleton>}>
             <SearchBar />
           </Suspense>
           <div className="flex flex-row items-center gap-2">
