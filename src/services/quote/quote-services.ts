@@ -2,8 +2,9 @@ import { BACKEND_ROUTES } from "@/contants/backend-routes/routes"
 import { Cotizacion, CotizacionCreateDto, MetodoPago } from "@/interfaces/cotizaciones/cotizacion.interface"
 import type { DataResponse } from "@/interfaces/data/response.interface"
 import { query } from "@/lib/api/server/strapi"
+import { useCartStore } from "@/store/products-cart.store";
 
-const BASE_ENDPOINT: string = BACKEND_ROUTES.QUOTES
+const BASE_ENDPOINT: string = BACKEND_ROUTES.QUOTES;
 
 // Obtener cotizaciones de un usuario específico
 export function getUserCotizaciones(userId: string): Promise<DataResponse<Cotizacion[]> | null> {
@@ -41,8 +42,6 @@ export function createCotizacion(data: CotizacionCreateDto, userId: number): Pro
     cliente: userId,
   }
 
-  console.log({ data:fullPayload});
-
   return query<Cotizacion | null>(`${BASE_ENDPOINT}`, {
     method: "POST",
     body: { data: fullPayload },
@@ -51,6 +50,7 @@ export function createCotizacion(data: CotizacionCreateDto, userId: number): Pro
       if (!res) {
         return null;
       }
+      useCartStore.getState().deleteCartFromStorage()
       return res;
     })
     .catch((error) => {

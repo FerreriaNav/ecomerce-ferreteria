@@ -26,7 +26,7 @@ interface CartStore {
   increaseQuantity: (id: number) => void;
   decreaseQuantity: (id: number) => void;
   removeFromCart: (id: number) => void;
-
+  deleteCartFromStorage: () => void;
   getTotal: () => number;
   getSubtotal: () => number;
   getCartSummary: () => {
@@ -214,5 +214,10 @@ export const useCartStore = create<CartStore>((set, get) => ({
       total,
       // impuestos, envio, finalAmount
     };
+  },
+
+  deleteCartFromStorage: () => {
+    localStorage.removeItem("cart-storage");
+    set({ cart: [] });
   },
 }));
