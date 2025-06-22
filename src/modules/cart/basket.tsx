@@ -22,13 +22,14 @@ import {
   EstatusCotizacion,
 } from "@/interfaces/cotizaciones/cotizacion.interface";
 import { FRONTEND_ROUTES } from "@/contants/frontend-routes/routes";
+import { User } from "@/interfaces/auth/user.interface";
 
 interface BasketGridProps {
-  clientId: number;
+  user: User;
   addresses: Address[];
 }
 
-export function BasketGrid({ clientId, addresses }: BasketGridProps) {
+export function BasketGrid({ user, addresses }: BasketGridProps) {
   const searchParams = useSearchParams();
   const initialStep = Number.parseInt(searchParams.get("step") || "1", 10);
   const [step, setStep] = useState(initialStep);
@@ -61,11 +62,11 @@ export function BasketGrid({ clientId, addresses }: BasketGridProps) {
     setSuccess(false); // Resetear success al iniciar nueva cotización
 
     const products: ProductoSeleccionadoInput[] = cart.map((item) => ({
-      producto: +item.id,
+      producto: item.documentId,
       cantidad: item.quantity,
     }));
 
-    if (!clientId) {
+    if (!user.id) {
       setError("No se pudo obtener la información del cliente");
       setLoading(false);
       return;
@@ -77,21 +78,21 @@ export function BasketGrid({ clientId, addresses }: BasketGridProps) {
       return;
     }
 
-    setCliente(clientId);
+    setCliente(user.documentId);
     setProductos(products);
 
     try {
       const cotizacionData: CotizacionCreateDto = {
         productos: products,
         estatus: EstatusCotizacion.PENDIENTE,
-        cliente: clientId,
+        cliente: user.documentId,
         metodoPago: metodoPago,
         notaCliente: notaCliente || undefined,
         totalCotizacion: total,
         informacionEnvio: pedido.informacionEnvio, // Ahora es compatible
       };
 
-      const cotizacion = await createCotizacion(cotizacionData, clientId);
+      const cotizacion = await createCotizacion(cotizacionData,  user.documentId);
 
       if (cotizacion) {
         showToastAlert({
@@ -156,7 +157,7 @@ export function BasketGrid({ clientId, addresses }: BasketGridProps) {
       case 1:
         return <CartStep />;
       case 2:
-        return <AddressStep userId={clientId} addresses={addresses} />;
+        return <AddressStep userId={user.id} addresses={addresses} />;
       case 3:
         return <QuoteStep />;
       default:

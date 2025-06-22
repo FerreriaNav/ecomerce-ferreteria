@@ -22,7 +22,7 @@ export interface CotizacionCreateDto {
   id?: number;
   productos: ProductoSeleccionadoInput[];
   estatus: EstatusCotizacion;
-  cliente: number; // Puedes tipar esto según tu modelo de usuario
+  cliente: string | number; // Puedes tipar esto según tu modelo de usuario
   informacionEnvio?: InformacionEnvio | null
   metodoPago: MetodoPago;
   notaCliente?: string; // Campo largo opcional

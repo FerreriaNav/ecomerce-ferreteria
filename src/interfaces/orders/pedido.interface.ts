@@ -66,7 +66,7 @@ export interface Pago {
 }
 
 export interface PedidoCreateDto {
-  cliente: number | null;
+  cliente: number | string| null;
   productosSeleccionados: ProductoSeleccionadoInput[];
   informacionEnvio: InformacionEnvio | null;
 }
@@ -78,7 +78,7 @@ export interface InformacionEnvioCreateDto {
 }
 
 export interface ProductoSeleccionadoInput {
-  producto: number;
+  producto: number | string;
   cantidad: number;
 }
 

@@ -12,7 +12,7 @@ interface PedidoStore {
   error: string | null
   success: boolean
 
-  setCliente: (cliente: number) => void
+  setCliente: (cliente: string| number) => void
   setProductos: (productos: ProductoSeleccionadoInput[]) => void
   setInformacionEnvio: (info: InformacionEnvio) => void
 
