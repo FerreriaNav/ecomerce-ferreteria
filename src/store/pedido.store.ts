@@ -3,9 +3,9 @@ import type {
   InformacionEnvioCreateDto,
   PedidoCreateDto,
   ProductoSeleccionadoInput,
-} from "@/interfaces/orders/pedido.interface";
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+} from "@/interfaces/orders/pedido.interface"
+import { create } from "zustand"
+import { persist } from "zustand/middleware"
 
 interface PedidoStore {
   pedido: PedidoCreateDto
@@ -24,6 +24,9 @@ interface PedidoStore {
   setLoading: (loading: boolean) => void
   setError: (error: string | null) => void
   setSuccess: (success: boolean) => void
+
+  // Nueva función para resetear estados temporales
+  resetTemporaryStates: () => void
 
   resetPedido: () => void
 }
@@ -64,6 +67,14 @@ export const usePedidoStore = create<PedidoStore>()(
       setError: (error) => set({ error }),
       setSuccess: (success) => set({ success }),
 
+      // Nueva función para resetear solo los estados temporales
+      resetTemporaryStates: () =>
+        set({
+          loading: false,
+          error: null,
+          success: false,
+        }),
+
       resetPedido: () =>
         set(() => ({
           pedido: {
@@ -79,6 +90,12 @@ export const usePedidoStore = create<PedidoStore>()(
     }),
     {
       name: "pedido-storage", // Se guarda en localStorage
-    }
-  )
-);
+      // No persistir los estados temporales
+      partialize: (state) => ({
+        pedido: state.pedido,
+        notaCliente: state.notaCliente,
+        // No incluir loading, error, success en la persistencia
+      }),
+    },
+  ),
+)

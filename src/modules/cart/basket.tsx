@@ -33,12 +33,28 @@ export function BasketGrid({ clientId, addresses }: BasketGridProps) {
 
   // const { subtotal, total } = getCartSummary()
 
-  const { pedido, setProductos, setCliente, notaCliente, loading, success, setLoading, setError, setSuccess } =
-    usePedidoStore()
+  const {
+    pedido,
+    setProductos,
+    setCliente,
+    notaCliente,
+    loading,
+    success,
+    setLoading,
+    setError,
+    setSuccess,
+    resetTemporaryStates,
+  } = usePedidoStore()
+
+  // Resetear estados temporales cuando el componente se monta
+  useEffect(() => {
+    resetTemporaryStates()
+  }, [resetTemporaryStates])
 
   const handleGenerarCotizacion = async () => {
     setLoading(true)
     setError(null)
+    setSuccess(false) // Resetear success al iniciar nueva cotización
 
     const products: ProductoSeleccionadoInput[] = cart.map((item) => ({
       producto: +item.id,
@@ -80,6 +96,7 @@ export function BasketGrid({ clientId, addresses }: BasketGridProps) {
         throw new Error("No se pudo generar la cotización")
       }
     } catch (error) {
+      setError("Ocurrió un error al crear la cotización. Por favor, intenta nuevamente.")
       showToastAlert({
         title: "Error al generar cotización",
         text: "Ocurrió un error al crear la cotización. Por favor, intenta nuevamente.",
@@ -99,11 +116,23 @@ export function BasketGrid({ clientId, addresses }: BasketGridProps) {
   }, [step])
 
   const handleBack = () => {
-    if (step > 1) setStep((prev) => prev - 1)
+    if (step > 1) {
+      setStep((prev) => prev - 1)
+      // Resetear estados temporales al cambiar de paso
+      if (step === 3) {
+        resetTemporaryStates()
+      }
+    }
   }
 
   const handleNext = () => {
-    if (step < 3) setStep((prev) => prev + 1)
+    if (step < 3) {
+      setStep((prev) => prev + 1)
+      // Resetear estados temporales al entrar al paso 3
+      if (step === 2) {
+        resetTemporaryStates()
+      }
+    }
   }
 
   const renderStepContent = () => {

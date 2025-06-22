@@ -52,7 +52,7 @@ export const QuoteStep = ({ onGenerateQuote }: QuoteStepProps) => {
       <div>
         <h2 className="text-lg font-semibold mb-2">Generar Cotización</h2>
         <p className="text-sm text-muted-foreground">
-          Solo se puede generar una cotización estándar. Una vez creada, el Administrador podrá compartir la cotización
+          Una vez creada la cotización, la sucursal podrá compartir la cotización
           y podrá verla en la sección de Cotizaciones.
         </p>
       </div>
@@ -90,7 +90,7 @@ export const QuoteStep = ({ onGenerateQuote }: QuoteStepProps) => {
             <div className="space-y-2">
               <Label>Resumen de productos</Label>
               <div className="text-sm text-muted-foreground">{cart.length} producto(s) seleccionado(s)</div>
-              <div className="text-lg font-semibold">Total estimado: ${total.toFixed(2)}</div>
+              {/* <div className="text-lg font-semibold">Total estimado: ${total.toFixed(2)}</div> */}
             </div>
           )}
         </CardContent>
