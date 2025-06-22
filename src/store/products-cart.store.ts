@@ -218,6 +218,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
 
   deleteCartFromStorage: () => {
     localStorage.removeItem("cart-storage");
+    localStorage.removeItem("cart");
     set({ cart: [] });
   },
 }));

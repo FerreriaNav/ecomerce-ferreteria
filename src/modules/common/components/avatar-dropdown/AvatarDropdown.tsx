@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { signOut } from "next-auth/react";
-import { Heart, LogOut, MapPin, Package, Settings, User } from "lucide-react";
+import { FileText, Heart, LogOut, MapPin, Package, Settings, User } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -37,9 +37,9 @@ const menuItems = [
     icon: Heart,
   },
   {
-    href: `${FRONTEND_ROUTES.ORDERS}`,
-    label: "Mis Pedidos",
-    icon: Package,
+    href: `${FRONTEND_ROUTES.QUOTES}`,
+    label: "Mis Cotizaciones",
+    icon: FileText,
   },
   {
     href: `${FRONTEND_ROUTES.SETTINGS}`,

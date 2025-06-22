@@ -21,6 +21,7 @@ import {
   CotizacionCreateDto,
   EstatusCotizacion,
 } from "@/interfaces/cotizaciones/cotizacion.interface";
+import { FRONTEND_ROUTES } from "@/contants/frontend-routes/routes";
 
 interface BasketGridProps {
   clientId: number;
@@ -202,7 +203,7 @@ export function BasketGrid({ clientId, addresses }: BasketGridProps) {
             ) : success ? (
               // Mostrar botón "Mirar cotización" cuando la cotización se haya generado exitosamente
               <Button className="cursor-pointer" asChild>
-                <Link href="/mis-cotizaciones">
+                <Link href={FRONTEND_ROUTES.QUOTES}>
                   <Eye className="mr-2 h-4 w-4" />
                   Mirar cotización
                 </Link>
