@@ -7,17 +7,26 @@ import type {
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
-// Define the quote type
-export type QuoteType = "STANDARD" | "DETAILED"
-
 // Update the PedidoCreateDto interface in the store file
 // (You may want to update the actual interface file as well)
 interface PedidoStore {
-  pedido: PedidoCreateDto & { quoteType: QuoteType | null }
+  pedido: PedidoCreateDto
+  // Campos adicionales para cotización
+  notaCliente: string
+  loading: boolean
+  error: string | null
+  success: boolean
+
   setCliente: (cliente: number) => void
   setProductos: (productos: ProductoSeleccionadoInput[]) => void
   setInformacionEnvio: (info: InformacionEnvioCreateDto) => void
-  setQuoteType: (quoteType: QuoteType) => void
+
+  // Funciones adicionales para cotización
+  setNotaCliente: (nota: string) => void
+  setLoading: (loading: boolean) => void
+  setError: (error: string | null) => void
+  setSuccess: (success: boolean) => void
+
   resetPedido: () => void
 }
 
@@ -28,8 +37,13 @@ export const usePedidoStore = create<PedidoStore>()(
         cliente: 0,
         productosSeleccionados: [],
         informacionEnvio: null,
-        quoteType: null,
       },
+
+      // Estados adicionales para cotización
+      notaCliente: "",
+      loading: false,
+      error: null,
+      success: false,
 
       setCliente: (cliente) =>
         set((state) => ({
@@ -46,19 +60,23 @@ export const usePedidoStore = create<PedidoStore>()(
           pedido: { ...state.pedido, informacionEnvio: info },
         })),
 
-      setQuoteType: (quoteType) =>
-        set((state) => ({
-          pedido: { ...state.pedido, quoteType },
-        })),
+      // Funciones adicionales para cotización
+      setNotaCliente: (nota) => set({ notaCliente: nota }),
+      setLoading: (loading) => set({ loading }),
+      setError: (error) => set({ error }),
+      setSuccess: (success) => set({ success }),
 
       resetPedido: () =>
         set(() => ({
           pedido: {
-            cliente: null,
+            cliente: 0,
             productosSeleccionados: [],
             informacionEnvio: null,
-            quoteType: null,
           },
+          notaCliente: "",
+          loading: false,
+          error: null,
+          success: false,
         })),
     }),
     {

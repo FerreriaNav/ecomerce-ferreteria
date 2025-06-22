@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import type { Session } from "next-auth"
 import type { Address } from "@/interfaces/directions/directions.interface"
 import { Button } from "@/components/ui/button"
 import CartStep from "./step-1/cart-step"
@@ -15,61 +14,55 @@ import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { showToastAlert } from "@/components/ui/altertas/toast"
 import type { ProductoSeleccionadoInput } from "@/interfaces/orders/pedido.interface"
-import { usePedidoStore } from "@/store/pedido.store"
 import { QuoteStep } from "./step-3/quote-step"
-import { createCotizacion } from "@/services/quote/quote"
+import { createCotizacion } from "@/services/quote/quote-services"
+import { usePedidoStore } from "@/store/pedido.store"
+import { CotizacionCreateDto } from "@/interfaces/quotes/quotes.interface"
 
 interface BasketGridProps {
-  session: Session
+  clientId: number
   addresses: Address[]
 }
 
-export function BasketGrid({ session, addresses }: BasketGridProps) {
+export function BasketGrid({ clientId, addresses }: BasketGridProps) {
   const searchParams = useSearchParams()
   const initialStep = Number.parseInt(searchParams.get("step") || "1", 10)
   const [step, setStep] = useState(initialStep)
-  const [isLoading, setIsLoading] = useState(false)
 
   const { getCartSummary, cart } = useCartStore()
-
   const { subtotal, total } = getCartSummary()
 
-  const { pedido, setProductos, setCliente, resetPedido } = usePedidoStore()
+  const { pedido, setProductos, setCliente, notaCliente, loading, setLoading, setError, setSuccess } =
+    usePedidoStore()
 
   const handleGenerarCotizacion = async () => {
-    setIsLoading(true)
+    setLoading(true)
+    setError(null)
 
-    const quoteType = pedido.quoteType // Ya está seteado por el QuoteStep
-    const clienteId = session?.user?.user?.id
     const products: ProductoSeleccionadoInput[] = cart.map((item) => ({
       producto: +item.id,
       cantidad: item.quantity,
     }))
 
-    if (!quoteType || !clienteId) {
-      showToastAlert({
-        title: "Información incompleta",
-        text: "Asegúrate de seleccionar un tipo de cotización.",
-        icon: "warning",
-        position: "top-end",
-        toast: true,
-      })
-      setIsLoading(false)
+    if (!clientId) {
+      setError("No se pudo obtener la información del cliente")
+      setLoading(false)
       return
     }
 
-    setCliente(clienteId)
+    setCliente(clientId)
     setProductos(products)
-    console.log(pedido)
 
     try {
-      // Assuming you'll create this service function
-      const cotizacion = await createCotizacion({
-        ...pedido,
-        cliente: clienteId,
-        productosSeleccionados: products,
-        quoteType,
-      })
+      const cotizacionData: CotizacionCreateDto = {
+        productos: products,
+        total: total,
+        estatus: "PENDIENTE",
+        notaCliente: notaCliente || undefined,
+        informacionEnvio: pedido.informacionEnvio, // Incluir información de envío
+      }
+
+      const cotizacion = await createCotizacion(cotizacionData, clientId)
 
       if (cotizacion) {
         showToastAlert({
@@ -80,22 +73,24 @@ export function BasketGrid({ session, addresses }: BasketGridProps) {
           toast: true,
         })
 
-        // You might want to redirect to a quote details page
-        // window.location.href = `/cotizaciones/${cotizacion.id}`
-        resetPedido()
+        setSuccess(true)
+        // Reset pedido after successful creation if needed
+        // resetPedido()
       } else {
         throw new Error("No se pudo generar la cotización")
       }
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Error al generar la cotización"
+      setError(errorMessage)
       showToastAlert({
         title: "Error al generar cotización",
-        text: "Ocurrió un error al crear la cotización. Por favor, intenta nuevamente.",
+        text: errorMessage,
         icon: "error",
         position: "top-end",
         toast: true,
       })
     } finally {
-      setIsLoading(false)
+      setLoading(false)
     }
   }
 
@@ -119,10 +114,10 @@ export function BasketGrid({ session, addresses }: BasketGridProps) {
         return <CartStep />
       case 2:
         return (
-          session.user?.user.documentId && <AddressStep userId={session.user?.user.documentId} addresses={addresses} />
+          <AddressStep userId={clientId} addresses={addresses} />
         )
       case 3:
-        return <QuoteStep />
+        return <QuoteStep onGenerateQuote={handleGenerarCotizacion} />
       default:
         return null
     }
@@ -160,8 +155,8 @@ export function BasketGrid({ session, addresses }: BasketGridProps) {
                 <ChevronRight className="ml-2 h-4 w-4" />
               </Button>
             ) : (
-              <Button className="cursor-pointer" onClick={handleGenerarCotizacion} disabled={isLoading}>
-                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              <Button className="cursor-pointer" onClick={handleGenerarCotizacion} disabled={loading}>
+                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Generar cotización
               </Button>
             )}
@@ -188,7 +183,11 @@ export function BasketGrid({ session, addresses }: BasketGridProps) {
                 )}
                 <div className="flex justify-between">
                   <span>Envío</span>
-                  <span>A consultar</span>
+                  <span>
+                    {pedido.informacionEnvio?.costoEnvio
+                      ? `$${pedido.informacionEnvio.costoEnvio.toFixed(2)}`
+                      : "A consultar"}
+                  </span>
                 </div>
                 <Separator />
                 <div className="flex justify-between font-bold">

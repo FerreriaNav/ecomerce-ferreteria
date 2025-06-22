@@ -13,5 +13,6 @@ export const BACKEND_ROUTES = {
     PEDIDOS: "pedidos",
     PAYMENTS: "payments",
     PAGINA_PRINCIPAL: "pagina-principal",
+    QUOTES: "cotizacions",
   } as const;
 export type Route = typeof BACKEND_ROUTES[keyof typeof BACKEND_ROUTES];  

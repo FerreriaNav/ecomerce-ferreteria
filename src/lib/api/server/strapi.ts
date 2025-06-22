@@ -16,8 +16,6 @@ export async function query<T>(
 ): Promise<T | null> {
   const { method = "GET", body, customerId, customerEmail } = options;
 
-  console.log(STRAPI_HOST);
-
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${STRAPI_TOKEN}`,

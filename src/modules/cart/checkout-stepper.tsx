@@ -14,7 +14,7 @@ export function CheckoutStepper({ currentStep, setCurrentStep }: CheckoutStepper
   const steps = [
     { id: 1, name: "Carrito" },
     { id: 2, name: "Dirección" },
-    { id: 3, name: "Pago" },
+    { id: 3, name: "Cotización" },
   ]
 
   return (
