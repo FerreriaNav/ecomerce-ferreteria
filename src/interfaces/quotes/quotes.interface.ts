@@ -2,6 +2,7 @@ import type { ProductoSeleccionadoInput, InformacionEnvioCreateDto } from "@/int
 
 // Tipo específico para crear cotizaciones
 export interface CotizacionCreateDto {
+  id: number
   productos: ProductoSeleccionadoInput[]
   total?: number
   estatus: "PENDIENTE" | "APROBADA" | "RECHAZADA" | "CANCELADA"
@@ -32,9 +33,4 @@ export interface Products {
   slug: string
   descripcion: string
   // ... otros campos del producto
-}
-
-export interface UpdateEstatusPayload {
-  estatus: "PENDIENTE" | "APROBADA" | "RECHAZADA" | "CANCELADA"
-  notaVendedor?: string
 }

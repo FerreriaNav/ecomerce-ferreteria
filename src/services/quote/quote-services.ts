@@ -1,6 +1,6 @@
 import { BACKEND_ROUTES } from "@/contants/backend-routes/routes"
+import { Cotizacion, CotizacionCreateDto, MetodoPago } from "@/interfaces/cotizaciones/cotizacion.interface"
 import type { DataResponse } from "@/interfaces/data/response.interface"
-import { Cotizacion, CotizacionCreateDto, UpdateEstatusPayload } from "@/interfaces/quotes/quotes.interface"
 import { query } from "@/lib/api/server/strapi"
 
 const BASE_ENDPOINT: string = BACKEND_ROUTES.QUOTES
@@ -35,10 +35,13 @@ export function createCotizacion(data: CotizacionCreateDto, userId: number): Pro
   const fullPayload = {
     productos: data.productos,
     estatus: data.estatus || "PENDIENTE",
+    metodoPago: data.metodoPago,
     notaCliente: data.notaCliente,
     informacionEnvio: data.informacionEnvio,
     cliente: userId,
   }
+
+  console.log({ data:fullPayload});
 
   return query<Cotizacion | null>(`${BASE_ENDPOINT}`, {
     method: "POST",
@@ -63,7 +66,7 @@ export function updateCotizacion(documentId: string, data: Partial<Cotizacion>):
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { id, createdAt, updatedAt, publishedAt, cliente, ...payload } = data
+  const { id, cliente, ...payload } = data
 
   return query<Cotizacion>(`${BASE_ENDPOINT}/${documentId}`, {
     method: "PUT",
@@ -78,28 +81,6 @@ export function updateCotizacion(documentId: string, data: Partial<Cotizacion>):
     .catch((error) => {
       console.error(`Error updating cotizacion with ID ${documentId}:`, error)
       throw new Error("Failed to update the cotizacion.")
-    })
-}
-
-// Actualizar solo el estatus de la cotización
-export function updateEstatusCotizacion(documentId: string, payload: UpdateEstatusPayload): Promise<Cotizacion | null> {
-  if (!documentId || !payload.estatus) {
-    return Promise.reject(new Error("Cotizacion ID and estatus are required."))
-  }
-
-  return query<Cotizacion>(`${BASE_ENDPOINT}/${documentId}`, {
-    method: "PUT",
-    body: { data: payload },
-  })
-    .then((res) => {
-      if (!res) {
-        return null
-      }
-      return res
-    })
-    .catch((error) => {
-      console.error(`Error updating cotizacion estatus with ID ${documentId}:`, error)
-      throw new Error("Failed to update the cotizacion estatus.")
     })
 }
 
@@ -122,12 +103,4 @@ export function deleteCotizacion(documentId: string): Promise<Cotizacion | null>
       console.error(`Error deleting cotizacion with ID ${documentId}:`, error)
       throw new Error("Failed to delete the cotizacion.")
     })
-}
-
-// Cancelar cotización
-export function cancelCotizacion(documentId: string, notaVendedor?: string): Promise<Cotizacion | null> {
-  return updateEstatusCotizacion(documentId, {
-    estatus: "CANCELADA",
-    notaVendedor,
-  })
 }

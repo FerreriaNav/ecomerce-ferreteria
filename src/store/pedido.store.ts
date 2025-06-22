@@ -1,26 +1,24 @@
 // src/store/pedido.store.ts
-import type {
-  InformacionEnvioCreateDto,
-  PedidoCreateDto,
-  ProductoSeleccionadoInput,
-} from "@/interfaces/orders/pedido.interface"
+import { InformacionEnvio, MetodoPago } from "@/interfaces/cotizaciones/cotizacion.interface"
+import { PedidoCreateDto, ProductoSeleccionadoInput } from "@/interfaces/orders/pedido.interface"
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
 interface PedidoStore {
   pedido: PedidoCreateDto
-  // Campos adicionales para cotización
   notaCliente: string
+  metodoPago: MetodoPago | null
   loading: boolean
   error: string | null
   success: boolean
 
   setCliente: (cliente: number) => void
   setProductos: (productos: ProductoSeleccionadoInput[]) => void
-  setInformacionEnvio: (info: InformacionEnvioCreateDto) => void
+  setInformacionEnvio: (info: InformacionEnvio) => void
 
   // Funciones adicionales para cotización
   setNotaCliente: (nota: string) => void
+  setMetodoPago: (metodo: MetodoPago) => void
   setLoading: (loading: boolean) => void
   setError: (error: string | null) => void
   setSuccess: (success: boolean) => void
@@ -42,6 +40,7 @@ export const usePedidoStore = create<PedidoStore>()(
 
       // Estados adicionales para cotización
       notaCliente: "",
+      metodoPago: null,
       loading: false,
       error: null,
       success: false,
@@ -63,6 +62,7 @@ export const usePedidoStore = create<PedidoStore>()(
 
       // Funciones adicionales para cotización
       setNotaCliente: (nota) => set({ notaCliente: nota }),
+      setMetodoPago: (metodo) => set({ metodoPago: metodo }),
       setLoading: (loading) => set({ loading }),
       setError: (error) => set({ error }),
       setSuccess: (success) => set({ success }),
@@ -83,6 +83,7 @@ export const usePedidoStore = create<PedidoStore>()(
             informacionEnvio: null,
           },
           notaCliente: "",
+          metodoPago: null,
           loading: false,
           error: null,
           success: false,
@@ -94,6 +95,7 @@ export const usePedidoStore = create<PedidoStore>()(
       partialize: (state) => ({
         pedido: state.pedido,
         notaCliente: state.notaCliente,
+        metodoPago: state.metodoPago,
         // No incluir loading, error, success en la persistencia
       }),
     },

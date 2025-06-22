@@ -1,84 +1,96 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import type { Address } from "@/interfaces/directions/directions.interface"
-import { Button } from "@/components/ui/button"
-import CartStep from "./step-1/cart-step"
-import { AddressStep } from "./step-2/address-step"
-import { useSearchParams } from "next/navigation"
-import { CheckoutStepper } from "./checkout-stepper"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { useCartStore } from "@/store/products-cart.store"
-import { ChevronLeft, ChevronRight, Loader2, Eye } from "lucide-react"
-import Link from "next/link"
-import { showToastAlert } from "@/components/ui/altertas/toast"
-import type { ProductoSeleccionadoInput } from "@/interfaces/orders/pedido.interface"
-import { QuoteStep } from "./step-3/quote-step"
-import { createCotizacion } from "@/services/quote/quote-services"
-import { usePedidoStore } from "@/store/pedido.store"
-import type { CotizacionCreateDto } from "@/interfaces/quotes/quotes.interface"
+import { useEffect, useState } from "react";
+import type { Address } from "@/interfaces/directions/directions.interface";
+import { Button } from "@/components/ui/button";
+import CartStep from "./step-1/cart-step";
+import { AddressStep } from "./step-2/address-step";
+import { useSearchParams } from "next/navigation";
+import { CheckoutStepper } from "./checkout-stepper";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { useCartStore } from "@/store/products-cart.store";
+import { ChevronLeft, ChevronRight, Loader2, Eye } from "lucide-react";
+import Link from "next/link";
+import { showToastAlert } from "@/components/ui/altertas/toast";
+import type { ProductoSeleccionadoInput } from "@/interfaces/orders/pedido.interface";
+import { QuoteStep } from "./step-3/quote-step";
+import { createCotizacion } from "@/services/quote/quote-services";
+import { usePedidoStore } from "@/store/pedido.store";
+import {
+  CotizacionCreateDto,
+  EstatusCotizacion,
+} from "@/interfaces/cotizaciones/cotizacion.interface";
 
 interface BasketGridProps {
-  clientId: number
-  addresses: Address[]
+  clientId: number;
+  addresses: Address[];
 }
 
 export function BasketGrid({ clientId, addresses }: BasketGridProps) {
-  const searchParams = useSearchParams()
-  const initialStep = Number.parseInt(searchParams.get("step") || "1", 10)
-  const [step, setStep] = useState(initialStep)
+  const searchParams = useSearchParams();
+  const initialStep = Number.parseInt(searchParams.get("step") || "1", 10);
+  const [step, setStep] = useState(initialStep);
 
-  const { cart } = useCartStore()
-
-  // const { subtotal, total } = getCartSummary()
+  const { cart, getCartSummary } = useCartStore();
+  const { total } = getCartSummary();
 
   const {
     pedido,
     setProductos,
     setCliente,
     notaCliente,
+    metodoPago,
     loading,
     success,
     setLoading,
     setError,
     setSuccess,
     resetTemporaryStates,
-  } = usePedidoStore()
+  } = usePedidoStore();
 
   // Resetear estados temporales cuando el componente se monta
   useEffect(() => {
-    resetTemporaryStates()
-  }, [resetTemporaryStates])
+    resetTemporaryStates();
+  }, [resetTemporaryStates]);
 
   const handleGenerarCotizacion = async () => {
-    setLoading(true)
-    setError(null)
-    setSuccess(false) // Resetear success al iniciar nueva cotización
+    setLoading(true);
+    setError(null);
+    setSuccess(false); // Resetear success al iniciar nueva cotización
 
     const products: ProductoSeleccionadoInput[] = cart.map((item) => ({
       producto: +item.id,
       cantidad: item.quantity,
-    }))
+    }));
 
     if (!clientId) {
-      setError("No se pudo obtener la información del cliente")
-      setLoading(false)
-      return
+      setError("No se pudo obtener la información del cliente");
+      setLoading(false);
+      return;
     }
 
-    setCliente(clientId)
-    setProductos(products)
+    if (!metodoPago) {
+      setError("Por favor selecciona un método de pago");
+      setLoading(false);
+      return;
+    }
+
+    setCliente(clientId);
+    setProductos(products);
 
     try {
       const cotizacionData: CotizacionCreateDto = {
         productos: products,
-        estatus: "PENDIENTE",
+        estatus: EstatusCotizacion.PENDIENTE,
+        cliente: clientId,
+        metodoPago: metodoPago,
         notaCliente: notaCliente || undefined,
-        informacionEnvio: pedido.informacionEnvio, // Incluir información de envío
-      }
+        totalCotizacion: total,
+        informacionEnvio: pedido.informacionEnvio, // Ahora es compatible
+      };
 
-      const cotizacion = await createCotizacion(cotizacionData, clientId)
+      const cotizacion = await createCotizacion(cotizacionData, clientId);
 
       if (cotizacion) {
         showToastAlert({
@@ -87,66 +99,68 @@ export function BasketGrid({ clientId, addresses }: BasketGridProps) {
           icon: "success",
           position: "top-end",
           toast: true,
-        })
+        });
 
-        setSuccess(true)
+        setSuccess(true);
         // Reset pedido after successful creation if needed
         // resetPedido()
       } else {
-        throw new Error("No se pudo generar la cotización")
+        throw new Error("No se pudo generar la cotización");
       }
     } catch (error) {
-      setError("Ocurrió un error al crear la cotización. Por favor, intenta nuevamente.")
+      setError(
+        "Ocurrió un error al crear la cotización. Por favor, intenta nuevamente."
+      );
       showToastAlert({
         title: "Error al generar cotización",
         text: "Ocurrió un error al crear la cotización. Por favor, intenta nuevamente.",
         icon: "error",
         position: "top-end",
         toast: true,
-      })
+      });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-    const url = new URL(window.location.href)
-    url.searchParams.set("step", step.toString())
-    window.history.replaceState(null, "", url.toString())
-  }, [step])
+    const url = new URL(window.location.href);
+    url.searchParams.set("step", step.toString());
+    window.history.replaceState(null, "", url.toString());
+  }, [step]);
 
   const handleBack = () => {
     if (step > 1) {
-      setStep((prev) => prev - 1)
+      setStep((prev) => prev - 1);
       // Resetear estados temporales al cambiar de paso
       if (step === 3) {
-        resetTemporaryStates()
+        resetTemporaryStates();
       }
     }
-  }
+  };
 
   const handleNext = () => {
     if (step < 3) {
-      setStep((prev) => prev + 1)
+      setStep((prev) => prev + 1);
       // Resetear estados temporales al entrar al paso 3
       if (step === 2) {
-        resetTemporaryStates()
+        resetTemporaryStates();
       }
     }
-  }
+  };
 
   const renderStepContent = () => {
     switch (step) {
       case 1:
-        return <CartStep />
+        return <CartStep />;
       case 2:
-        return <AddressStep userId={clientId} addresses={addresses} />
+        return <AddressStep userId={clientId} addresses={addresses} />;
       case 3:
-        return <QuoteStep onGenerateQuote={handleGenerarCotizacion} />
+        return <QuoteStep onGenerateQuote={handleGenerarCotizacion} />;
       default:
-        return null
+        return null;
     }
-  }
+  };
 
   return (
     <div className="container mx-auto py-10 px-4">
@@ -168,7 +182,11 @@ export function BasketGrid({ clientId, addresses }: BasketGridProps) {
                 </Link>
               </Button>
             ) : (
-              <Button className="cursor-pointer" variant="outline" onClick={handleBack}>
+              <Button
+                className="cursor-pointer"
+                variant="outline"
+                onClick={handleBack}
+              >
                 <ChevronLeft className="mr-2 h-4 w-4" />
                 {step === 2 ? "Volver al carrito" : "Volver a la dirección"}
               </Button>
@@ -176,7 +194,9 @@ export function BasketGrid({ clientId, addresses }: BasketGridProps) {
 
             {step < 3 ? (
               <Button className="cursor-pointer" onClick={handleNext}>
-                {step === 1 ? "Continuar a dirección" : "Continuar a cotización"}
+                {step === 1
+                  ? "Continuar a dirección"
+                  : "Continuar a cotización"}
                 <ChevronRight className="ml-2 h-4 w-4" />
               </Button>
             ) : success ? (
@@ -189,7 +209,11 @@ export function BasketGrid({ clientId, addresses }: BasketGridProps) {
               </Button>
             ) : (
               // Mostrar botón "Generar cotización" cuando no se haya generado aún
-              <Button className="cursor-pointer" onClick={handleGenerarCotizacion} disabled={loading}>
+              <Button
+                className="cursor-pointer"
+                onClick={handleGenerarCotizacion}
+                disabled={loading}
+              >
                 {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Generar cotización
               </Button>
@@ -205,16 +229,6 @@ export function BasketGrid({ clientId, addresses }: BasketGridProps) {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {/* <div className="flex justify-between">
-                  <span>Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
-                </div>
-                {subtotal > total && (
-                  <div className="flex justify-between">
-                    <span>Descuento</span>
-                    <span>- ${(subtotal - total).toFixed(2)}</span>
-                  </div>
-                )} */}
                 <div className="flex justify-between">
                   <span>Envío</span>
                   <span>
@@ -224,18 +238,19 @@ export function BasketGrid({ clientId, addresses }: BasketGridProps) {
                   </span>
                 </div>
                 <Separator />
-                {/* <div className="flex justify-between font-bold">
-                  <span>Total estimado</span>
-                  <span>${total.toFixed(2)}</span>
-                </div> */}
-                <p className="text-xs text-muted-foreground mt-2">
-                  Esta cotización es válida por 15 días. Los precios pueden variar según disponibilidad.
-                </p>
+                {metodoPago && (
+                  <div className="flex justify-between">
+                    <span>Método de pago</span>
+                    <span className="capitalize">
+                      {metodoPago.toLowerCase()}
+                    </span>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
         </div>
       </div>
     </div>
-  )
+  );
 }
