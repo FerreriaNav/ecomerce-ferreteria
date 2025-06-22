@@ -94,7 +94,7 @@ export function AddressCard({ address, onRefreshCards, onAddressDefault }: Addre
               {loading ? <LoaderInline text="Estableciendo..." /> : "Establecer como principal"}
             </Button>
           )}
-          <AddressDialog address={address} userId={address.usuario?.documentId} onRefreshCard={onRefreshCards}>
+          <AddressDialog address={address} userId={address.usuario?.id} onRefreshCard={onRefreshCards}>
             <Button className="cursor-pointer" variant="outline" size="sm"><Edit className="mr-2 h-3.5 w-3.5r" />Editar</Button>
           </AddressDialog>
           <Button className="cursor-pointer" onClick={handleDelete} variant="outline" size="sm" disabled={loadingDelete}>
