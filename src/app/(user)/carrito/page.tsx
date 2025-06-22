@@ -56,5 +56,5 @@ export default function CartPage() {
     )
   }
 
-  return <BasketGrid clientId={session.user.user.id} addresses={address.data} />
+  return <BasketGrid user={session.user.user} addresses={address.data} />
 }
