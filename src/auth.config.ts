@@ -60,7 +60,7 @@ const authConfig: NextAuthConfig = {
     async signIn({ user, account }) {
       if (!account) return false;
 
-      if (account.provider === "google" && user.email) {
+      if (account.provider === AuthProvider.Google && user.email) {
         try {
           const loginData: LoginPartialData = {
             email: user.email,
