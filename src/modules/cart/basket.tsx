@@ -109,6 +109,7 @@ export function BasketGrid({ clientId, addresses }: BasketGridProps) {
         throw new Error("No se pudo generar la cotización");
       }
     } catch (error) {
+      console.error(error)
       setError(
         "Ocurrió un error al crear la cotización. Por favor, intenta nuevamente."
       );
@@ -157,7 +158,7 @@ export function BasketGrid({ clientId, addresses }: BasketGridProps) {
       case 2:
         return <AddressStep userId={clientId} addresses={addresses} />;
       case 3:
-        return <QuoteStep onGenerateQuote={handleGenerarCotizacion} />;
+        return <QuoteStep />;
       default:
         return null;
     }

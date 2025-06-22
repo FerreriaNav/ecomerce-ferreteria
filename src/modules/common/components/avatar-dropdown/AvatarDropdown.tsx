@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { signOut } from "next-auth/react";
-import { FileText, Heart, LogOut, MapPin, Package, Settings, User } from "lucide-react";
+import { FileText, Heart, LogOut, MapPin, Settings, User } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";

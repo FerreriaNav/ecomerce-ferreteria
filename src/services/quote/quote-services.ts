@@ -1,5 +1,5 @@
 import { BACKEND_ROUTES } from "@/contants/backend-routes/routes"
-import { Cotizacion, CotizacionCreateDto, MetodoPago } from "@/interfaces/cotizaciones/cotizacion.interface"
+import { Cotizacion, CotizacionCreateDto } from "@/interfaces/cotizaciones/cotizacion.interface"
 import type { DataResponse } from "@/interfaces/data/response.interface"
 import { query } from "@/lib/api/server/strapi"
 import { useCartStore } from "@/store/products-cart.store";

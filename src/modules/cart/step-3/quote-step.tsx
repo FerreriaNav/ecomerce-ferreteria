@@ -11,11 +11,7 @@ import { useCartStore } from "@/store/products-cart.store"
 import { MetodoPago } from "@/interfaces/cotizaciones/cotizacion.interface"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
-interface QuoteStepProps {
-  onGenerateQuote?: () => Promise<void>
-}
-
-export const QuoteStep = ({ onGenerateQuote }: QuoteStepProps) => {
+export const QuoteStep = () => {
   const { notaCliente, metodoPago, loading, error, success, setNotaCliente, setMetodoPago, setError } =
     usePedidoStore()
 
@@ -33,17 +29,6 @@ export const QuoteStep = ({ onGenerateQuote }: QuoteStepProps) => {
     if (error) {
       setError(null)
     }
-  }
-
-  const handleGenerateQuote = async () => {
-    if (!onGenerateQuote) return
-
-    if (!metodoPago) {
-      setError("Por favor selecciona un método de pago")
-      return
-    }
-
-    await onGenerateQuote()
   }
 
   const paymentMethods = [

@@ -21,7 +21,7 @@ export interface Cotizacion {
   notaCliente?: string
   notaVendedor?: string
   informacionEnvio?: InformacionEnvioCreateDto | null
-  cliente?: any
+  cliente?: string
   createdAt?: string
   updatedAt?: string
   publishedAt?: string
