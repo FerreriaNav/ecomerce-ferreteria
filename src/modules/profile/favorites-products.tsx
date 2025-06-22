@@ -105,6 +105,7 @@ function ProductCard({ producto }: ProductCardProps) {
   const tieneStock = (producto.inventario?.stock || 0) > 0;
   const stockDisponible = producto.inventario?.stock || 0;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const renderPrecio = () => {
     if (!session && ECOMMERCE_PRIVADO) {
       return (
@@ -212,7 +213,7 @@ function ProductCard({ producto }: ProductCardProps) {
         </div>
 
         <div className="flex items-center justify-between">
-          <div>{renderPrecio()}</div>
+          {/* <div>{renderPrecio()}</div> */}
 
           <div className="flex gap-1">
             <Button

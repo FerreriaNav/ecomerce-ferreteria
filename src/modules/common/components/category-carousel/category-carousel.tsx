@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { TagsIcon, ArrowRight } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { Categoria } from "@/interfaces/categories/categories.interface";
+import { IMG_DEFAULT } from "@/contants/img/img-default";
 
 interface CategoryCarouselProps {
   categorias: Categoria[];
@@ -77,7 +78,7 @@ export default function CategoryCarousel({
               className="pl-2 md:pl-4 basis-[160px] md:basis-[180px]"
             >
               <Link
-                href={`/catalogos/${item.slug}`}
+                href={`/catalogos/${item.nombre}`}
                 className="group block"
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
@@ -89,7 +90,7 @@ export default function CategoryCarousel({
                   >
                     {item.img?.url ? (
                       <Image
-                        src={item.img.url || "/placeholder.svg"}
+                        src={item.img.url || IMG_DEFAULT.IMG}
                         alt={item.nombre}
                         fill
                         className="object-cover transition-transform duration-300 group-hover:scale-110"

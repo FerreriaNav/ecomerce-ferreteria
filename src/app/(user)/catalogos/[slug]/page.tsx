@@ -76,7 +76,7 @@ export default async function CategoriaPage({
             <Card>
               {categoria?.subcategorias && (
                 <CategoryCarousel
-                  className="w-full"
+                  className="w-full scale-90"
                   categorias={categoria?.subcategorias}
                 />
               )}

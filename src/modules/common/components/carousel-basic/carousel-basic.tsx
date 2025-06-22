@@ -3,8 +3,9 @@ import Image from "next/image"
 import Link from "next/link"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { Badge } from "@/components/ui/badge"
-import { TagsIcon, ArrowRight } from "lucide-react"
+import { TagsIcon, ArrowRight, ImageDown } from "lucide-react"
 import { useState } from "react"
+import { IMG_DEFAULT } from "@/contants/img/img-default"
 
 
 export interface CarouselBasicItem {
@@ -83,14 +84,14 @@ export default function CarouselBasic({
                   >
                     {item.imgUrl ? (
                       <Image
-                        src={item.imgUrl || "/placeholder.svg"}
+                        src={item.imgUrl || IMG_DEFAULT.IMG}
                         alt={item.nombre}
                         fill
                         className="object-cover transition-transform duration-300 group-hover:scale-110"
                       />
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <TagsIcon
+                        <ImageDown
                           size={variant === "circular" ? 40 : 32}
                           className="text-muted-foreground/60 transition-colors duration-300 group-hover:text-primary/80"
                         />
