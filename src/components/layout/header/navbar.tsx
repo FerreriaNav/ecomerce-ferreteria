@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, ChevronDown, User, Heart, MapPin, LogOut, Package, ShoppingCart, Info, Home, Settings, FileText } from 'lucide-react';
+import { Menu, ChevronDown, User, Heart, MapPin, LogOut, ShoppingCart, Info, Home, Settings, FileText } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
