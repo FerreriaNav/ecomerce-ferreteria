@@ -34,7 +34,7 @@ export function getUserDirections(
 
 export function createDirection(
   data: Address,
-  userId: string
+  userId: number
 ): Promise<Address | null> {
   if (
     !data.calle ||

@@ -1,4 +1,5 @@
 import { User } from "../auth/user.interface";
+import { Address } from "../directions/directions.interface";
 import { ProductoSeleccionado, ProductoSeleccionadoInput } from "../orders/pedido.interface";
 
 
@@ -18,14 +19,15 @@ export enum MetodoPago {
 
 // Interfaz de la cotización
 export interface CotizacionCreateDto {
-  id: number;
+  id?: number;
   productos: ProductoSeleccionadoInput[];
   estatus: EstatusCotizacion;
   cliente: number; // Puedes tipar esto según tu modelo de usuario
+  informacionEnvio?: InformacionEnvio | null
   metodoPago: MetodoPago;
   notaCliente?: string; // Campo largo opcional
   notaVendedor?: string; // Campo largo opcional
-  totalCotizacion: number;
+  totalCotizacion?: number;
 }
 
 
@@ -39,4 +41,12 @@ export interface Cotizacion {
   notaCliente?: string; // Campo largo opcional
   notaVendedor?: string; // Campo largo opcional
   totalCotizacion: number;
+}
+
+export interface InformacionEnvio {
+  id: number;
+  esLocal: boolean;
+  costoEnvio: number;
+  nota: null;
+  direccion: Address;
 }

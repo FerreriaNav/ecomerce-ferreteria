@@ -1,24 +1,32 @@
 // src/store/pedido.store.ts
-import type {
-  InformacionEnvioCreateDto,
-  PedidoCreateDto,
-  ProductoSeleccionadoInput,
-} from "@/interfaces/orders/pedido.interface";
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { InformacionEnvio, MetodoPago } from "@/interfaces/cotizaciones/cotizacion.interface"
+import { PedidoCreateDto, ProductoSeleccionadoInput } from "@/interfaces/orders/pedido.interface"
+import { create } from "zustand"
+import { persist } from "zustand/middleware"
 
-// Define the quote type
-export type QuoteType = "STANDARD" | "DETAILED";
-
-// Update the PedidoCreateDto interface in the store file
-// (You may want to update the actual interface file as well)
 interface PedidoStore {
-  pedido: PedidoCreateDto & { quoteType: QuoteType | null };
-  setCliente: (cliente: number) => void;
-  setProductos: (productos: ProductoSeleccionadoInput[]) => void;
-  setInformacionEnvio: (info: InformacionEnvioCreateDto) => void;
-  setQuoteType: (quoteType: QuoteType) => void;
-  resetPedido: () => void;
+  pedido: PedidoCreateDto
+  notaCliente: string
+  metodoPago: MetodoPago | null
+  loading: boolean
+  error: string | null
+  success: boolean
+
+  setCliente: (cliente: number) => void
+  setProductos: (productos: ProductoSeleccionadoInput[]) => void
+  setInformacionEnvio: (info: InformacionEnvio) => void
+
+  // Funciones adicionales para cotización
+  setNotaCliente: (nota: string) => void
+  setMetodoPago: (metodo: MetodoPago) => void
+  setLoading: (loading: boolean) => void
+  setError: (error: string | null) => void
+  setSuccess: (success: boolean) => void
+
+  // Nueva función para resetear estados temporales
+  resetTemporaryStates: () => void
+
+  resetPedido: () => void
 }
 
 export const usePedidoStore = create<PedidoStore>()(
@@ -28,9 +36,14 @@ export const usePedidoStore = create<PedidoStore>()(
         cliente: 0,
         productosSeleccionados: [],
         informacionEnvio: null,
-        provider: null,
-        quoteType: null,
       },
+
+      // Estados adicionales para cotización
+      notaCliente: "",
+      metodoPago: null,
+      loading: false,
+      error: null,
+      success: false,
 
       setCliente: (cliente) =>
         set((state) => ({
@@ -47,24 +60,44 @@ export const usePedidoStore = create<PedidoStore>()(
           pedido: { ...state.pedido, informacionEnvio: info },
         })),
 
-      setQuoteType: (quoteType) =>
-        set((state) => ({
-          pedido: { ...state.pedido, quoteType },
-        })),
+      // Funciones adicionales para cotización
+      setNotaCliente: (nota) => set({ notaCliente: nota }),
+      setMetodoPago: (metodo) => set({ metodoPago: metodo }),
+      setLoading: (loading) => set({ loading }),
+      setError: (error) => set({ error }),
+      setSuccess: (success) => set({ success }),
+
+      // Nueva función para resetear solo los estados temporales
+      resetTemporaryStates: () =>
+        set({
+          loading: false,
+          error: null,
+          success: false,
+        }),
 
       resetPedido: () =>
         set(() => ({
           pedido: {
-            cliente: null,
+            cliente: 0,
             productosSeleccionados: [],
             informacionEnvio: null,
-            provider: null,
-            quoteType: null,
           },
+          notaCliente: "",
+          metodoPago: null,
+          loading: false,
+          error: null,
+          success: false,
         })),
     }),
     {
       name: "pedido-storage", // Se guarda en localStorage
-    }
-  )
-);
+      // No persistir los estados temporales
+      partialize: (state) => ({
+        pedido: state.pedido,
+        notaCliente: state.notaCliente,
+        metodoPago: state.metodoPago,
+        // No incluir loading, error, success en la persistencia
+      }),
+    },
+  ),
+)

@@ -13,7 +13,7 @@ export const FRONTEND_ROUTES = {
     DIRECTIONS: "/direcciones",
     OFERTAS: "/ofertas",
     FAVORITE: "/favoritos",
-    ORDERS: "/pedidos",
+    QUOTES: "/cotizaciones",
     CALLBACK: "http://localhost:3000/pedidos",
     ADMIN: {
       USERS: "/admin/users",

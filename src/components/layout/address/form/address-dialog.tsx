@@ -19,7 +19,7 @@ import { Loader2 } from "lucide-react"
 interface AddressDialogProps {
   address?: Address | null
   children: ReactNode
-  userId?: string | undefined
+  userId?: number | undefined
   onRefreshCard?: () => void
   onAddressAdded?: (address: Address) => void
 }

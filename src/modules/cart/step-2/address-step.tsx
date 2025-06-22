@@ -23,7 +23,7 @@ import { usePedidoStore } from "@/store/pedido.store";
 
 interface AddressStepProps {
   addresses: Address[];
-  userId: string;
+  userId: number;
 }
 
 export function AddressStep({ addresses, userId }: AddressStepProps) {
