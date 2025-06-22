@@ -16,13 +16,13 @@ import { showToastAlert } from "@/components/ui/altertas/toast";
 import type { ProductoSeleccionadoInput } from "@/interfaces/orders/pedido.interface";
 import { QuoteStep } from "./step-3/quote-step";
 import { createCotizacion } from "@/services/quote/quote-services";
-import { usePedidoStore } from "@/store/pedido.store";
 import {
   CotizacionCreateDto,
   EstatusCotizacion,
 } from "@/interfaces/cotizaciones/cotizacion.interface";
 import { FRONTEND_ROUTES } from "@/contants/frontend-routes/routes";
 import { User } from "@/interfaces/auth/user.interface";
+import { useCotizacionStore } from "@/store/cotizacion.store";
 
 interface BasketGridProps {
   user: User;
@@ -38,18 +38,16 @@ export function BasketGrid({ user, addresses }: BasketGridProps) {
   const { total } = getCartSummary();
 
   const {
-    pedido,
+    cotizacion,
     setProductos,
     setCliente,
-    notaCliente,
-    metodoPago,
     loading,
     success,
     setLoading,
     setError,
     setSuccess,
     resetTemporaryStates,
-  } = usePedidoStore();
+  } = useCotizacionStore();
 
   // Resetear estados temporales cuando el componente se monta
   useEffect(() => {
@@ -72,7 +70,7 @@ export function BasketGrid({ user, addresses }: BasketGridProps) {
       return;
     }
 
-    if (!metodoPago) {
+    if (!cotizacion.metodoPago) {
       setError("Por favor selecciona un método de pago");
       setLoading(false);
       return;
@@ -86,15 +84,18 @@ export function BasketGrid({ user, addresses }: BasketGridProps) {
         productos: products,
         estatus: EstatusCotizacion.PENDIENTE,
         cliente: user.documentId,
-        metodoPago: metodoPago,
-        notaCliente: notaCliente || undefined,
+        metodoPago: cotizacion?.metodoPago,
+        notaCliente: cotizacion.notaCliente || undefined,
         totalCotizacion: total,
-        informacionEnvio: pedido.informacionEnvio, // Ahora es compatible
+        informacionEnvio: cotizacion.informacionEnvio, // Ahora es compatible
       };
 
-      const cotizacion = await createCotizacion(cotizacionData,  user.documentId);
+      const cotizacionCreated = await createCotizacion(
+        cotizacionData,
+        user.documentId
+      );
 
-      if (cotizacion) {
+      if (cotizacionCreated) {
         showToastAlert({
           title: "Cotización generada",
           text: "Tu cotización ha sido generada exitosamente.",
@@ -110,7 +111,7 @@ export function BasketGrid({ user, addresses }: BasketGridProps) {
         throw new Error("No se pudo generar la cotización");
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
       setError(
         "Ocurrió un error al crear la cotización. Por favor, intenta nuevamente."
       );
@@ -196,7 +197,16 @@ export function BasketGrid({ user, addresses }: BasketGridProps) {
             )}
 
             {step < 3 ? (
-              <Button className="cursor-pointer" onClick={handleNext}>
+              <Button
+                disabled={
+                  (step === 1 && cart.length === 0) ||
+                  (step == 2 &&
+                    !cotizacion.informacionEnvio?.esLocal &&
+                    !cotizacion.informacionEnvio?.direccion)
+                }
+                className="cursor-pointer"
+                onClick={handleNext}
+              >
                 {step === 1
                   ? "Continuar a dirección"
                   : "Continuar a cotización"}
@@ -235,17 +245,17 @@ export function BasketGrid({ user, addresses }: BasketGridProps) {
                 <div className="flex justify-between">
                   <span>Envío</span>
                   <span>
-                    {pedido.informacionEnvio?.costoEnvio
-                      ? `$${pedido.informacionEnvio.costoEnvio.toFixed(2)}`
+                    {cotizacion.informacionEnvio?.costoEnvio
+                      ? `$${cotizacion.informacionEnvio.costoEnvio.toFixed(2)}`
                       : "A consultar"}
                   </span>
                 </div>
                 <Separator />
-                {metodoPago && (
+                {cotizacion.metodoPago && (
                   <div className="flex justify-between">
                     <span>Método de pago</span>
                     <span className="capitalize">
-                      {metodoPago.toLowerCase()}
+                      {cotizacion.metodoPago.toLowerCase()}
                     </span>
                   </div>
                 )}

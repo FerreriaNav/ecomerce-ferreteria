@@ -19,7 +19,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import clsx from "clsx";
 import { AddressDialog } from "../../../components/layout/address/form/address-dialog";
 import { Button } from "@/components/ui/button";
-import { usePedidoStore } from "@/store/pedido.store";
+import { useCotizacionStore } from "@/store/cotizacion.store";
 
 interface AddressStepProps {
   addresses: Address[];
@@ -31,7 +31,7 @@ export function AddressStep({ addresses, userId }: AddressStepProps) {
   const [addressList, setAddressList] = useState<Address[]>(addresses);
   const [isLocal, setIsLocal] = useState(false);
 
-  const { pedido, setInformacionEnvio } = usePedidoStore();
+  const { cotizacion, setInformacionEnvio } = useCotizacionStore();
 
   useEffect(() => {
     setAddressList(addresses);
@@ -45,19 +45,19 @@ export function AddressStep({ addresses, userId }: AddressStepProps) {
   useEffect(() => {
     if (isLocal == true)
       setInformacionEnvio({
-        ...pedido.informacionEnvio,
+        ...cotizacion.informacionEnvio,
         esLocal: isLocal,
 
         direccion: null,
       });
     else {
       setInformacionEnvio({
-        ...pedido.informacionEnvio,
+        ...cotizacion.informacionEnvio,
         esLocal: isLocal,
         direccion: selectedAddress !== undefined ? +selectedAddress : null,
       });
     }
-    console.log(pedido.informacionEnvio);
+    console.log(cotizacion.informacionEnvio);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLocal, selectedAddress]);
 
@@ -80,7 +80,7 @@ export function AddressStep({ addresses, userId }: AddressStepProps) {
         <ToggleGroup
           type="single"
           className="border"
-          value={pedido.informacionEnvio?.esLocal ? "local" : "envio"}
+          value={cotizacion.informacionEnvio?.esLocal ? "local" : "envio"}
           onValueChange={(value) => {
             setIsLocal(value === "local");
           }}
@@ -89,7 +89,7 @@ export function AddressStep({ addresses, userId }: AddressStepProps) {
           <ToggleGroup
             type="single"
             className="border"
-            value={!pedido.informacionEnvio?.esLocal ? "local" : "envio"}
+            value={!cotizacion.informacionEnvio?.esLocal ? "local" : "envio"}
             onValueChange={(value) => {
               setIsLocal(value === "envio");
             }}

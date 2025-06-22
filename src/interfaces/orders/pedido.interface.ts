@@ -32,6 +32,7 @@ export interface InformacionEnvio {
   direccion: Address;
 }
 
+
 export interface Metadata {
   productos: DetailsProducts[];
   subtotal: number;
@@ -68,13 +69,13 @@ export interface Pago {
 export interface PedidoCreateDto {
   cliente: number | string| null;
   productosSeleccionados: ProductoSeleccionadoInput[];
-  informacionEnvio: InformacionEnvio | null;
+  informacionEnvio: InformacionEnvioCreateDto | null;
 }
 export interface InformacionEnvioCreateDto {
   esLocal: boolean;
   costoEnvio?: number | null;
   nota?: string | null;
-  direccion?: number | null;
+  direccion?: string| number | null;
 }
 
 export interface ProductoSeleccionadoInput {
