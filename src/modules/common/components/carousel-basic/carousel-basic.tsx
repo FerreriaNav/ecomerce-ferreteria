@@ -1,30 +1,34 @@
-"use client"
-import Image from "next/image"
-import Link from "next/link"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { Badge } from "@/components/ui/badge"
-import { TagsIcon, ArrowRight, ImageDown } from "lucide-react"
-import { useState } from "react"
-import { IMG_DEFAULT } from "@/contants/img/img-default"
-
+"use client";
+import Image from "next/image";
+import Link from "next/link";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { Badge } from "@/components/ui/badge";
+import { ArrowRight, ImageDown } from "lucide-react";
+import { useState } from "react";
+import { IMG_DEFAULT } from "@/contants/img/img-default";
 
 export interface CarouselBasicItem {
-  id: string | number
-  slug: string // ruta para el link
-  nombre: string // texto a mostrar
-  imgUrl?: string // url de la imagen
-  count?: number // valor opcional para el badge
+  id: string | number;
+  slug: string; // ruta para el link
+  nombre: string; // texto a mostrar
+  imgUrl?: string; // url de la imagen
+  count?: number; // valor opcional para el badge
 }
 
-
 export interface CarouselBasicProps {
-  items: CarouselBasicItem[]
-  className?: string
-  variant?: "circular" | "square"
-  showCount?: boolean
-  title?: string
-  subtitle?: string
-  basePath?: string // Ruta base para el link (por ejemplo: /catalogos)
+  items: CarouselBasicItem[];
+  className?: string;
+  variant?: "circular" | "square";
+  showCount?: boolean;
+  title?: string;
+  subtitle?: string;
+  basePath?: string; // Ruta base para el link (por ejemplo: /catalogos)
 }
 
 export default function CarouselBasic({
@@ -36,10 +40,12 @@ export default function CarouselBasic({
   subtitle,
   basePath = "/",
 }: CarouselBasicProps) {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const containerClasses =
-    variant === "circular" ? "w-[120px] h-[120px] rounded-full" : "w-[140px] h-[100px] rounded-xl"
+    variant === "circular"
+      ? "w-[120px] h-[120px] rounded-full"
+      : "w-[140px] h-[100px] rounded-xl";
 
   return (
     <div className={`w-full space-y-6 ${className || ""}`}>
@@ -51,7 +57,11 @@ export default function CarouselBasic({
               {title}
             </h3>
           )}
-          {subtitle && <p className="text-muted-foreground text-base md:text-xl max-w-2xl mx-auto">{subtitle}</p>}
+          {subtitle && (
+            <p className="text-muted-foreground text-base md:text-xl max-w-2xl mx-auto">
+              {subtitle}
+            </p>
+          )}
           <div className="flex items-center justify-center space-x-2">
             <div className="h-1 w-8 bg-gradient-to-r from-primary to-secondary rounded-full" />
             <div className="h-1 w-4 bg-secondary rounded-full" />
@@ -70,7 +80,10 @@ export default function CarouselBasic({
       >
         <CarouselContent className="-ml-2 md:-ml-4">
           {items.map((item, index) => (
-            <CarouselItem key={item.id} className="pl-2 md:pl-4 basis-[160px] md:basis-[180px]">
+            <CarouselItem
+              key={item.id}
+              className="pl-2 md:pl-4 basis-[160px] md:basis-[180px]"
+            >
               <Link
                 href={`${basePath}/${item.slug}`}
                 className="group block"
@@ -121,7 +134,9 @@ export default function CarouselBasic({
                     {/* Hover Arrow */}
                     <div
                       className={`flex items-center justify-center transition-all duration-300 ${
-                        hoveredIndex === index ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-2"
+                        hoveredIndex === index
+                          ? "opacity-100 translate-x-0"
+                          : "opacity-0 -translate-x-2"
                       }`}
                     >
                       <ArrowRight size={16} className="text-primary" />
@@ -138,5 +153,5 @@ export default function CarouselBasic({
         <CarouselNext className="absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-sm border-2 hover:bg-primary hover:text-primary-foreground transition-all duration-300" />
       </Carousel>
     </div>
-  )
+  );
 }
