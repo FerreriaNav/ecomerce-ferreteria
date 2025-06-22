@@ -3,12 +3,10 @@ import type {
   InformacionEnvioCreateDto,
   PedidoCreateDto,
   ProductoSeleccionadoInput,
-} from "@/interfaces/orders/pedido.interface"
-import { create } from "zustand"
-import { persist } from "zustand/middleware"
+} from "@/interfaces/orders/pedido.interface";
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
-// Update the PedidoCreateDto interface in the store file
-// (You may want to update the actual interface file as well)
 interface PedidoStore {
   pedido: PedidoCreateDto
   // Campos adicionales para cotización
@@ -81,6 +79,6 @@ export const usePedidoStore = create<PedidoStore>()(
     }),
     {
       name: "pedido-storage", // Se guarda en localStorage
-    },
-  ),
-)
+    }
+  )
+);

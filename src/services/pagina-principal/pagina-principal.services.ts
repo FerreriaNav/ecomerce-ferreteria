@@ -18,6 +18,22 @@ const STRAPI_HOST = process.env.NEXT_PUBLIC_STRAPI_HOST;
 export async function getPaginaPrincipal(): Promise<DataResponse<PaginaPrincipal> | null> {
   const searchParams = new URLSearchParams();
   searchParams.append("populate[carrucel][populate]", "*");
+  searchParams.append(
+    "populate[productosDestacados][populate][producto][populate][cover][fields][0]",
+    "url"
+  );
+  searchParams.append(
+    "populate[productosDestacados][populate][producto][fields][0]",
+    "nombre"
+  );
+  searchParams.append(
+    "populate[productosDestacados][populate][producto][fields][1]",
+    "slug"
+  );
+  searchParams.append(
+    "populate[productosDestacados][populate][producto][fields][2]",
+    "tipo"
+  );
 
   const url = `${BASE_ENDPOINT}?${searchParams.toString()}`;
 
@@ -54,7 +70,9 @@ export async function getPaginaPrincipal(): Promise<DataResponse<PaginaPrincipal
 
             case "carrucel.carrucel-item-producto":
               if (!item.producto.documentId) return null;
-              const product = await getProductByDocumentId(item.producto.documentId);
+              const product = await getProductByDocumentId(
+                item.producto.documentId
+              );
 
               if (!product) return null;
 
@@ -76,6 +94,13 @@ export async function getPaginaPrincipal(): Promise<DataResponse<PaginaPrincipal
       data: {
         ...res.data,
         carrucel,
+        productosDestacados: res.data.productosDestacados.map((p) => ({
+          ...p,
+          producto: {
+            ...p.producto,
+            coverUrl: `${STRAPI_HOST}${p.producto.cover?.url}`,
+          },
+        })),
       },
     };
 
@@ -85,4 +110,3 @@ export async function getPaginaPrincipal(): Promise<DataResponse<PaginaPrincipal
     throw error;
   }
 }
-

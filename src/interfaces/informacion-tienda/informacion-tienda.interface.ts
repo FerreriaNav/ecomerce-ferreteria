@@ -11,7 +11,7 @@ export interface InfoEcommerce {
     numeroGeneral: null;
     correoGeneral: null;
     logo:          Img;
-    direcciones:   DireccionSucursal[];
+    direccion:   DireccionSucursal;
     redesSociales: RedesSociales[];
     nosotros:      Nosotros;
 }

@@ -2,6 +2,8 @@ import { InfoEcommerce } from '@/interfaces/informacion-tienda/informacion-tiend
 import { getInfoEcommerce } from '@/services/informacion-tienda/informacion-tienda-services';
 import { create } from 'zustand';
 
+import respaldo from "@/contants/json/template-datos-ecommerce.json";
+
 interface InfoEcommerceState {
   infoEcommerce: InfoEcommerce | null;
   loading: boolean;
@@ -13,7 +15,7 @@ interface InfoEcommerceState {
   const CACHE_EXPIRATION_MINUTES = 10;
 
 export const useInfoEcommerceStore = create<InfoEcommerceState>((set) => ({
-  infoEcommerce: null,
+  infoEcommerce: respaldo.infoEcommerce as unknown as InfoEcommerce,
   loading: false,
   error: null,
 

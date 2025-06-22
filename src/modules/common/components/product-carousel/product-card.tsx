@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardFooter, CardHeader } from "@/components/ui/card";
+import { Card, CardHeader } from "@/components/ui/card";
 import { ECOMMERCE_PRIVADO } from "@/contants/auth/ecommerce-privado.constant";
 import {
   Products,
@@ -23,6 +23,7 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   const { data: session } = useSession();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const renderPrecio = () => {
     if (!session && ECOMMERCE_PRIVADO) {
       return (
@@ -97,9 +98,9 @@ export function ProductCard({ product }: ProductCardProps) {
           </h3>
         </CardHeader>
 
-        <CardFooter className="px-4 pb-4 pt-0 mt-auto flex justify-between items-center">
+        {/* <CardFooter className="px-4 pb-4 pt-0 mt-auto flex justify-between items-center">
           {renderPrecio()}
-        </CardFooter>
+        </CardFooter> */}
       </Card>
     </Link>
   );

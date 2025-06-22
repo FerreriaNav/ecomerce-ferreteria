@@ -28,7 +28,7 @@ export function getUserCotizaciones(userId: string): Promise<DataResponse<Cotiza
 
 // Crear nueva cotización - Actualizada para usar CotizacionCreateDto
 export function createCotizacion(data: CotizacionCreateDto, userId: number): Promise<Cotizacion | null> {
-  if (!data.productos || data.productos.length === 0 || !data.total || !data.estatus) {
+  if (!data.productos || data.productos.length === 0 || !data.estatus) {
     return Promise.reject(new Error("Productos, total y estatus son requeridos."))
   }
 

@@ -3,7 +3,7 @@ import type { ProductoSeleccionadoInput, InformacionEnvioCreateDto } from "@/int
 // Tipo específico para crear cotizaciones
 export interface CotizacionCreateDto {
   productos: ProductoSeleccionadoInput[]
-  total: number
+  total?: number
   estatus: "PENDIENTE" | "APROBADA" | "RECHAZADA" | "CANCELADA"
   notaCliente?: string
   notaVendedor?: string

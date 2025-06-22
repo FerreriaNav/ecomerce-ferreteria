@@ -10,14 +10,14 @@ import { CheckoutStepper } from "./checkout-stepper"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { useCartStore } from "@/store/products-cart.store"
-import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react"
+import { ChevronLeft, ChevronRight, Loader2, Eye } from "lucide-react"
 import Link from "next/link"
 import { showToastAlert } from "@/components/ui/altertas/toast"
 import type { ProductoSeleccionadoInput } from "@/interfaces/orders/pedido.interface"
 import { QuoteStep } from "./step-3/quote-step"
 import { createCotizacion } from "@/services/quote/quote-services"
 import { usePedidoStore } from "@/store/pedido.store"
-import { CotizacionCreateDto } from "@/interfaces/quotes/quotes.interface"
+import type { CotizacionCreateDto } from "@/interfaces/quotes/quotes.interface"
 
 interface BasketGridProps {
   clientId: number
@@ -29,10 +29,11 @@ export function BasketGrid({ clientId, addresses }: BasketGridProps) {
   const initialStep = Number.parseInt(searchParams.get("step") || "1", 10)
   const [step, setStep] = useState(initialStep)
 
-  const { getCartSummary, cart } = useCartStore()
-  const { subtotal, total } = getCartSummary()
+  const { cart } = useCartStore()
 
-  const { pedido, setProductos, setCliente, notaCliente, loading, setLoading, setError, setSuccess } =
+  // const { subtotal, total } = getCartSummary()
+
+  const { pedido, setProductos, setCliente, notaCliente, loading, success, setLoading, setError, setSuccess } =
     usePedidoStore()
 
   const handleGenerarCotizacion = async () => {
@@ -56,7 +57,6 @@ export function BasketGrid({ clientId, addresses }: BasketGridProps) {
     try {
       const cotizacionData: CotizacionCreateDto = {
         productos: products,
-        total: total,
         estatus: "PENDIENTE",
         notaCliente: notaCliente || undefined,
         informacionEnvio: pedido.informacionEnvio, // Incluir información de envío
@@ -80,11 +80,9 @@ export function BasketGrid({ clientId, addresses }: BasketGridProps) {
         throw new Error("No se pudo generar la cotización")
       }
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Error al generar la cotización"
-      setError(errorMessage)
       showToastAlert({
         title: "Error al generar cotización",
-        text: errorMessage,
+        text: "Ocurrió un error al crear la cotización. Por favor, intenta nuevamente.",
         icon: "error",
         position: "top-end",
         toast: true,
@@ -113,9 +111,7 @@ export function BasketGrid({ clientId, addresses }: BasketGridProps) {
       case 1:
         return <CartStep />
       case 2:
-        return (
-          <AddressStep userId={clientId} addresses={addresses} />
-        )
+        return <AddressStep userId={clientId} addresses={addresses} />
       case 3:
         return <QuoteStep onGenerateQuote={handleGenerarCotizacion} />
       default:
@@ -154,7 +150,16 @@ export function BasketGrid({ clientId, addresses }: BasketGridProps) {
                 {step === 1 ? "Continuar a dirección" : "Continuar a cotización"}
                 <ChevronRight className="ml-2 h-4 w-4" />
               </Button>
+            ) : success ? (
+              // Mostrar botón "Mirar cotización" cuando la cotización se haya generado exitosamente
+              <Button className="cursor-pointer" asChild>
+                <Link href="/mis-cotizaciones">
+                  <Eye className="mr-2 h-4 w-4" />
+                  Mirar cotización
+                </Link>
+              </Button>
             ) : (
+              // Mostrar botón "Generar cotización" cuando no se haya generado aún
               <Button className="cursor-pointer" onClick={handleGenerarCotizacion} disabled={loading}>
                 {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Generar cotización
@@ -171,7 +176,7 @@ export function BasketGrid({ clientId, addresses }: BasketGridProps) {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <div className="flex justify-between">
+                {/* <div className="flex justify-between">
                   <span>Subtotal</span>
                   <span>${subtotal.toFixed(2)}</span>
                 </div>
@@ -180,7 +185,7 @@ export function BasketGrid({ clientId, addresses }: BasketGridProps) {
                     <span>Descuento</span>
                     <span>- ${(subtotal - total).toFixed(2)}</span>
                   </div>
-                )}
+                )} */}
                 <div className="flex justify-between">
                   <span>Envío</span>
                   <span>
@@ -190,10 +195,10 @@ export function BasketGrid({ clientId, addresses }: BasketGridProps) {
                   </span>
                 </div>
                 <Separator />
-                <div className="flex justify-between font-bold">
+                {/* <div className="flex justify-between font-bold">
                   <span>Total estimado</span>
                   <span>${total.toFixed(2)}</span>
-                </div>
+                </div> */}
                 <p className="text-xs text-muted-foreground mt-2">
                   Esta cotización es válida por 15 días. Los precios pueden variar según disponibilidad.
                 </p>

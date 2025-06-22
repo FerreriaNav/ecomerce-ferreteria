@@ -1,4 +1,6 @@
 import { Address } from "../directions/directions.interface";
+import { PaymentProvider } from "../payments-providers/payment-prodivers";
+import { Products } from "../products/products.interface";
 
 export enum PedidosStatus {
   PENDIENTE = "PENDIENTE",
@@ -78,5 +80,10 @@ export interface InformacionEnvioCreateDto {
 
 export interface ProductoSeleccionadoInput {
   producto: number;
+  cantidad: number;
+}
+
+export interface ProductoSeleccionado {
+  producto: Products;
   cantidad: number;
 }

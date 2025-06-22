@@ -18,19 +18,33 @@ import { getProductsByFilters } from "@/services/products/products-services";
 import { TagIcon } from "lucide-react";
 import Image from "next/image";
 import { Suspense } from "react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { FRONTEND_ROUTES } from "@/contants/frontend-routes/routes";
+import { CATEGORIAS_ENUM } from "@/interfaces/categories/categories.interface";
+import CarouselBasic from "../modules/common/components/carousel-basic/carousel-basic";
+import { Card } from "@/components/ui/card";
+
+// respaldo json 
 import respaldo from "@/contants/json/template-datos-ecommerce.json";
+import { Products } from "@/interfaces/products/products.interface";
+import { DireccionSucursal } from "@/interfaces/informacion-tienda/informacion-tienda.interface";
 
 export default async function Home() {
   try {
-    const paginaPrincipalResult = (await getPaginaPrincipal())?.data;
+    const paginaPrincipalResult = (await getPaginaPrincipal())?.data ?? respaldo.paginaPrincipal  ;
+
     // fetch product
-    const resultProducts = await getProductsByFilters({
-      descuentos: true,
+    // const resultProducts = await getProductsByFilters({
+    //   descuentos: true,
+    // });
+
+    const resultProductsTornilleria = await getProductsByFilters({
+      categorias: [CATEGORIAS_ENUM.TORNILLERIA],
     });
     const categorias = (await getCategorias())?.data ?? [];
     const marcas = (await getMarcas())?.data ?? [];
-    const infoEcommerce = (await getInfoEcommerce())?.data;
-    
+    const infoEcommerce = (await getInfoEcommerce())?.data ?? respaldo.infoEcommerce;
 
     return (
       <main className="container mx-auto ">
@@ -39,7 +53,7 @@ export default async function Home() {
 
           <StrapiCarousel
             items={
-              paginaPrincipalResult?.carrucel ?? respaldo.paginaPrincipal.carrucel as CarrucelItem[]
+              paginaPrincipalResult?.carrucel as CarrucelItem[]
             }
             autoplay={true}
             intervalo={5000}
@@ -47,8 +61,9 @@ export default async function Home() {
             // showIndicators={false}
           />
           <div className="mt-5">
+            {/* titulo Bienvenida */}
             <TitleGradient
-              title={infoEcommerce?.nombre ?? "Nombre de la Tienda"}
+              title={infoEcommerce?.nombre }
               badgeText="BIENVENIDO"
               tagIcon={
                 <Image
@@ -61,26 +76,66 @@ export default async function Home() {
             />
           </div>
           {/* Carrusel category */}
-          <CategoryCarousel categorias={categorias} />
+
+          <CategoryCarousel
+            className="mb-7"
+            categorias={categorias}
+            title="Catalogo"
+            subtitle="los mejores productos al mejor precio"
+            showCount
+            button={
+              <Link href={FRONTEND_ROUTES.CATALOGOS}>
+                <Button>Ver mas</Button>
+              </Link>
+            }
+          />
 
           {/* Carrusel de productos (ya existente) */}
-          {resultProducts && resultProducts.data.length > 0 && (
-            <ProductCarousel
-              products={resultProducts.data}
-              title="Ofertas de la Semana"
-            />
-          )}
+          {paginaPrincipalResult?.productosDestacados &&
+            paginaPrincipalResult.productosDestacados.length > 0 && (
+              // <Card className="bg-primary ">
+              <ProductCarousel
+                products={paginaPrincipalResult.productosDestacados.map(
+                  (p) => p.producto  as Products
+                )}
+                title="Productos Destacados"
+                subtittle="Manejamos todo tipo de productos, manejando los mejores precios en todas las marcas, con precio de mayoreo y menudeo, solicita tu cotización con nuestro asesor de ventas o también ven y visítanos a nuestra sucursal."
+              />
+              // </Card>
+            )}
         </div>
+
+        {/* marcas  */}
         <TitleGradient
           title="Nuestros Distribuidores"
           badgeText="oficiales"
           tagIcon={<TagIcon size={40} />}
         />
-        <MarcasCarousel marcas={marcas} />
+        <MarcasCarousel marcas={marcas} className="mb-5" />
+        <Card className="bg-secondary">
+          <CarouselBasic
+            basePath={FRONTEND_ROUTES.PRODUCTOS}
+            className="my-5"
+            title="Proveedor industrial de tornillería"
+            subtitle="Contamos con todo tipo de tornillería en general, desde uno sencillo hasta los más especializados, no dudes en preguntarnos, manejamos mayoreo y menudeo, tenemos personal capacitado especialista en tornillería para tu atención y darte el mejor servicio."
+            variant="circular"
+            items={
+              resultProductsTornilleria?.data.map((p) => ({
+                id: p.id,
+                nombre: p.nombre,
+                imgUrl: p.coverUrl,
+                slug: p.slug,
+              })) ?? []
+            }
+          />
+        </Card>
+
         <div>
           <Suspense fallback={<Skeleton className="h-[500px] w-full" />}>
             <AboutUsLocations
-              locations={infoEcommerce?.direcciones ?? []}
+              locations={
+                infoEcommerce?.direccion ? [infoEcommerce?.direccion as DireccionSucursal] : []
+              }
               generalPhone={infoEcommerce?.numeroGeneral}
               generalEmail={infoEcommerce?.correoGeneral}
             />

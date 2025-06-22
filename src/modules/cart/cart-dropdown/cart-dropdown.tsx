@@ -32,6 +32,7 @@ const CartContent = () => {
     useCartStore();
   const { data: session } = useSession();
   // Calcular el total del carrito
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const cartTotal = cart.reduce((total, item) => {
     const { finalPrice } = getPrecioConDescuento(
       item.inventario,
@@ -44,6 +45,7 @@ const CartContent = () => {
   }, 0);
 
   // modificalo para que multiplique por la cantidad
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const renderPrecio = (producto: CartItem) => {
     if (!session && ECOMMERCE_PRIVADO) {
       return (
@@ -124,7 +126,7 @@ const CartContent = () => {
                 <div className="flex-1 space-y-1">
                   <p className="text-sm font-medium">{item.nombre}</p>
                   <div className="flex items-center justify-between text-sm text-muted-foreground">
-                    {renderPrecio(item)}
+                    {/* {renderPrecio(item)} */}
                   </div>
                   <div className="flex items-center gap-2">
                     <Button
@@ -165,12 +167,13 @@ const CartContent = () => {
         <>
           <Separator />
           <div className="flex items-center justify-between font-medium">
-            <span>Total:</span>
+            {/* <span>Total:</span>
             {!session && ECOMMERCE_PRIVADO ? (
               `inicia sesion `
             ) : (
               <span>${cartTotal.toFixed(2)}</span>
-            )}
+            )} */}
+            <span>Generar Cotizacion</span>
           </div>
         </>
       )}

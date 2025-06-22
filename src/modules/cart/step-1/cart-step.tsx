@@ -7,7 +7,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useCartStore } from "@/store/products-cart.store"
 import { Minus, Plus, Trash2 } from "lucide-react"
-import { getPrecioConDescuento } from "@/lib/price-descuento"
 
 export default function CartStep() {
   const { cart, loadCart, increaseQuantity, decreaseQuantity, removeFromCart } = useCartStore()
@@ -44,7 +43,7 @@ export default function CartStep() {
               </Link>
               <Link href={`/producto/${item.slug}`} className="flex-1 space-y-1 cursor-pointer">
                 <h3 className="font-medium">{item.nombre}</h3>
-                {(() => {
+                {/* {(() => {
                   const { finalPrice } = getPrecioConDescuento(item.inventario, item.descuento)
                   const priceTotal = (finalPrice || 0) * item.quantity
 
@@ -56,7 +55,8 @@ export default function CartStep() {
                       <p className="text-sm font-medium">Total: ${priceTotal.toFixed(2)}</p>
                     </>
                   )
-                })()}
+                })()} */}
+                 <p className="text-sm font-medium">Cantidad: {item.quantity}</p>
               </Link>
               <div className="flex items-center space-x-2">
                 <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => decreaseQuantity(item.id)}>

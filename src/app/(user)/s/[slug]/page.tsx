@@ -4,8 +4,6 @@ import {
   searchProductsWithParams,
 } from "@/services/products/products-services";
 import { ProductGrid } from "@/modules/main/components/productCart/ProductGrid";
-import { getCategorias } from "@/services/categories/categories-services";
-import { getMarcas } from "@/services/marcas/marcas-services";
 import { ErrorState } from "@/modules/common/components/error/ErrorState";
 import { AlertTriangle } from "lucide-react";
 import { ResponsiveStoreFilters } from "@/modules/shop/ResponsiveStoreFilters";
@@ -26,8 +24,6 @@ export default async function SearchSlugPage({
     console.log("filtered", filtros);
 
     const productData = await searchProductsWithParams(filtros);
-    const categorias = (await getCategorias())?.data ?? [];
-    const marcas = (await getMarcas())?.data ?? [];
 
 
     return (
@@ -35,8 +31,6 @@ export default async function SearchSlugPage({
         {/* Mobile: Filters on top */}
         <div className="md:hidden mb-4">
           <ResponsiveStoreFilters
-            categorias={categorias}
-            marcas={marcas}
             categoriaBase={slug}
             selectedFilters={filtros}
           />
@@ -47,8 +41,6 @@ export default async function SearchSlugPage({
           {/* Desktop: Filters on the side */}
           <div className="hidden md:block">
             <ResponsiveStoreFilters
-              categorias={categorias}
-              marcas={marcas}
               categoriaBase={slug}
               selectedFilters={filtros}
             />

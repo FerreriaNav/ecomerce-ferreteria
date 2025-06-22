@@ -8,7 +8,7 @@ const STRAPI_HOST = process.env.NEXT_PUBLIC_STRAPI_HOST;
 const BASE_ENDPOINT: string = BACKEND_ROUTES.PRODUCTS;
 
 //? ====================** FUNCION PARA MAPEAR PRODUCTOS CON IMÁGENES **====================
-function mapProductsWithImages(products: Products[]): Products[] {
+export function mapProductsWithImages(products: Products[]): Products[] {
   return products.map((product) => {
     const coverUrl = product.cover
       ? `${STRAPI_HOST}${product.cover.url}`
