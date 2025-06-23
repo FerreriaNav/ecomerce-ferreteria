@@ -1,6 +1,6 @@
 // src/store/pedido.store.ts
-import { InformacionEnvio, MetodoPago } from "@/interfaces/cotizaciones/cotizacion.interface"
-import { PedidoCreateDto, ProductoSeleccionadoInput } from "@/interfaces/orders/pedido.interface"
+import {  MetodoPago } from "@/interfaces/cotizaciones/cotizacion.interface"
+import { InformacionEnvioCreateDto, PedidoCreateDto, ProductoSeleccionadoInput } from "@/interfaces/orders/pedido.interface"
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
@@ -14,7 +14,7 @@ interface PedidoStore {
 
   setCliente: (cliente: string| number) => void
   setProductos: (productos: ProductoSeleccionadoInput[]) => void
-  setInformacionEnvio: (info: InformacionEnvio) => void
+  setInformacionEnvio: (info: InformacionEnvioCreateDto) => void
 
   // Funciones adicionales para cotización
   setNotaCliente: (nota: string) => void
