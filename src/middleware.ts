@@ -3,7 +3,7 @@ import { auth as middleware } from "@/auth";
 
 
 export default middleware(async (_req) => {
-//   const { nextUrl, auth } = req;
+//   const {  nextUrl, auth } = req;
 //   const isLoggedIn = auth?.user;
 //   const LOGIN = "/auth/login";
 //   const LOBBY_ROUTE = "/shop";

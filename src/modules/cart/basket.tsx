@@ -29,7 +29,7 @@ interface BasketGridProps {
   addresses: Address[];
 }
 
-export function BasketGrid({ user, addresses }: BasketGridProps) {
+export function BasketGrid({ user }: BasketGridProps) {
   const searchParams = useSearchParams();
   const initialStep = Number.parseInt(searchParams.get("step") || "1", 10);
   const [step, setStep] = useState(initialStep);
@@ -158,7 +158,7 @@ export function BasketGrid({ user, addresses }: BasketGridProps) {
       case 1:
         return <CartStep />;
       case 2:
-        return <AddressStep userId={user?.id} addresses={addresses} />;
+        return <AddressStep user={user} />;
       case 3:
         return <QuoteStep />;
       default:
