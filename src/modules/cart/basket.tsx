@@ -25,7 +25,7 @@ import { User } from "@/interfaces/auth/user.interface";
 import { useCotizacionStore } from "@/store/cotizacion.store";
 
 interface BasketGridProps {
-  user: User;
+  user: User | undefined;
   addresses: Address[];
 }
 
@@ -64,7 +64,7 @@ export function BasketGrid({ user, addresses }: BasketGridProps) {
       cantidad: item.quantity,
     }));
 
-    if (!user.id) {
+    if (!user?.id) {
       setError("No se pudo obtener la información del cliente");
       setLoading(false);
       return;
@@ -158,7 +158,7 @@ export function BasketGrid({ user, addresses }: BasketGridProps) {
       case 1:
         return <CartStep />;
       case 2:
-        return <AddressStep userId={user.id} addresses={addresses} />;
+        return <AddressStep userId={user?.id} addresses={addresses} />;
       case 3:
         return <QuoteStep />;
       default:
