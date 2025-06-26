@@ -9,7 +9,6 @@ export const FRONTEND_ROUTES = {
     PROVEDORES: "/provedores",
     DASHBOARD: "/dashboard",
     PROFILE: "/perfil",
-    SETTINGS: "/configuracion",
     DIRECTIONS: "/direcciones",
     OFERTAS: "/ofertas",
     FAVORITE: "/favoritos",
