@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -10,17 +11,32 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Heart, Phone, Mail, ShoppingBag } from "lucide-react";
-import { User } from "@/interfaces/auth/user.interface";
-import { getTimeSinceCreation } from "@/lib/timeCreationProfile";
+import { ShoppingBag, Heart, Mail, Phone } from "lucide-react";
+import { useFavoritesStore } from "@/store/product-favorite.store";
 import { getInitialsName } from "@/lib/getInitialsName";
+import { getTimeSinceCreation } from "@/lib/timeCreationProfile";
+import { User } from "@/interfaces/auth/user.interface";
+import { Cotizacion } from "@/interfaces/cotizaciones/cotizacion.interface";
+import { FRONTEND_ROUTES } from "@/contants/frontend-routes/routes";
+import { useRouter } from "next/navigation";
 
 interface ProfileSidebarProps {
   user: User | null;
   avatarUser: string | undefined | null;
+  quotes: Cotizacion[] | null;
 }
 
-export function ProfileSidebar({ user, avatarUser }: ProfileSidebarProps) {
+export function ProfileSidebar({
+  user,
+  avatarUser,
+  quotes,
+}: ProfileSidebarProps) {
+  const { favorites, loadFavorites } = useFavoritesStore();
+
+  useEffect(() => {
+    loadFavorites();
+  }, [loadFavorites]);
+
   return (
     <Card className="md:col-span-2 lg:col-span-1">
       <CardHeader className="flex flex-col items-center text-center">
@@ -43,12 +59,11 @@ export function ProfileSidebar({ user, avatarUser }: ProfileSidebarProps) {
             {getTimeSinceCreation(user?.createdAt?.toString() ?? "")}
           </Badge>
         </CardDescription>
-        {/* <Badge className="mt-2 capitalize bg-blue-500 hover:bg-blue-600">cliente frecuente</Badge> */}
       </CardHeader>
       <CardContent className="space-y-4">
         <ContactInfo user={user} />
         <Separator />
-        <ActivitySummary />
+        <ActivitySummary favorites={favorites} quotes={quotes} />
       </CardContent>
     </Card>
   );
@@ -78,20 +93,29 @@ function ContactInfo({ user }: { user: User | null }) {
   );
 }
 
-function ActivitySummary() {
+function ActivitySummary({ favorites, quotes }: { favorites: any[]; quotes: any[] | null; }) {
+
+  const router = useRouter();
+
   const activities = [
     {
       icon: <ShoppingBag className="h-4 w-4 mb-1" />,
-      count: "24",
-      label: "Compras",
+      count: quotes?.length.toString(),
+      label: "Cotizaciones",
+      route: FRONTEND_ROUTES.QUOTES,
     },
     {
-      icon: <Heart className="h-4 w-4 mb-1 text-red-500" />,
-      count: "12",
+      icon: <Heart className="h-4 w-4 mb-1" />,
+      count: favorites.length.toString(),
       label: "Favoritos",
+      route: FRONTEND_ROUTES.FAVORITE,
     },
   ];
 
+  const handleNavigation = (route: string) => {
+    router.push(route)
+  }
+  
   return (
     <div className="space-y-2">
       <h4 className="text-sm font-medium">Resumen</h4>
@@ -99,11 +123,12 @@ function ActivitySummary() {
         {activities.map((activity, index) => (
           <div
             key={index}
-            className="flex flex-col items-center p-2 bg-muted rounded-md"
+            onClick={() => handleNavigation(activity.route)}
+            className="flex flex-col items-center p-2 bg-muted rounded-md cursor-pointer hover:bg-muted hover:text-primary transition-colors duration-200"
           >
             {activity.icon}
             <span className="font-bold">{activity.count}</span>
-            <span className="text-xs text-muted-foreground">
+            <span className="text-xs">
               {activity.label}
             </span>
           </div>

@@ -13,17 +13,19 @@ import { InformacionPersonal } from "./personal-information";
 import { ProductosFavoritos } from "./favorites-products";
 import { ProfileSettings } from "./profile-settings";
 import { User } from "@/interfaces/auth/user.interface";
+import { Cotizacion } from "@/interfaces/cotizaciones/cotizacion.interface";
 
 interface ProfileProps {
   user: User | null;
   userAvatar: string | undefined | null;
+  quotes: Cotizacion[] | null;
 }
 
-export function ProfileLayout({ user, userAvatar }: ProfileProps) {
+export function ProfileLayout({ user, userAvatar, quotes }: ProfileProps) {
   return (
     <div className="container mx-auto py-6 px-4 md:px-6 lg:px-8 max-w-7xl">
       <div className="grid gap-6 md:grid-cols-5">
-        <ProfileSidebar user={user} avatarUser={userAvatar} />
+        <ProfileSidebar user={user} avatarUser={userAvatar} quotes={quotes} />
 
         <div className="md:col-span-3 lg:col-span-4 space-y-6">
           <Card>
