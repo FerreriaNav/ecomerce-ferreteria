@@ -1,18 +1,21 @@
-// 👇 Esto fuerza a que Next.js no prerenderice y lo trate como una página 100% dinámica
 export const dynamic = "force-dynamic";
-
 import { auth } from "@/auth";
+
 import AddressGrid from "@/components/layout/address/address-grid";
 import { getUserDirections } from "@/services/directions/directions-services";
-import { ModalAuth } from "@/modules/common/components/auth/modalAuth";
+import { WelcomeSection } from "@/modules/common/components/unidentified/unidentified-section";
 
 export default async function Home() {
   const session = await auth();
-  if (!session?.user?.user.documentId) {
+  
+  if ( !session?.user?.user.id ) {
     return (
-      <div>
-        <ModalAuth></ModalAuth>
-      </div>
+      <WelcomeSection 
+        title="Accede a tus direcciones"
+        description="Inicia sesión para ver y gestionar las direcciones de tu cuenta"
+        showAuthModal={true}
+        showBrowseButton={true} 
+      />
     );
   }
   const address = await getUserDirections(session?.user?.user.documentId);

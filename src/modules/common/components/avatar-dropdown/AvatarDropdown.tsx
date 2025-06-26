@@ -41,11 +41,6 @@ const menuItems = [
     label: "Mis Cotizaciones",
     icon: FileText,
   },
-  {
-    href: `${FRONTEND_ROUTES.SETTINGS}`,
-    label: "Configuración",
-    icon: Settings,
-  },
 ];
 
 export const AvatarDropdown = ({ avatarUrl }: AvatarDropdownProps) => {
@@ -74,7 +69,7 @@ export const AvatarDropdown = ({ avatarUrl }: AvatarDropdownProps) => {
         <DropdownMenuSeparator />
 
         {menuItems.map(({ href, label, icon: Icon }) => (
-          <DropdownMenuItem asChild key={href}>
+          <DropdownMenuItem className="cursor-pointer" asChild key={href}>
             <Link
               href={href}
               className="flex w-full items-center gap-2 hover:bg-muted hover:text-primary transition-colors rounded-md px-2 py-1"

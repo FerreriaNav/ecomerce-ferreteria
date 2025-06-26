@@ -23,7 +23,7 @@ import { useCotizacionStore } from "@/store/cotizacion.store";
 
 interface AddressStepProps {
   addresses: Address[];
-  userId: number;
+  userId: number | undefined;
 }
 
 export function AddressStep({ addresses, userId }: AddressStepProps) {

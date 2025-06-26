@@ -12,7 +12,7 @@ export const ModalAuth = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Log In</Button>
+        <Button>Iniciar Sesión</Button>
       </DialogTrigger>
 
       <DialogContent className="p-0 bg-transparent border-none max-w-fit shadow-none w-[350px]">
