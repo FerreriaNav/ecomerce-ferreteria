@@ -4,8 +4,8 @@ export const dynamic = "force-dynamic";
 import { auth } from "@/auth";
 import { ErrorState } from "@/modules/common/components/error/ErrorState";
 import { WelcomeSection } from "@/modules/common/components/unidentified/unidentified-section";
-import { OrdersClient } from "@/modules/orders/orders-client";
-import { getUserOrders } from "@/services/orders/orders-services";
+import { QuotesClient } from "@/modules/quotes/quote-client";
+import { getUserCotizaciones } from "@/services/quote/quote-services";
 import { AlertTriangle } from "lucide-react";
 
 export default async function PedidosPage() {
@@ -23,9 +23,9 @@ export default async function PedidosPage() {
       );
     }
     
-    const orders = (await getUserOrders(session?.user?.user.id))?.data ?? [];
+    const orders = (await getUserCotizaciones(session?.user?.user.documentId))?.data ?? [];
 
-    return <OrdersClient initialPedidos={orders} />;
+    return <QuotesClient initialQuotes={orders} />;
   } catch (error) {
     console.error("Error en la página de marca:", error);
     return (

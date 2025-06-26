@@ -3,7 +3,7 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ArrowDownAZ, ArrowUpAZ, CalendarDays } from "lucide-react"
 
-export function OrderFilters() {
+export function QuotesFilters() {
   return (
     <div className="flex gap-2">
       <Select defaultValue="reciente">
