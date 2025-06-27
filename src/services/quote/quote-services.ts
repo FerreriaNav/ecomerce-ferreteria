@@ -9,6 +9,7 @@ import { query } from "@/lib/api/server/strapi";
 import { useCartStore } from "@/store/products-cart.store";
 
 const BASE_ENDPOINT: string = BACKEND_ROUTES.QUOTES;
+const STRAPI_HOST = process.env.NEXT_PUBLIC_STRAPI_HOST;
 
 // Obtener cotizaciones de un usuario específico
 export function getUserCotizaciones(
@@ -44,6 +45,25 @@ export function getUserCotizaciones(
       if (!res) {
         return null;
       }
+
+      res.data = res.data.map((order) => ({
+      ...order,
+      productos:
+        order.productos?.map((producto) => {
+          const coverUrl = producto.producto.cover?.url?.startsWith("http")
+            ? producto.producto.cover.url
+            : `${STRAPI_HOST}${producto.producto.cover?.url}`;
+
+          return {
+            ...producto,
+            producto: {
+              ...producto.producto,
+              coverUrl,
+            },
+          };
+        }) ?? [],
+    }));
+      
       return res;
     })
     .catch((error) => {

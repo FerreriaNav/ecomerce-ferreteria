@@ -108,7 +108,12 @@ export function QuotesItem({ cotizacion }: CotizacionItemProps) {
             <DollarSign className="h-4 w-4 text-slate-400 mt-0.5" />
             <div>
               <p className="text-xs text-slate-500 dark:text-slate-400">Total</p>
-              <p className="text-sm font-semibold">{formatCurrency(cotizacion.totalCotizacion)}</p>
+              <p className="text-sm font-semibold">
+                {cotizacion.totalCotizacion != null
+                  ? formatCurrency(cotizacion.totalCotizacion)
+                  : "No disponible" 
+                }
+                </p>
             </div>
           </div>
         </div>
@@ -138,7 +143,7 @@ export function QuotesItem({ cotizacion }: CotizacionItemProps) {
                       </div>
                       <div className="flex-grow">
                         <div className="flex items-center gap-1">
-                          <p className="font-medium">{producto.producto.nombre}</p>
+                          <p className="font-medium capitalize">{producto.producto.nombre}</p>
                           <HoverCard>
                             <HoverCardTrigger asChild>
                               <Button variant="ghost" size="icon" className="h-6 w-6">
@@ -149,7 +154,8 @@ export function QuotesItem({ cotizacion }: CotizacionItemProps) {
                             <HoverCardContent className="w-80">
                               <div className="flex justify-between space-x-4">
                                 <div className="space-y-1">
-                                  <h4 className="text-sm font-semibold">{producto.producto.nombre}</h4>
+                                  <h4 className="text-sm font-semibold capitalize">{producto.producto.nombre}</h4>
+                                  <p className="text-sm">Categoria: {producto.producto.categorias[0].nombre}</p>
                                   {/* <p className="text-sm">Precio unitario: {formatCurrency(producto.producto)}</p> */}
                                 </div>
                               </div>
@@ -174,7 +180,7 @@ export function QuotesItem({ cotizacion }: CotizacionItemProps) {
                       <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
                         <div className="flex items-center gap-2 mb-1">
                           <FileText className="h-4 w-4 text-blue-600" />
-                          <span className="text-sm font-medium text-blue-800 dark:text-blue-300">Nota del cliente</span>
+                          <span className="text-sm font-medium text-blue-800 dark:text-blue-300">Tu nota</span>
                         </div>
                         <p className="text-sm text-blue-700 dark:text-blue-200">{cotizacion.notaCliente}</p>
                       </div>
@@ -199,7 +205,12 @@ export function QuotesItem({ cotizacion }: CotizacionItemProps) {
                   <div className="bg-slate-100 dark:bg-slate-800 p-3 rounded-lg w-full sm:w-auto sm:min-w-[200px]">
                     <div className="flex justify-between font-bold mt-2 pt-2 border-t border-slate-200 dark:border-slate-700">
                       <span>Total:</span>
-                      <span>{formatCurrency(cotizacion.totalCotizacion)}</span>
+                      <span>
+                        {cotizacion.totalCotizacion != null
+                          ? formatCurrency(cotizacion.totalCotizacion)
+                          : "No disponible"
+                        }
+                      </span>
                     </div>
                   </div>
                 </div>
