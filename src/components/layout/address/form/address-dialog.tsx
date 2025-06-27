@@ -33,7 +33,7 @@ interface AddressDialogProps {
   address?: Address | null;
   children: ReactNode;
   userId?: number | undefined;
-  onRefreshCard?: () => void;
+  onRefreshCard?: () => Promise<void>;
   onAddressAdded?: (address: Address) => void;
 }
 
@@ -132,14 +132,10 @@ export function AddressDialog({
           onAddressAdded(createdAddress);
         }
 
-        if (onRefreshCard) {
-          onRefreshCard();
-        }
-
         setOpen(false);
-        router.refresh() // 🔄 Forzar recarga de la página
-
-        
+        if (onRefreshCard) {
+          await onRefreshCard();
+        }
       } else {
         //? EDITAR UNA DIRECCIÓN
         const { id, updatedAt, createdAt, publishedAt, ...payload } =

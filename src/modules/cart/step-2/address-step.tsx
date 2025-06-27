@@ -20,51 +20,69 @@ import clsx from "clsx";
 import { AddressDialog } from "../../../components/layout/address/form/address-dialog";
 import { Button } from "@/components/ui/button";
 import { useCotizacionStore } from "@/store/cotizacion.store";
+import { getUserDirections } from "@/services/directions/directions-services";
+import { User } from "@/interfaces/auth/user.interface";
 
 interface AddressStepProps {
-  addresses: Address[];
-  userId: number | undefined;
+  user?: User
 }
 
-export function AddressStep({ addresses, userId }: AddressStepProps) {
+export function AddressStep({ user }: AddressStepProps) {
   const [selectedAddress, setSelectedAddress] = useState<string>();
-  const [addressList, setAddressList] = useState<Address[]>(addresses);
+  const [addressList, setAddressList] = useState<Address[]>([]);
   const [isLocal, setIsLocal] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  console.log(user, "userId en AddressStep");
+  
   const { cotizacion, setInformacionEnvio } = useCotizacionStore();
 
-  useEffect(() => {
-    setAddressList(addresses);
-    const primary = addresses.find((addr) => addr.principal);
-    if (primary && primary.id !== undefined)
-      setSelectedAddress(primary.id.toString());
-    else if (addresses.length > 0 && addresses[0]?.id !== undefined)
-      setSelectedAddress(addresses[0]?.id?.toString());
-  }, [addresses]);
+  const fetchAddresses = async () => {
+    if (!user) return;
+    try {
+      
+      const result = await getUserDirections(user.documentId);
+      const updated = result?.data ?? [];
+
+      setAddressList(updated);
+
+      const principal = updated.find((addr) => addr.principal);
+      if (principal?.id) {
+        setSelectedAddress(principal.id.toString());
+      } else if (updated.length > 0) {
+        setSelectedAddress(updated[0].id?.toString());
+      }
+    } catch (error) {
+      console.error("Error al obtener direcciones:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    if (isLocal == true)
+    fetchAddresses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  useEffect(() => {
+    if (isLocal) {
       setInformacionEnvio({
         ...cotizacion.informacionEnvio,
-        esLocal: isLocal,
-
+        esLocal: true,
         direccion: null,
       });
-    else {
+    } else {
       setInformacionEnvio({
         ...cotizacion.informacionEnvio,
-        esLocal: isLocal,
-        direccion: selectedAddress !== undefined ? +selectedAddress : null,
+        esLocal: false,
+        direccion: selectedAddress ? +selectedAddress : null,
       });
     }
-    console.log(cotizacion.informacionEnvio);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLocal, selectedAddress]);
 
   const selectedAddressData = selectedAddress
-    ? addressList.find(
-        (a) => a.id !== undefined && a.id.toString() === selectedAddress
-      )
+    ? addressList.find((a) => a.id?.toString() === selectedAddress)
     : undefined;
 
   return (
@@ -76,24 +94,12 @@ export function AddressStep({ addresses, userId }: AddressStepProps) {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* envio a domicilio */}
         <ToggleGroup
           type="single"
           className="border"
-          value={cotizacion.informacionEnvio?.esLocal ? "local" : "envio"}
-          onValueChange={(value) => {
-            setIsLocal(value === "local");
-          }}
+          value={isLocal ? "local" : "envio"}
+          onValueChange={(value) => setIsLocal(value === "local")}
         >
-          {/* entrega en tienda */}
-          <ToggleGroup
-            type="single"
-            className="border"
-            value={!cotizacion.informacionEnvio?.esLocal ? "local" : "envio"}
-            onValueChange={(value) => {
-              setIsLocal(value === "envio");
-            }}
-          />
           <ToggleGroupItem value="envio" aria-label="Envío a Domicilio">
             Envío a Domicilio
           </ToggleGroupItem>
@@ -102,7 +108,6 @@ export function AddressStep({ addresses, userId }: AddressStepProps) {
           </ToggleGroupItem>
         </ToggleGroup>
 
-        {/* Sección de dirección, con estado visual de deshabilitado si es "local" */}
         <div
           className={clsx("transition-opacity space-y-4", {
             "opacity-50 pointer-events-none select-none": isLocal,
@@ -110,94 +115,97 @@ export function AddressStep({ addresses, userId }: AddressStepProps) {
         >
           <Label>Entrega en domicilio</Label>
 
-          <Select
-            value={selectedAddress}
-            onValueChange={(value) => setSelectedAddress(value)}
-            disabled={isLocal}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Selecciona una dirección" />
-            </SelectTrigger>
-            <SelectContent>
-              {addressList
-                .filter((addr) => addr.id !== undefined)
-                .map((addr) => (
-                  <SelectItem key={addr.id} value={addr.id!.toString()}>
-                    {formatAddress(addr)}
-                    {addr.principal && " (Principal)"}
-                  </SelectItem>
-                ))}
-            </SelectContent>
-          </Select>
+          {loading ? (
+            <p className="text-sm text-muted-foreground">Cargando direcciones...</p>
+          ) : (
+            <>
+              <Select
+                value={selectedAddress}
+                onValueChange={setSelectedAddress}
+                disabled={isLocal}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Selecciona una dirección" />
+                </SelectTrigger>
+                <SelectContent>
+                  {addressList
+                    .filter((addr) => addr.id !== undefined)
+                    .map((addr) => (
+                      <SelectItem key={addr.id} value={addr.id!.toString()}>
+                        {formatAddress(addr)}{addr.principal && " (Principal)"}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
 
-          {selectedAddressData && (
-            <div className="rounded-lg border bg-card p-4 shadow-sm">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-3">
-                  <div className="flex items-start">
-                    <FaUser className="mt-1 mr-2 text-muted-foreground" />
-                    <div>
-                      <p className="text-sm font-medium">Destinatario</p>
-                      <p className="text-sm">
-                        {selectedAddressData.nombreRecibe || "No especificado"}
-                      </p>
+              {selectedAddressData && (
+                <div className="rounded-lg border bg-card p-4 shadow-sm">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-3">
+                      <div className="flex items-start">
+                        <FaUser className="mt-1 mr-2 text-muted-foreground" />
+                        <div>
+                          <p className="text-sm font-medium">Destinatario</p>
+                          <p className="text-sm">
+                            {selectedAddressData.nombreRecibe || "No especificado"}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-start">
+                        <FaPhone className="mt-1 mr-2 text-muted-foreground" />
+                        <div>
+                          <p className="text-sm font-medium">Teléfono</p>
+                          <p className="text-sm">
+                            {selectedAddressData.telefono || "No especificado"}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      <div className="flex items-start">
+                        <FaMapMarkerAlt className="mt-1 mr-2 text-muted-foreground" />
+                        <div>
+                          <p className="text-sm font-medium">Dirección</p>
+                          <p className="text-sm">
+                            {selectedAddressData.calle}{" "}
+                            {selectedAddressData.numeroExterior}
+                            {selectedAddressData.numeroInterior &&
+                              `, Int. ${selectedAddressData.numeroInterior}`}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-start">
+                        <MdLocationCity className="mt-1 mr-2 text-muted-foreground" />
+                        <div>
+                          <p className="text-sm font-medium">
+                            Ciudad y Código Postal
+                          </p>
+                          <p className="text-sm">
+                            {selectedAddressData.ciudad},{" "}
+                            {selectedAddressData.estado},{" "}
+                            <span className="italic uppercase text-xs">cp</span>{" "}
+                            {selectedAddressData.codigoPostal}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="flex items-start">
-                    <FaPhone className="mt-1 mr-2 text-muted-foreground" />
-                    <div>
-                      <p className="text-sm font-medium">Teléfono</p>
-                      <p className="text-sm">
-                        {selectedAddressData.telefono || "No especificado"}
+                  {selectedAddressData.referencia && (
+                    <div className="mt-3 pt-3 border-t">
+                      <p className="text-sm font-medium">Referencias</p>
+                      <p className="text-sm text-muted-foreground">
+                        {selectedAddressData.referencia}
                       </p>
                     </div>
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  <div className="flex items-start">
-                    <FaMapMarkerAlt className="mt-1 mr-2 text-muted-foreground" />
-                    <div>
-                      <p className="text-sm font-medium">Dirección</p>
-                      <p className="text-sm">
-                        {selectedAddressData.calle}{" "}
-                        {selectedAddressData.numeroExterior}
-                        {selectedAddressData.numeroInterior &&
-                          `, Int. ${selectedAddressData.numeroInterior}`}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start">
-                    <MdLocationCity className="mt-1 mr-2 text-muted-foreground" />
-                    <div>
-                      <p className="text-sm font-medium">
-                        Ciudad y Código Postal
-                      </p>
-                      <p className="text-sm">
-                        {selectedAddressData.ciudad},{" "}
-                        {selectedAddressData.estado},{" "}
-                        <span className="italic uppercase text-xs">cp</span>{" "}
-                        {selectedAddressData.codigoPostal}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {selectedAddressData.referencia && (
-                <div className="mt-3 pt-3 border-t">
-                  <p className="text-sm font-medium">Referencias</p>
-                  <p className="text-sm text-muted-foreground">
-                    {selectedAddressData.referencia || "Sin Referencias"}
-                  </p>
+                  )}
                 </div>
               )}
-            </div>
+            </>
           )}
+
           <div className="flex justify-center">
-            <AddressDialog userId={userId}>
+            <AddressDialog userId={user?.id} onRefreshCard={fetchAddresses}>
               <Button variant="outline" className="mt-2 cursor-pointer">
                 <FaPlus className="mr-2 h-4 w-4" />
                 Agregar nueva dirección

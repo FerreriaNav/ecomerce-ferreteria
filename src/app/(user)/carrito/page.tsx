@@ -10,6 +10,9 @@ import type { Address } from "@/interfaces/directions/directions.interface"
 import { WelcomeSection } from "@/modules/common/components/unidentified/unidentified-section"
 import { LoadingSection } from "@/modules/common/components/loading/loading-section"
 
+//respaldo json
+import respaldo from "@/contants/json/template-datos-ecommerce.json";
+
 export default function CartPage() {
   const { data: session, status } = useSession()
   const { infoEcommerce } = useInfoEcommerceStore()
@@ -50,8 +53,8 @@ export default function CartPage() {
   if (!userDocumentId) {
     return (
       <WelcomeSection
-        storeName={infoEcommerce?.nombre}
-        title={`Bienvenido a ${infoEcommerce?.nombre || "nuestra tienda"}`}
+
+        title={`Bienvenido a ${infoEcommerce?.nombre ?? respaldo.infoEcommerce.nombre}`}
         description="Descubre asombrosos productos a excelentes precios. ¡Inicia sesión para comenzar a comprar!"
       />
     )
@@ -80,18 +83,18 @@ export default function CartPage() {
   }
 
   // No addresses found
-  if (!address?.data || address.data.length === 0) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col items-center justify-center min-h-[70vh] text-center">
-          <h2 className="text-2xl font-bold mb-4">No tienes direcciones registradas</h2>
-          <p className="text-muted-foreground mb-6">Agrega una dirección de entrega para continuar con tu compra</p>
-          {/* Aquí podrías agregar un botón para agregar dirección */}
-        </div>
-      </div>
-    )
-  }
+  // if (!address?.data || address.data.length === 0) {
+  //   return (
+  //     <div className="container mx-auto px-4 py-8">
+  //       <div className="flex flex-col items-center justify-center min-h-[70vh] text-center">
+  //         <h2 className="text-2xl font-bold mb-4">No tienes direcciones registradas</h2>
+  //         <p className="text-muted-foreground mb-6">Agrega una dirección de entrega para continuar con tu compra</p>
+  //         {/* Aquí podrías agregar un botón para agregar dirección */}
+  //       </div>
+  //     </div>
+  //   )
+  // }
 
   // Success: render cart with addresses
-  return <BasketGrid user={session?.user?.user} addresses={address.data} />
+  return <BasketGrid user={session?.user?.user} addresses={address?.data ?? []} />
 }
