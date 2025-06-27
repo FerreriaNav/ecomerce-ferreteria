@@ -4,6 +4,7 @@ import { auth } from "@/auth"
 import { ErrorState } from "@/modules/common/components/error/ErrorState"
 import { WelcomeSection } from "@/modules/common/components/unidentified/unidentified-section"
 import { ProfileLayout } from "@/modules/profile/profile"
+import { getUserOrders } from "@/services/orders/orders-services"
 import { getUserCotizaciones } from "@/services/quote/quote-services"
 import { getMeInfo } from "@/services/users/users-services"
 import { AlertTriangle, User } from "lucide-react"
@@ -26,6 +27,8 @@ export default async function PerfilUsuario() {
 
     const userResponse = await getMeInfo(session.user.user.documentId)
     const quotes = await getUserCotizaciones(session.user.user.documentId)
+    const orders = await getUserOrders(session.user.user.documentId)
+    console.log(session.user.user.documentId)
 
     if (!userResponse?.data) {
       return (
@@ -39,7 +42,7 @@ export default async function PerfilUsuario() {
       )
     }
 
-    return <ProfileLayout user={userResponse.data} userAvatar={session.user.image} quotes={quotes?.data ?? []} />
+    return <ProfileLayout user={userResponse.data} userAvatar={session.user.image} quotes={quotes?.data ?? []} orders={orders?.data ?? []} />
   } catch (error) {
     console.error("Error en la página de perfil:", error)
 

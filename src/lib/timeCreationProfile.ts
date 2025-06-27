@@ -12,11 +12,11 @@ export function getTimeSinceCreation(createdAt: string): string {
   const diffInYears = Math.floor(diffInDays / 365.25);
 
   if (diffInYears > 0) {
-    return `Cliente desde hace ${diffInYears} año${diffInYears > 1 ? "s" : ""}`;
+    return `${diffInYears} año${diffInYears > 1 ? "s" : ""}`;
   } else if (diffInMonths > 0) {
-    return `Cliente desde hace ${diffInMonths} mes${diffInMonths > 1 ? "es" : ""}`;
+    return `${diffInMonths} mes${diffInMonths > 1 ? "es" : ""}`;
   } else if (diffInDays > 0) {
-    return `Cliente desde hace ${diffInDays} día${diffInDays > 1 ? "s" : ""}`;
+    return `${diffInDays} día${diffInDays > 1 ? "s" : ""}`;
   } else {
     return `Cliente desde hoy`;
   }

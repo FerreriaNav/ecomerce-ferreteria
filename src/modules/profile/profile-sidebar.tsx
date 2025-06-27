@@ -56,7 +56,7 @@ export function ProfileSidebar({
         </CardTitle>
         <CardDescription>
           <Badge className="mt-2 capitalize bg-blue-500 hover:bg-blue-600">
-            {getTimeSinceCreation(user?.createdAt?.toString() ?? "")}
+            {`Cliente desde ${getTimeSinceCreation(user?.createdAt?.toString() ?? "")}`}
           </Badge>
         </CardDescription>
       </CardHeader>
