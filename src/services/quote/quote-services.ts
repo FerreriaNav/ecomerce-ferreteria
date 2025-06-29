@@ -5,11 +5,13 @@ import {
   EstatusCotizacion,
 } from "@/interfaces/cotizaciones/cotizacion.interface";
 import type { DataResponse } from "@/interfaces/data/response.interface";
+import { Products } from "@/interfaces/products/products.interface";
 import { query } from "@/lib/api/server/strapi";
 import { useCartStore } from "@/store/products-cart.store";
 
 const BASE_ENDPOINT: string = BACKEND_ROUTES.QUOTES;
 
+const STRAPI_HOST = process.env.NEXT_PUBLIC_STRAPI_HOST;
 // Obtener cotizaciones de un usuario específico
 export function getUserCotizaciones(
   userId: string
@@ -44,7 +46,24 @@ export function getUserCotizaciones(
       if (!res) {
         return null;
       }
-      return res;
+      const cotizaciones = res.data.map((cotizacion) => {
+        // Asegurarse de que los productos tengan un cover definido
+        return {
+          ...cotizacion,
+          productos: cotizacion.productos.map((item) => ({
+            ...item,
+            producto: {
+              ...item?.producto,
+              coverUrl: `${STRAPI_HOST}${item?.producto?.cover?.url}`,
+            } as Products,
+          })),
+        };
+      });
+      const data: DataResponse<Cotizacion[]> = {
+        ...res,
+        data: cotizaciones,
+      };
+      return data;
     })
     .catch((error) => {
       console.error("Error fetching user cotizaciones:", error);
@@ -55,7 +74,7 @@ export function getUserCotizaciones(
 // Crear nueva cotización - Actualizada para usar CotizacionCreateDto
 export function createCotizacion(
   data: CotizacionCreateDto,
-  userDocumentId: string 
+  userDocumentId: string
 ): Promise<Cotizacion | null> {
   if (!data.productos || data.productos.length === 0) {
     return Promise.reject(new Error("Productos y estatus son requeridos."));

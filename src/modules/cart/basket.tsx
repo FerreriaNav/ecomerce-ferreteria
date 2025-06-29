@@ -34,8 +34,7 @@ export function BasketGrid({ user }: BasketGridProps) {
   const initialStep = Number.parseInt(searchParams.get("step") || "1", 10);
   const [step, setStep] = useState(initialStep);
 
-  const { cart, getCartSummary } = useCartStore();
-  const { total } = getCartSummary();
+  const { cart } = useCartStore();
 
   const {
     cotizacion,
@@ -47,6 +46,7 @@ export function BasketGrid({ user }: BasketGridProps) {
     setError,
     setSuccess,
     resetTemporaryStates,
+    resetCotizacion
   } = useCotizacionStore();
 
   // Resetear estados temporales cuando el componente se monta
@@ -86,7 +86,6 @@ export function BasketGrid({ user }: BasketGridProps) {
         cliente: user.documentId,
         metodoPago: cotizacion?.metodoPago,
         notaCliente: cotizacion.notaCliente || undefined,
-        totalCotizacion: total,
         informacionEnvio: cotizacion.informacionEnvio, // Ahora es compatible
       };
 
@@ -96,6 +95,7 @@ export function BasketGrid({ user }: BasketGridProps) {
       );
 
       if (cotizacionCreated) {
+        resetCotizacion()
         showToastAlert({
           title: "Cotización generada",
           text: "Tu cotización ha sido generada exitosamente.",
