@@ -12,7 +12,7 @@ import { formatAddress } from "@/lib/formatAddress";
 
 interface AddressCardProps {
   address: Address;
-  onRefreshCards?: () => void;
+  onRefreshCards?: () => Promise<void>;
   onAddressDefault?: () => void;
 }
 
