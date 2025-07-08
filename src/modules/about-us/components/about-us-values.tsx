@@ -5,21 +5,21 @@ import { Badge } from "@/components/ui/badge"
 export default function AboutUsValues() {
   const values = [
     {
-      icon: <Award className="h-6 w-6" />,
+      icon: <Award className="h-6 w-6 " />,
       title: "Calidad",
       description: "Ofrecemos productos de la más alta calidad para garantizar la satisfacción de nuestros clientes.",
       gradient: "from-primary to-primary/70",
       bgGradient: "from-primary/10 to-primary/5",
     },
     {
-      icon: <Users className="h-6 w-6" />,
+      icon: <Users className="h-6 w-6 text-foreground" />,
       title: "Servicio",
       description: "Brindamos atención personalizada y asesoramiento experto para cada proyecto.",
       gradient: "from-secondary to-secondary/70",
       bgGradient: "from-secondary/10 to-secondary/5",
     },
     {
-      icon: <Target className="h-6 w-6" />,
+      icon: <Target className="h-6 w-6 text-foreground" />,
       title: "Innovación",
       description: "Nos mantenemos actualizados con las últimas tendencias y tecnologías en ferretería.",
       gradient: "from-accent to-accent/70",
@@ -33,7 +33,7 @@ export default function AboutUsValues() {
       bgGradient: "from-primary/5 to-secondary/5",
     },
     {
-      icon: <Truck className="h-6 w-6" />,
+      icon: <Truck className="h-6 w-6 text-foreground" />,
       title: "Eficiencia",
       description: "Garantizamos entregas puntuales y un servicio eficiente en cada interacción.",
       gradient: "from-secondary to-accent",

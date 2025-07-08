@@ -1,12 +1,18 @@
-import { Badge } from "@/components/ui/badge"
-import { Sparkles } from "lucide-react"
+import { Badge } from "@/components/ui/badge";
+import { Sparkles } from "lucide-react";
+import { ReactNode } from "react";
 
 interface AboutUsHeroProps {
-  companyName?: string |null
-  slogan?: string |null
+  companyName?: string | null;
+  slogan?: string | null;
+  icon: ReactNode;
 }
 
-export default function AboutUsHero({ companyName, slogan }: AboutUsHeroProps) {
+export default function AboutUsHero({
+  companyName,
+  slogan,
+  icon,
+}: AboutUsHeroProps) {
   return (
     <section className="relative w-full py-16 md:py-24 lg:py-32 overflow-hidden">
       {/* Gradient Background */}
@@ -20,6 +26,7 @@ export default function AboutUsHero({ companyName, slogan }: AboutUsHeroProps) {
 
       <div className="container relative px-4 md:px-6">
         <div className="flex flex-col items-center space-y-6 text-center">
+          
           <Badge
             variant="outline"
             className="px-4 py-2 text-sm bg-primary/10 border-primary/20 text-primary hover:bg-primary/20 transition-colors"
@@ -27,7 +34,11 @@ export default function AboutUsHero({ companyName, slogan }: AboutUsHeroProps) {
             <Sparkles className="w-4 h-4 mr-2" />
             Sobre Nosotros
           </Badge>
-
+          {icon && (
+            <div className="mt-4 text-6xl text-primary animate-in slide-in-from-bottom-6 duration-1000 ">
+              {icon}
+            </div>
+          )}
           <div className="space-y-4">
             <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent animate-in slide-in-from-bottom-4 duration-1000">
               {companyName}
@@ -40,5 +51,5 @@ export default function AboutUsHero({ companyName, slogan }: AboutUsHeroProps) {
         </div>
       </div>
     </section>
-  )
+  );
 }

@@ -15,6 +15,7 @@ import AboutUsSocial from "@/modules/about-us/components/about-us-social";
 // respaldo json
 import respaldo from "@/contants/json/template-datos-ecommerce.json";
 import { DireccionSucursal } from "@/interfaces/informacion-tienda/informacion-tienda.interface";
+import Image from "next/image";
 
 export const metadata = {
   title: "Sobre Nosotros | Ferretería Online",
@@ -28,12 +29,20 @@ export default async function AboutUsPage() {
     (await getInfoEcommerce())?.data ?? respaldo.infoEcommerce;
 
   return (
-    <main className="flex flex-col min-h-screen container mx-auto px-4 md:px-6 py-8 space-y-12">
+    <main className="flex flex-col min-h-screen container mx-auto px-4 md:px-6  space-y-6">
       {/* Hero Section */}
-      <Suspense fallback={<Skeleton className="h-[300px] w-full" />}>
+      <Suspense fallback={<Skeleton className="h-[400px] w-full" />}>
         <AboutUsHero
           companyName={infoEcommerce?.nosotros?.nombreEmpresa}
           slogan={infoEcommerce?.nosotros?.eslogan}
+          icon={
+            <Image
+              width={200}
+              height={200}
+              alt="logo"
+              src={infoEcommerce?.logo.url ?? "/icons/logo-din.png"}
+            />
+          }
         />
       </Suspense>
 
@@ -53,7 +62,11 @@ export default async function AboutUsPage() {
       {/* Locations Section */}
       <Suspense fallback={<Skeleton className="h-[500px] w-full" />}>
         <AboutUsLocations
-          locations={infoEcommerce?.direccion ? [infoEcommerce?.direccion as DireccionSucursal] : []}
+          locations={
+            infoEcommerce?.direccion
+              ? [infoEcommerce?.direccion as DireccionSucursal]
+              : []
+          }
           generalPhone={infoEcommerce?.numeroGeneral}
           generalEmail={infoEcommerce?.correoGeneral}
         />

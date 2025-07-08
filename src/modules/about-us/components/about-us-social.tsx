@@ -22,7 +22,7 @@ export default function AboutUsSocial({ socialNetworks }: AboutUsSocialProps) {
   }
 
   return (
-    <section className="relative w-full py-16 md:py-20 overflow-hidden">
+    <section className="relative w-full py-10 md:py-10 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-t from-primary/5 via-background to-background" />
 

@@ -29,6 +29,7 @@ import { Card } from "@/components/ui/card";
 import respaldo from "@/contants/json/template-datos-ecommerce.json";
 import { Products } from "@/interfaces/products/products.interface";
 import { DireccionSucursal } from "@/interfaces/informacion-tienda/informacion-tienda.interface";
+import AboutUsHero from "@/modules/about-us/components/about-us-hero";
 
 export default async function Home() {
   try {
@@ -60,21 +61,20 @@ export default async function Home() {
             // showControls={false}
             // showIndicators={false}
           />
-          <div className="mt-5">
-            {/* titulo Bienvenida */}
-            <TitleGradient
-              title={infoEcommerce?.nombre }
-              badgeText="BIENVENIDO"
-              tagIcon={
-                <Image
-                  width={100}
-                  height={100}
-                  alt="logo"
-                  src={infoEcommerce?.logo.url ?? "/icons/logo.webp"}
-                />
-              }
-            />
-          </div>
+              <Suspense fallback={<Skeleton className="h-[400px] w-full" />}>
+                  <AboutUsHero
+                    companyName={infoEcommerce?.nosotros?.nombreEmpresa}
+                    slogan={infoEcommerce?.nosotros?.eslogan}
+                    icon={
+                      <Image
+                        width={200}
+                        height={200}
+                        alt="logo"
+                        src={infoEcommerce?.logo.url ?? "/icons/logo-din.png"}
+                      />
+                    }
+                  />
+                </Suspense>
           {/* Carrusel category */}
 
           <CategoryCarousel
@@ -145,7 +145,7 @@ export default async function Home() {
             <AboutUsTeam team={infoEcommerce.nosotros.personal} />
           </Suspense> */}
 
-          <Suspense fallback={<Skeleton className="h-[100px] w-full" />}>
+          <Suspense fallback={<Skeleton className=" w-full" />}>
             <AboutUsSocial socialNetworks={infoEcommerce?.redesSociales} />
           </Suspense>
         </div>

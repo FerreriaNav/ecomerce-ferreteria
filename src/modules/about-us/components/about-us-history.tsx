@@ -67,7 +67,7 @@ export default function AboutUsHistory({ history, image }: AboutUsHistoryProps) 
 
             <div className="grid grid-cols-3 gap-4 pt-4">
               <div className="text-center p-4 rounded-lg bg-primary/5 border border-primary/10">
-                <div className="text-2xl font-bold text-primary">20+</div>
+                <div className="text-2xl font-bold text-primary">5+</div>
                 <div className="text-sm text-muted-foreground">Años</div>
               </div>
               <div className="text-center p-4 rounded-lg bg-secondary/5 border border-secondary/10">

@@ -7,6 +7,7 @@ import { TagsIcon, ArrowRight } from "lucide-react"
 import { useState } from "react"
 import { Marca } from "@/interfaces/marcas/marca.interface"
 import { IMG_DEFAULT } from "@/contants/img/img-default"
+import { FRONTEND_ROUTES } from "@/contants/frontend-routes/routes"
 
 interface BrandCarouselProps {
   marcas: Marca[]
@@ -61,7 +62,7 @@ export default function BrandCarousel({
           {marcas.map((item, index) => (
             <CarouselItem key={index} className="pl-2 md:pl-4 basis-[160px] md:basis-[180px]">
               <Link
-                href={`/marcas/${item.nombre}`}
+                href={`${FRONTEND_ROUTES.PROVEDORES}/${item.nombre}`}
                 className="group block"
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
