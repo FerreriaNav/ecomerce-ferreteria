@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { FRONTEND_ROUTES } from "@/contants/frontend-routes/routes"
-import { Marca } from "@/interfaces/marcas/marca.interface"
-import Image from "next/image"
-import Link from "next/link"
+import { FRONTEND_ROUTES } from "@/contants/frontend-routes/routes";
+import { Marca } from "@/interfaces/marcas/marca.interface";
+import Image from "next/image";
+import Link from "next/link";
 
 interface MarcasGridProps {
-  marcas: Marca[]
+  marcas: Marca[];
 }
 
 export default function MarcasGrid({ marcas }: MarcasGridProps) {
@@ -16,15 +16,17 @@ export default function MarcasGrid({ marcas }: MarcasGridProps) {
         <Link
           href={`${FRONTEND_ROUTES.PROVEDORES}/${marca.nombre}`}
           key={marca.id}
-          className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 cursor-pointer flex flex-col"
+          className="bg-secondary rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 cursor-pointer"
         >
           <div className="relative aspect-square">
-            <Image
-              src={marca.img?.url || "/placeholder.svg"}
-              alt={marca.nombre}
-              fill
-              className="object-contain p-4"
-            />
+            <div className="aspect-square relative bg-white p-2">
+              <Image
+                src={marca?.img?.url ?? "/default/img.webp"}
+                alt={marca.nombre || "img categoria"}
+                fill
+                className="object-contain "
+              />
+            </div>
           </div>
           <div className="p-4 text-center">
             <h3 className="font-semibold">{marca.nombre}</h3>
@@ -32,5 +34,5 @@ export default function MarcasGrid({ marcas }: MarcasGridProps) {
         </Link>
       ))}
     </div>
-  )
+  );
 }
