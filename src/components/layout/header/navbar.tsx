@@ -1,11 +1,40 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, ChevronDown, User, Heart, MapPin, LogOut, ShoppingCart, Info, Home, Settings, FileText } from 'lucide-react';
+import {
+  Menu,
+  ChevronDown,
+  User,
+  Heart,
+  MapPin,
+  LogOut,
+  ShoppingCart,
+  Info,
+  Home,
+  Settings,
+  FileText,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import type { Marca } from "@/interfaces/marcas/marca.interface";
 import Image from "next/image";
@@ -398,7 +427,7 @@ export default function Navbar({
                   Catalogo
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                  <ul className="grid  max-h-[300px] w-[400px] md:w-[500px] lg:w-[600px]  overflow-y-auto scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent gap-3 p-4 md:grid-cols-2 ">
                     {categoriasFiltradas.map((categoria) => (
                       <li key={categoria.nombre}>
                         <NavigationMenuLink asChild>
@@ -429,25 +458,29 @@ export default function Navbar({
                   Provedores
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                  <ul className="grid  max-h-[300px] w-fit md:w-[400px] lg:w-[600px]  overflow-y-auto scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent gap-3 p-4 md:grid-cols-2 lg:grid-cols-3">
                     {marcas.map((marca) => (
-                      <li key={marca.nombre}>
+                      <li
+                        key={marca.id}
+                        className="aspect-video min-h-10 min-w-10 flex items-center justify-center overflow-hidden rounded-md shadow-sm bg-white dark:bg-muted"
+                      >
                         <NavigationMenuLink asChild>
                           <Link
                             href={`${FRONTEND_ROUTES.PROVEDORES}/${marca.nombre}`}
-                            className="cursor-pointer block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                            className="w-full h-full flex items-center justify-center hover:scale-105 transition-transform duration-100"
                           >
                             {marca.img ? (
                               <Image
-                                src={marca.img?.url || "/placeholder.svg"}
+                                className="max-h-full max-w-full object-contain"
+                                src={marca.img?.url || "/default/img.webp"}
                                 width={100}
                                 height={100}
                                 alt={marca.nombre}
                               />
                             ) : (
-                              <div className="text-sm font-medium leading-none">
+                              <span className="text-sm font-medium leading-none text-center text-foreground">
                                 {marca.nombre}
-                              </div>
+                              </span>
                             )}
                           </Link>
                         </NavigationMenuLink>
@@ -465,7 +498,11 @@ export default function Navbar({
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href={FRONTEND_ROUTES.TORNILLERIA} legacyBehavior passHref>
+                <Link
+                  href={FRONTEND_ROUTES.TORNILLERIA}
+                  legacyBehavior
+                  passHref
+                >
                   <Button variant={"ghost"} className=" text-white">
                     Tornillería
                   </Button>
