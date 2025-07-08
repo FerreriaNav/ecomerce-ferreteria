@@ -10,9 +10,9 @@ import { ResponsiveStoreFilters } from "@/modules/shop/ResponsiveStoreFilters"; 
 import { getCategorias } from "@/services/categories/categories-services";
 // import { getMarcas } from "@/services/marcas/marcas-services";
 import {
-  getProductsByFilters,
   parseProductFilters,
   ProductFilters,
+  searchProductsWithParams,
 } from "@/services/products/products-services";
 import { AlertTriangle, Store } from "lucide-react";
 
@@ -24,21 +24,21 @@ export default async function CategoriaPage({
   searchParams: Promise<{ [key: string]: string }>;
 }) {
   try {
-    const slug = decodeURIComponent((await params).slug);
+     const { slug } = await params;
+    const decodeSlug = decodeURIComponent(slug);
     const searchParamsDecode = await searchParams;
     const categoriasResult = await getCategorias();
     const categoria = categoriasResult?.data?.find(
-      (cat) => cat.nombre === slug
+      (cat) => cat.nombre === decodeSlug
     );
 
     const filtros: ProductFilters = parseProductFilters(searchParamsDecode);
 
     const filtrosWithCategoria: ProductFilters = {
       ...filtros,
-      categorias: [slug, ...(filtros.categorias ?? [])],
+      categorias: [decodeSlug, ...(filtros.categorias ?? [])],
     };
-    const productResult = await getProductsByFilters(filtros);
-    console.log(productResult);
+    const productResult = await searchProductsWithParams(filtrosWithCategoria);
 
     // const marcasResult = await getMarcas();
 

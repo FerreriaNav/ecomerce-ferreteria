@@ -28,7 +28,7 @@ export default async function MarcaPage({
 
     const filtrosWithMarca: ProductFilters = {
       ...filtros,
-      marcas: [slug, ...(filtros.marcas ?? [])],
+      marcas: [decodeSlug, ...(filtros.marcas ?? [])],
     };
 
     const productFilteredData = await searchProductsWithParams(
@@ -45,7 +45,7 @@ export default async function MarcaPage({
         </div>
         {/* Mobile: Filters on top */}
         <div className="md:hidden mb-4">
-          <ResponsiveStoreFilters marcaBase={decodeSlug} />
+          <ResponsiveStoreFilters marcaBase={decodeSlug} selectedFilters={filtrosWithMarca} />
         </div>
 
         {/* Grid layout */}
