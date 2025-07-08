@@ -427,13 +427,13 @@ export default function Navbar({
                   Catalogo
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid  max-h-[300px] w-[400px] md:w-[500px] lg:w-[600px]  overflow-y-auto scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent gap-3 p-4 md:grid-cols-2 ">
+                  <ul className=" grid  max-h-[300px] w-[400px] md:w-[500px] lg:w-[600px]  overflow-y-auto scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent gap-3 p-4 md:grid-cols-2 ">
                     {categoriasFiltradas.map((categoria) => (
-                      <li key={categoria.nombre}>
-                        <NavigationMenuLink asChild>
+                     
+                        <NavigationMenuLink key={categoria.id} asChild>
                           <Link
                             href={`${FRONTEND_ROUTES.CATALOGOS}/${categoria.nombre}`}
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                            className="h-20 "
                           >
                             <div className="text-sm font-medium leading-none">
                               {categoria.nombre}
@@ -447,7 +447,7 @@ export default function Navbar({
                             )}
                           </Link>
                         </NavigationMenuLink>
-                      </li>
+                     
                     ))}
                   </ul>
                 </NavigationMenuContent>
