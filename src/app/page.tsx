@@ -25,7 +25,7 @@ import { CATEGORIAS_ENUM } from "@/interfaces/categories/categories.interface";
 import CarouselBasic from "../modules/common/components/carousel-basic/carousel-basic";
 import { Card } from "@/components/ui/card";
 
-// respaldo json 
+// respaldo json
 import respaldo from "@/contants/json/template-datos-ecommerce.json";
 import { Products } from "@/interfaces/products/products.interface";
 import { DireccionSucursal } from "@/interfaces/informacion-tienda/informacion-tienda.interface";
@@ -33,7 +33,8 @@ import AboutUsHero from "@/modules/about-us/components/about-us-hero";
 
 export default async function Home() {
   try {
-    const paginaPrincipalResult = (await getPaginaPrincipal())?.data ?? respaldo.paginaPrincipal  ;
+    const paginaPrincipalResult =
+      (await getPaginaPrincipal())?.data ?? respaldo.paginaPrincipal;
 
     // fetch product
     // const resultProducts = await getProductsByFilters({
@@ -45,7 +46,8 @@ export default async function Home() {
     });
     const categorias = (await getCategorias())?.data ?? [];
     const marcas = (await getMarcas())?.data ?? [];
-    const infoEcommerce = (await getInfoEcommerce())?.data ?? respaldo.infoEcommerce;
+    const infoEcommerce =
+      (await getInfoEcommerce())?.data ?? respaldo.infoEcommerce;
 
     return (
       <main className="container mx-auto ">
@@ -53,28 +55,26 @@ export default async function Home() {
           {/* Carrusel principal */}
 
           <StrapiCarousel
-            items={
-              paginaPrincipalResult?.carrucel as CarrucelItem[]
-            }
+            items={paginaPrincipalResult?.carrucel as CarrucelItem[]}
             autoplay={true}
             intervalo={5000}
             // showControls={false}
             // showIndicators={false}
           />
-              <Suspense fallback={<Skeleton className="h-[400px] w-full" />}>
-                  <AboutUsHero
-                    companyName={infoEcommerce?.nosotros?.nombreEmpresa}
-                    slogan={infoEcommerce?.nosotros?.eslogan}
-                    icon={
-                      <Image
-                        width={200}
-                        height={200}
-                        alt="logo"
-                        src={infoEcommerce?.logo.url ?? "/icons/logo-din.png"}
-                      />
-                    }
-                  />
-                </Suspense>
+          <Suspense fallback={<Skeleton className="h-[400px] w-full" />}>
+            <AboutUsHero
+              companyName={infoEcommerce?.nosotros?.nombreEmpresa}
+              slogan={infoEcommerce?.nosotros?.eslogan}
+              icon={
+                <Image
+                  width={200}
+                  height={200}
+                  alt="logo"
+                  src={infoEcommerce?.logo.url ?? "/icons/logo-din.png"}
+                />
+              }
+            />
+          </Suspense>
           {/* Carrusel category */}
 
           <CategoryCarousel
@@ -96,7 +96,7 @@ export default async function Home() {
               // <Card className="bg-primary ">
               <ProductCarousel
                 products={paginaPrincipalResult.productosDestacados.map(
-                  (p) => p.producto  as Products
+                  (p) => p.producto as Products
                 )}
                 title="Productos Destacados"
                 subtittle="Manejamos todo tipo de productos, manejando los mejores precios en todas las marcas, con precio de mayoreo y menudeo, solicita tu cotización con nuestro asesor de ventas o también ven y visítanos a nuestra sucursal."
@@ -111,7 +111,15 @@ export default async function Home() {
           badgeText="oficiales"
           tagIcon={<TagIcon size={40} />}
         />
-        <MarcasCarousel marcas={marcas} className="mb-5" />
+        <MarcasCarousel
+          marcas={marcas}
+          className="mb-7"
+          button={
+            <Link href={FRONTEND_ROUTES.CATALOGOS}>
+              <Button>Ver mas</Button>
+            </Link>
+          }
+        />
         <Card className="bg-secondary">
           <CarouselBasic
             basePath={FRONTEND_ROUTES.PRODUCTOS}
@@ -134,7 +142,9 @@ export default async function Home() {
           <Suspense fallback={<Skeleton className="h-[500px] w-full" />}>
             <AboutUsLocations
               locations={
-                infoEcommerce?.direccion ? [infoEcommerce?.direccion as DireccionSucursal] : []
+                infoEcommerce?.direccion
+                  ? [infoEcommerce?.direccion as DireccionSucursal]
+                  : []
               }
               generalPhone={infoEcommerce?.numeroGeneral}
               generalEmail={infoEcommerce?.correoGeneral}

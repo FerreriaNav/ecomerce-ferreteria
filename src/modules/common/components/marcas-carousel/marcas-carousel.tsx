@@ -1,38 +1,46 @@
-"use client"
-import Image from "next/image"
-import Link from "next/link"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { Badge } from "@/components/ui/badge"
-import { TagsIcon, ArrowRight } from "lucide-react"
-import { useState } from "react"
-import { Marca } from "@/interfaces/marcas/marca.interface"
-import { IMG_DEFAULT } from "@/contants/img/img-default"
-import { FRONTEND_ROUTES } from "@/contants/frontend-routes/routes"
+"use client";
+import Image from "next/image";
+import Link from "next/link";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { TagsIcon, ArrowRight } from "lucide-react";
+import { ReactNode, useState } from "react";
+import { Marca } from "@/interfaces/marcas/marca.interface";
+import { IMG_DEFAULT } from "@/contants/img/img-default";
+import { FRONTEND_ROUTES } from "@/contants/frontend-routes/routes";
 
 interface BrandCarouselProps {
-  marcas: Marca[]
-  className?: string
-  variant?: "circular" | "square"
-  showId?: boolean
-  title?: string
-  subtitle?: string
+  marcas: Marca[];
+  className?: string;
+  variant?: "circular" | "square";
+  title?: string;
+  subtitle?: string;
+  button?: ReactNode;
 }
 
 export default function BrandCarousel({
   marcas,
   className,
   variant = "circular",
-  showId = false,
+  
   title,
   subtitle,
+  button,
 }: BrandCarouselProps) {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const containerClasses =
-    variant === "circular" ? "w-[120px] h-[120px] rounded-full" : "w-[140px] h-[100px] rounded-xl"
+    variant === "circular"
+      ? "w-[120px] h-[120px] rounded-full"
+      : "w-[140px] h-[100px] rounded-xl";
 
   return (
-    <div className={`w-full space-y-6 ${className || ""}`}>
+    <div className={`w-full space-y-6 flex flex-col items-center ${className || ""}`}>
       {/* Header Section */}
       {(title || subtitle) && (
         <div className="text-center space-y-2">
@@ -41,7 +49,11 @@ export default function BrandCarousel({
               {title}
             </h3>
           )}
-          {subtitle && <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto">{subtitle}</p>}
+          {subtitle && (
+            <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto">
+              {subtitle}
+            </p>
+          )}
           <div className="flex items-center justify-center space-x-2">
             <div className="h-1 w-8 bg-gradient-to-r from-primary to-secondary rounded-full" />
             <div className="h-1 w-4 bg-secondary rounded-full" />
@@ -60,7 +72,10 @@ export default function BrandCarousel({
       >
         <CarouselContent className="-ml-2 md:-ml-4">
           {marcas.map((item, index) => (
-            <CarouselItem key={index} className="pl-2 md:pl-4 basis-[160px] md:basis-[180px]">
+            <CarouselItem
+              key={index}
+              className="pl-2 md:pl-4 basis-[160px] md:basis-[180px]"
+            >
               <Link
                 href={`${FRONTEND_ROUTES.PROVEDORES}/${item.nombre}`}
                 className="group block"
@@ -91,15 +106,7 @@ export default function BrandCarousel({
                     {/* Hover Overlay */}
                     <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                    {/* Show ID Badge */}
-                    {showId && (
-                      <Badge
-                        variant="secondary"
-                        className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0 flex items-center justify-center text-xs font-medium"
-                      >
-                        {item.id}
-                      </Badge>
-                    )}
+                   
                   </div>
 
                   {/* Brand Info */}
@@ -111,7 +118,9 @@ export default function BrandCarousel({
                     {/* Hover Arrow */}
                     <div
                       className={`flex items-center justify-center transition-all duration-300 ${
-                        hoveredIndex === index ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-2"
+                        hoveredIndex === index
+                          ? "opacity-100 translate-x-0"
+                          : "opacity-0 -translate-x-2"
                       }`}
                     >
                       <ArrowRight size={16} className="text-primary" />
@@ -127,6 +136,7 @@ export default function BrandCarousel({
         <CarouselPrevious className="absolute -left-4 md:-left-12 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-sm border-2 hover:bg-primary hover:text-primary-foreground transition-all duration-300" />
         <CarouselNext className="absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-sm border-2 hover:bg-primary hover:text-primary-foreground transition-all duration-300" />
       </Carousel>
+      <div>{button}</div>
     </div>
-  )
+  );
 }

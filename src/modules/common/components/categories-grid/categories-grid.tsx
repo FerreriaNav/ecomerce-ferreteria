@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, Tag } from "lucide-react";
 import { Categoria } from "@/interfaces/categories/categories.interface";
+import { FRONTEND_ROUTES } from "@/contants/frontend-routes/routes";
 
 interface CategoriesGridProps {
   categories: Categoria[];
@@ -54,7 +55,7 @@ export default function CategoriesGrid({ categories }: CategoriesGridProps) {
             onClick={() => handleCategoryClick(category)}
           >
             <Link
-              href={`/categoria/${category.nombre}`}
+              href={`${FRONTEND_ROUTES.CATALOGOS}/${category.nombre}`}
               className="flex flex-col h-full"
             >
               <div className="relative">
