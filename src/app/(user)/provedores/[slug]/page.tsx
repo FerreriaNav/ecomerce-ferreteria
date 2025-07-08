@@ -39,7 +39,7 @@ export default async function MarcaPage({
       <main className="container mx-auto px-4 py-8">
          <div className="-mt-14 -mb-5">
           <TitleGradient
-            title={slug}
+            title={decodeSlug}
             tagIcon={<Tags size={50} />}
           ></TitleGradient>
         </div>

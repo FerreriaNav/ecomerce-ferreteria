@@ -36,7 +36,7 @@ export default async function CategoriaPage({
 
     const filtrosWithCategoria: ProductFilters = {
       ...filtros,
-      categorias: [decodeSlug, ...(filtros.categorias ?? [])],
+      categorias: [categoria?.nombre, ...(filtros.categorias ?? [])].filter((c): c is string => typeof c === "string"),
     };
     const productResult = await searchProductsWithParams(filtrosWithCategoria);
 
@@ -46,7 +46,7 @@ export default async function CategoriaPage({
       <main className="container mx-auto px-4 py-8">
         <div className="-mt-14 -mb-5">
           <TitleGradient
-            title={slug}
+            title={categoria?.nombre ?? "Categoria"}
             tagIcon={<Store size={50} />}
           ></TitleGradient>
         </div>
@@ -55,7 +55,7 @@ export default async function CategoriaPage({
           <ResponsiveStoreFilters
             // categorias={categoriasResult?.data ?? []}
             // marcas={marcasResult?.data ?? []}
-            categoriaBase={slug}
+            categoriaBase={categoria?.nombre ?? ""}
             selectedFilters={filtrosWithCategoria}
           />
         </div>
@@ -67,7 +67,7 @@ export default async function CategoriaPage({
             <ResponsiveStoreFilters
               // categorias={categoriasResult?.data ?? []}
               // marcas={marcasResult?.data ?? []}
-              categoriaBase={slug}
+              categoriaBase={categoria?.nombre ?? ""}
               selectedFilters={filtrosWithCategoria}
             />
           </div>
