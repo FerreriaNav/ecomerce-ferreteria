@@ -115,7 +115,7 @@ export default async function Home() {
           marcas={marcas}
           className="mb-7"
           button={
-            <Link href={FRONTEND_ROUTES.CATALOGOS}>
+            <Link href={FRONTEND_ROUTES.PROVEDORES}>
               <Button>Ver mas</Button>
             </Link>
           }
