@@ -20,7 +20,26 @@ export default function RootLayout({
   return (
     <>
       <html lang="en" suppressHydrationWarning>
-        <head />
+        <head >
+             {/* Manifest */}
+        <link rel="manifest" href="/icon-app/manifest.json" />
+
+        {/* Iconos */}
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="192x192"
+          href="/icon-app/android-chrome-192x192.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="512x512"
+          href="/icon-app/android-chrome-512x512.png"
+        />
+
+        {/* Tema para la barra del navegador en móvil */}
+        </head>
         <body className="min-h-screen flex flex-col">
           <ThemeProvider
             attribute="class"
