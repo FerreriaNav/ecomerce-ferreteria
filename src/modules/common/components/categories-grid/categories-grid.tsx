@@ -60,12 +60,12 @@ export default function CategoriesGrid({ categories }: CategoriesGridProps) {
             >
               <div className="relative">
                 {
-                  <div className="aspect-square relative bg-white p-2">
+                  <div className="aspect-square relative  overflow-hidden">
                     <Image
                       src={category?.img?.url ?? "/default/img.webp"}
                       alt={category.nombre || "img categoria"}
                       fill
-                      className="object-contain "
+                      className="object-cover  "
                     />
                   </div>
                 }
