@@ -259,7 +259,12 @@ export function QuotesItem({ cotizacion }: CotizacionItemProps) {
                   <div className="bg-slate-100 dark:bg-slate-800 p-3 rounded-lg w-full sm:w-auto sm:min-w-[200px]">
                     <div className="flex justify-between font-bold mt-2 pt-2 border-t border-slate-200 dark:border-slate-700">
                       <span>Total:</span>
-                      <span>{formatCurrency(cotizacion.total)}</span>
+                      <span>
+                        {cotizacion.total != null
+                          ? formatCurrency(cotizacion.total)
+                          : "No disponible"
+                        }
+                      </span>
                     </div>
                   </div>
                 </div>

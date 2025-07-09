@@ -16,6 +16,7 @@ import { Save } from "lucide-react";
 import type { User } from "@/interfaces/auth/user.interface";
 import * as React from "react";
 import { PasswordChangeDialog } from "@/modules/common/components/change-password/change-password";
+import { AuthProvider } from "@/interfaces/auth/auth-providers.enum";
 
 interface ProfileSettingsProps {
   user: User | null;
@@ -33,7 +34,7 @@ export function ProfileSettings({ user }: ProfileSettingsProps) {
       <CardContent className="space-y-4">
         <PersonalInfoForm user={user} />
         <Separator />
-        <PasswordChangeForm />
+        <PasswordChangeForm user={user} />
       </CardContent>
       <CardFooter className="flex justify-between">
         <Button>
@@ -89,17 +90,20 @@ function PersonalInfoForm({ user }: { user: User | null }) {
   );
 }
 
-function PasswordChangeForm() {
-  const [open, setOpen] = React.useState(false);
+function PasswordChangeForm({ user }: { user: User | null }) {
+  const [open, setOpen] = React.useState(false)
+
+  // Si el usuario no existe o usa Google como proveedor, no mostrar el formulario
+  if (!user || user.authProvider === AuthProvider.Google) {
+    return null
+  }
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-lg font-medium">Contraseña</h3>
-          <p className="text-sm text-muted-foreground">
-            Actualiza tu contraseña para mantener tu cuenta segura
-          </p>
+          <p className="text-sm text-muted-foreground">Actualiza tu contraseña para mantener tu cuenta segura</p>
         </div>
         <Button onClick={() => setOpen(true)} variant="outline">
           Cambiar contraseña
@@ -108,5 +112,5 @@ function PasswordChangeForm() {
 
       <PasswordChangeDialog open={open} onOpenChange={setOpen} />
     </div>
-  );
+  )
 }

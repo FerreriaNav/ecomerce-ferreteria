@@ -51,21 +51,21 @@ export function QuotesClient({ initialQuotes }: CotizacionesClientProps) {
           >
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
               <TabsList className="h-10">
-                <TabsTrigger value="todos" className="px-4 hover:bg-muted cursor-pointer">
+                <TabsTrigger value="todos" className="px-4 hover:bg-muted hover:text-primary transition-colors cursor-pointer">
                   Todas
                 </TabsTrigger>
-                <TabsTrigger value="pendiente" className="px-4 hover:bg-muted cursor-pointer">
+                <TabsTrigger value="pendiente" className="px-4 hover:bg-muted hover:text-primary transition-colors cursor-pointer">
                   Pendientes
                 </TabsTrigger>
-                <TabsTrigger value="pagada" className="px-4 hover:bg-muted cursor-pointer">
+                <TabsTrigger value="pagada" className="px-4 hover:bg-muted hover:text-primary transition-colors cursor-pointer">
                   Pagadas
                 </TabsTrigger>
-                <TabsTrigger value="finalizada" className="px-4 hover:bg-muted cursor-pointer">
+                {/* <TabsTrigger value="finalizada" className="px-4 hover:bg-muted hover:text-primary transition-colors cursor-pointer">
                   Finalizadas
                 </TabsTrigger>
-                <TabsTrigger value="cancelada" className="px-4 hover:bg-muted cursor-pointer">
+                <TabsTrigger value="cancelada" className="px-4 hover:bg-muted hover:text-primary transition-colors cursor-pointer">
                   Canceladas
-                </TabsTrigger>
+                </TabsTrigger> */}
               </TabsList>
 
               <QuotesFilters />
