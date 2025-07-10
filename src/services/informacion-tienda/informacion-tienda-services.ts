@@ -9,6 +9,7 @@ const STRAPI_HOST = process.env.NEXT_PUBLIC_STRAPI_HOST;
 export function getInfoEcommerce(): Promise<DataResponse<InfoEcommerce> | null> {
   const params = new URLSearchParams();
 
+  params.set("populate[fields][0]", "whatsapp");  
   params.set("populate[logo][fields][0]", "url");
   params.set("populate[direccion][populate][imagenes][fields][0]", "url");
   params.set("populate[redesSociales][populate][icono][fields][0]", "url");

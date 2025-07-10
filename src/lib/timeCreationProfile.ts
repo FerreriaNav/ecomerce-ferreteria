@@ -18,6 +18,6 @@ export function getTimeSinceCreation(createdAt: string): string {
   } else if (diffInDays > 0) {
     return `${diffInDays} día${diffInDays > 1 ? "s" : ""}`;
   } else {
-    return `Cliente desde hoy`;
+    return `hoy`;
   }
 }

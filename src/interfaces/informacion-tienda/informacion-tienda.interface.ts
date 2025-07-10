@@ -10,6 +10,7 @@ export interface InfoEcommerce {
     publishedAt:   Date;
     numeroGeneral: null;
     correoGeneral: null;
+    whatsapp:      string;
     logo:          Img;
     direccion:   DireccionSucursal;
     redesSociales: RedesSociales[];

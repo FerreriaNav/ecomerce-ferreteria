@@ -125,7 +125,6 @@ export const QuoteStep = () => {
             )}
           </div> */}
 
-          {/* Opción 2: RadioGroup Mejorado (comentado para mostrar alternativa) */}
           <div className="space-y-3">
             <Label>Método de pago *</Label>
             <RadioGroup value={metodoPago || ""} onValueChange={handleMetodoPagoChange} disabled={loading}>
