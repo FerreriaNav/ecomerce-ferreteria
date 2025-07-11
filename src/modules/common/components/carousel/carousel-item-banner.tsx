@@ -36,7 +36,7 @@ export function CarouselItemBanner({ item }: Props) {
         src={item.imagen.url || "/icons/logo.webp"}
         alt={item.alt || item.imagen.alternativeText || "Banner image"}
         fill
-        className="object-cover transition-transform duration-700 hover:scale-105"
+        className="object-contain transition-transform duration-700 hover:scale-105"
         priority
       />
 

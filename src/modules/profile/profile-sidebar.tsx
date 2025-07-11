@@ -19,6 +19,7 @@ import { User } from "@/interfaces/auth/user.interface";
 import { Cotizacion } from "@/interfaces/cotizaciones/cotizacion.interface";
 import { FRONTEND_ROUTES } from "@/contants/frontend-routes/routes";
 import { useRouter } from "next/navigation";
+import { Products } from "@/interfaces/products/products.interface";
 
 interface ProfileSidebarProps {
   user: User | null;
@@ -93,7 +94,7 @@ function ContactInfo({ user }: { user: User | null }) {
   );
 }
 
-function ActivitySummary({ favorites, quotes }: { favorites: any[]; quotes: any[] | null; }) {
+function ActivitySummary({ favorites, quotes }: { favorites: Products[]; quotes: Cotizacion[] | null; }) {
 
   const router = useRouter();
 
