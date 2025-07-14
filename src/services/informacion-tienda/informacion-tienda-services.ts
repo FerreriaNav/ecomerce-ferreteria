@@ -23,7 +23,6 @@ export function getInfoEcommerce(): Promise<DataResponse<InfoEcommerce> | null> 
   const url = `${BASE_ENDPOINT}?${params.toString()}`;
   return query<DataResponse<InfoEcommerce>>(url)
     .then((res) => {
-      console.log(res);
       
       if (!res) {
         return null;
