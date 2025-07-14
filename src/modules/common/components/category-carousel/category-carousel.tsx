@@ -46,7 +46,7 @@ export default function CategoryCarousel({
       {(title || subtitle) && (
         <div className="text-center space-y-2">
           {title && (
-            <h3 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
+            <h3 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent pb-3">
               {title}
             </h3>
           )}

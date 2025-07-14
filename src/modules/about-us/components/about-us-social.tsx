@@ -34,7 +34,7 @@ export default function AboutUsSocial({ socialNetworks }: AboutUsSocialProps) {
           </Badge>
 
           <div className="space-y-4">
-            <h2 className="text-3xl font-bold tracking-tighter md:text-4xl lg:text-5xl bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
+            <h2 className="pb-3 text-3xl font-bold tracking-tighter md:text-4xl lg:text-5xl bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
               Síguenos
             </h2>
             <div className="flex items-center justify-center space-x-2">

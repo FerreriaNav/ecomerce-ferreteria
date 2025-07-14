@@ -40,7 +40,7 @@ export default function AboutUsHero({
             </div>
           )}
           <div className="space-y-4">
-            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent animate-in slide-in-from-bottom-4 duration-1000">
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent animate-in slide-in-from-bottom-4 duration-1000 pb-3">
               {companyName}
             </h1>
             <div className="h-1 w-24 bg-gradient-to-r from-primary via-secondary to-primary mx-auto rounded-full" />

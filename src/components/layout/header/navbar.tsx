@@ -181,7 +181,7 @@ export default function Navbar({
                         >
                           <div className="flex items-center">
                             <ShoppingCart className="mr-2 h-4 w-4" />
-                            Catalogo
+                            Catálogo
                           </div>
                           <ChevronDown className="h-4 w-4 transition-transform duration-200" />
                         </Button>
@@ -424,7 +424,7 @@ export default function Navbar({
             <NavigationMenuList>
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="bg-transparent text-white">
-                  Catalogo
+                  Catálogo
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className=" grid  max-h-[300px] w-[400px] md:w-[500px] lg:w-[600px]  overflow-y-auto scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent gap-3 p-4 md:grid-cols-2 ">

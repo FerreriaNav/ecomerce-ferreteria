@@ -1,5 +1,7 @@
 "use server";
 
+import { log } from "node:console";
+
 const STRAPI_HOST = process.env.NEXT_PUBLIC_STRAPI_HOST;
 const STRAPI_TOKEN = process.env.NEXT_PUBLIC_STRAPI_TOKEN;
 
@@ -33,9 +35,12 @@ export async function query<T>(
     method,
     headers,
     body: body ? JSON.stringify(body) : undefined,
+    cache: "no-store", // 🔥 desactiva caché por completo
   });
 
   if (!response.ok) {
+    log(await response.json());
+
     return null;
   }
   return response.json();

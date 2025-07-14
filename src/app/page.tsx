@@ -80,8 +80,8 @@ export default async function Home() {
           <CategoryCarousel
             className="mb-7"
             categorias={categorias}
-            title="Catalogo"
-            subtitle="los mejores productos al mejor precio"
+            title="Catálogo"
+            subtitle="Los mejores productos al mejor precio"
             showCount
             button={
               <Link href={FRONTEND_ROUTES.CATALOGOS}>

@@ -51,6 +51,7 @@ export default async function AboutUsPage() {
         <AboutUsHistory
           history={infoEcommerce?.nosotros.historia}
           image={infoEcommerce?.nosotros?.imagenHistoria}
+          infoExtra={infoEcommerce.nosotros.infoExtra}
         />
       </Suspense>
 

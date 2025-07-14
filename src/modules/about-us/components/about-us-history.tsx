@@ -1,18 +1,24 @@
-import Image from "next/image"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { History } from "lucide-react"
+import Image from "next/image";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { History } from "lucide-react";
+import { infoExtra } from "../../../interfaces/informacion-tienda/informacion-tienda.interface";
 
 interface AboutUsHistoryProps {
-  history?: string
+  history?: string;
   image?: {
-    url: string
-  }
+    url: string;
+  };
+  infoExtra?: infoExtra[];
 }
 
-export default function AboutUsHistory({ history, image }: AboutUsHistoryProps) {
+export default function AboutUsHistory({
+  history,
+  image,
+  infoExtra,
+}: AboutUsHistoryProps) {
   const defaultHistory =
-    "Nuestra ferretería comenzó como un pequeño negocio familiar hace más de 20 años. Con dedicación y compromiso con la calidad, hemos crecido hasta convertirnos en un referente en el sector, manteniendo siempre nuestros valores de servicio al cliente y excelencia en productos."
+    "Nuestra ferretería comenzó como un pequeño negocio familiar hace más de 20 años. Con dedicación y compromiso con la calidad, hemos crecido hasta convertirnos en un referente en el sector, manteniendo siempre nuestros valores de servicio al cliente y excelencia en productos.";
 
   return (
     <section className="relative w-full py-16 md:py-24 lg:py-32 overflow-hidden">
@@ -48,7 +54,10 @@ export default function AboutUsHistory({ history, image }: AboutUsHistoryProps) 
           </Card>
 
           <div className="space-y-6 animate-in slide-in-from-right-8 duration-1000">
-            <Badge variant="outline" className="bg-primary/10 border-primary/20 text-primary">
+            <Badge
+              variant="outline"
+              className="bg-primary/10 border-primary/20 text-primary"
+            >
               <History className="w-4 h-4 mr-2" />
               Nuestra Trayectoria
             </Badge>
@@ -63,25 +72,31 @@ export default function AboutUsHistory({ history, image }: AboutUsHistoryProps) 
               <div className="h-1 w-4 bg-accent rounded-full" />
             </div>
 
-            <p className="text-muted-foreground md:text-lg lg:text-xl leading-relaxed">{history || defaultHistory}</p>
+            <p className="text-muted-foreground md:text-lg lg:text-xl leading-relaxed">
+              {history || defaultHistory}
+            </p>
 
             <div className="grid grid-cols-3 gap-4 pt-4">
-              <div className="text-center p-4 rounded-lg bg-primary/5 border border-primary/10">
-                <div className="text-2xl font-bold text-primary">5+</div>
-                <div className="text-sm text-muted-foreground">Años</div>
-              </div>
-              <div className="text-center p-4 rounded-lg bg-secondary/5 border border-secondary/10">
-                <div className="text-2xl font-bold text-secondary">1000+</div>
-                <div className="text-sm text-muted-foreground">Clientes</div>
-              </div>
-              <div className="text-center p-4 rounded-lg bg-accent/5 border border-accent/10">
-                <div className="text-2xl font-bold text-accent">5000+</div>
-                <div className="text-sm text-muted-foreground">Productos</div>
-              </div>
+              {infoExtra?.map((info) => (
+                <div
+                  key={info.titulo}
+                  className="text-center p-4 rounded-lg bg-primary/5 border border-primary/10"
+                  // className="text-center p-4 rounded-lg bg-secondary/5 border border-secondary/10"
+                  // className="text-center p-4 rounded-lg bg-accent/5 border border-accent/10"
+                >
+                  <div className="text-2xl font-bold text-primary">
+                    {info.titulo}
+                  </div>
+
+                  <div className="text-sm text-muted-foreground">
+                    {info.descripcion}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }

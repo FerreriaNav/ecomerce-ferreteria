@@ -2,23 +2,27 @@
 
 import { FaWhatsapp } from "react-icons/fa"
 import { cn } from "@/lib/utils"
+import { useCatalogStore } from "@/store/catalog-ecommerce.store"
 
 interface WhatsAppButtonProps {
-  phoneNumber: string
   message?: string
   className?: string
 }
 
 export function WhatsAppButton({
-  phoneNumber,
   message = "Hola, me gustaría obtener más información",
   className,
 }: WhatsAppButtonProps) {
-  // Eliminar cualquier carácter no numérico del número de teléfono
-  const cleanPhoneNumber = phoneNumber.replace(/\D/g, "")
+  const info = useCatalogStore((state) => state.infoEcommerce)
 
-  // Crear la URL de WhatsApp con el número y mensaje
-  const whatsappUrl = `https://wa.me/${cleanPhoneNumber}?text=${encodeURIComponent(message)}`
+  // Verificamos si existe el número
+  if (!info?.whatsapp) return null
+
+  // Eliminamos cualquier carácter no numérico del número
+  const cleanPhoneNumber = info.whatsapp.replace(/\D/g, "")
+
+  // Creamos la URL completa con mensaje
+  const whatsappUrl = `https://wa.me/52${cleanPhoneNumber}?text=${encodeURIComponent(message)}`
 
   return (
     <a

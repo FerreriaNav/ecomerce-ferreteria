@@ -61,7 +61,21 @@
                 "url": "/default/img.webp",
                 "alternativeText": "Imagen de la historia"
             },
-            "personal": []
+            "personal": [],
+            "infoExtra": [
+                {
+                    "titulo": "8+",
+                    "descripcion": "años"
+                },
+                {
+                    "titulo": "200+",
+                    "descripcion": "Clientes"
+                },
+                {
+                    "titulo": "6000+",
+                    "descripcion": "Productos"
+                }
+            ]
         }
     },
     "paginaPrincipal": {
@@ -125,7 +139,7 @@
                     "nombre": "Bosch EasyImpact 550 – 110V",
                     "slug": "bosch-easy-impact-550-110-v-1",
                     "tipo": "base",
-                    "coverUrl":"/default/img.webp"
+                    "coverUrl": "/default/img.webp"
                 }
             },
             {
@@ -136,7 +150,7 @@
                     "nombre": "Bosch EasyImpact 550 – 110V + estuche",
                     "slug": "bosch-easy-impact-550-110-v-estuche",
                     "tipo": "variante",
-                    "coverUrl":"/default/img.webp"
+                    "coverUrl": "/default/img.webp"
                 }
             },
             {
@@ -147,7 +161,7 @@
                     "nombre": "Destornillador de punta plana trupper pequeño",
                     "slug": "destornillador-de-punta-plana-trupper-pequeno",
                     "tipo": "variante",
-                    "coverUrl":"/default/img.webp"
+                    "coverUrl": "/default/img.webp"
                 }
             },
             {
@@ -158,7 +172,7 @@
                     "nombre": "carrucha",
                     "slug": "carrucha",
                     "tipo": "base",
-                    "coverUrl":"/default/img.webp"
+                    "coverUrl": "/default/img.webp"
                 }
             },
             {
@@ -169,7 +183,7 @@
                     "nombre": "alambre reforzado 25kg ",
                     "slug": "alambre-reforzado-25kg",
                     "tipo": "simple",
-                    "coverUrl":"/default/img.webp"
+                    "coverUrl": "/default/img.webp"
                 }
             },
             {
@@ -180,7 +194,7 @@
                     "nombre": "pintura acrilica politec 100ml rojo",
                     "slug": "pintura-acrilica-politec-100ml-rojo",
                     "tipo": "variante",
-                    "coverUrl":"/default/img.webp"
+                    "coverUrl": "/default/img.webp"
                 }
             },
             {
@@ -191,7 +205,7 @@
                     "nombre": "tornillo acero",
                     "slug": "tornillo-acero",
                     "tipo": null,
-                    "coverUrl":"/default/img.webp"
+                    "coverUrl": "/default/img.webp"
                 }
             }
         ]
